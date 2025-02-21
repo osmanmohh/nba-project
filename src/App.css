@@ -1,18 +1,14 @@
+body{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
 .ladders-container {
   display: flex;
-  justify-content: space-around;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
   gap: 40px;
   margin-top: 20px;
 }
 
-.ladder {
-  width: 45%;
-  text-align: center;
-  
-}
 
-h2 {
-  font-size: 1.8rem;
-  margin-bottom: 10px;
-}
