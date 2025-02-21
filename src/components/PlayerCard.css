@@ -22,27 +22,28 @@ body{
   font-family: 'Fira Sans Condensed', sans-serif;
   font-size: 3.75rem;
   color: white;
-  background-color:#034227 ;
   border-radius: 10px;
   width: 17%;
-  border: 1px solid #000000;
 }
+
 .player-info {
   overflow: hidden;
-  background-color:#06713E;
   border-radius: 10px;
   width: 95%;
   display: flex;
   justify-content: center;
+  
 }
+
 .player-name{
   display: flex;
   flex-direction: column;
   flex: 1;
-  align-items: center;
   justify-content: center;
   font-family: 'Fira Sans Condensed', sans-serif;
   color: white;
+  text-align: left;
+  margin-left: 5px;
   letter-spacing:-0.5px;
 }
 .first-name {
@@ -52,7 +53,7 @@ body{
 }
 .last-name {
  font-weight: 500; 
- font-size: 1.75rem;
+ font-size: 1.6rem;
 
 }
 .img-container{
