@@ -1,56 +1,54 @@
-
 .standings-card-container {
-  width: 27rem;
-  height: 10rem;
+  width: 14.5rem;
+  height: 3.75rem;
   display: flex;
   gap: 5px;
   margin-top: 1rem;
-  border-radius: 0.5rem;
-  
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+
 }
-.rank {
+.playoff-rank {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Fira Sans Condensed', sans-serif;
-  font-size: 3.75rem;
-  color: white;
-  border-radius: 10px;
-  width: 17%;
+  font-family: "Fira Sans Condensed", sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
+  width: 20%;
 }
 
-.team-info {
+.info {
   overflow: hidden;
-  border-radius: 10px;
   width: 95%;
   display: flex;
   justify-content: center;
-  
+  align-items: center;
 }
 
-.record{
+.team-record {
   display: flex;
-  flex-direction: column;
   font-size: 2rem;
   justify-content: center;
-  font-family: 'Fira Sans Condensed', sans-serif;
+  font-family: "Fira Sans Condensed", sans-serif;
   color: white;
-  text-align: left;
-  margin-left: 15px;
-
+  margin-right: 10%
+;
 }
 
-.img-container{
+.logo-container {
   display: flex;
   align-items: flex-end;
   position: relative;
   margin: 0;
-  padding: 0; 
+  padding: 0;
   flex: 2;
 }
-.team-logo{
+
+.logo {
   position: absolute;
-  height: 121%;
-  right: -25px;
-  bottom: -22px;
+  height: 100px;
+  bottom: -50px;
+  left: -15px;
 }

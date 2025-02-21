@@ -1,7 +1,70 @@
-.standings-container{
-  display: flex;
+.standings-container {
+  display: grid;
   justify-content: center;
   align-items: center;
   margin: 0;
   gap: 20px;
+  font-family: "Fira Sans Condensed", sans-serif;
+  font-size: 1.8rem;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+.conference {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  height: 36rem;
+}
+
+.title-container {
+  height: 11rem;
+  color: white;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+.blue-boxed {
+  background-color: #1c428b;
+  padding-left: 1.7rem;
+  padding-right: 1.7rem;
+  width: fit-content;
+  color: #ffffff;
+}
+.main-title {
+  font-size: 3rem;
+  transform: scaleY(1.775); /* Stretches text vertically */
+  display: inline-block;
+  font-weight: 600;
+}
+.game-type {
+  display: flex;
+  height: 3.75rem;
+  color: #ffffff;
+  font-style: italic;
+  text-align: center;
+  font-size: 1.3rem;
+  transform: scaleY(1); /* Stretches text vertically */
+
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.team-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  padding: 10px;
+
+}
+.nba-logo{
+  height: 50px;
+}
+.playoffs{
+  border-right: 1px dashed white;
+}
+.play-in{
+  border-right: 1px solid white;
 }

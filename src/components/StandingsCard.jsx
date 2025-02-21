@@ -1,4 +1,4 @@
-import './StandingsCard.css';
+import "./StandingsCard.css";
 
 function StandingsCard({ abbr, rank, wins, losses }) {
   const teamColors = {
@@ -39,22 +39,17 @@ function StandingsCard({ abbr, rank, wins, losses }) {
 
   return (
     <div className="standings-card-container">
-      <div className="rank" style={{ backgroundColor: teamColor.primary }}>
-        {rank}
-      </div>
-      <div
-        className="team-info"
-        style={{ backgroundColor: teamColor.primary }}
-      >
-        <div className="record">
-          {wins} - {losses}
-        </div>
-        <div className="img-container">
+      <div className="playoff-rank">{rank}</div>
+      <div className="info" style={{ backgroundColor: teamColor.primary }}>
+        <div className="logo-container">
           <img
             src={`logos/${abbr.toLowerCase()}.png`}
-            className="team-logo"
+            className="logo"
             alt={`${abbr} logo`}
           />
+        </div>
+        <div className="team-record">
+          {wins}-{losses}
         </div>
       </div>
     </div>

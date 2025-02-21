@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import StandingsCard from "./StandingsCard";
 import "./Standings.css";
 
-function Standings() {
-  const [eastTeams, setEastTeams] = useState([]);
-  const [westTeams, setWestTeams] = useState([]);
+function Standings({ conference }) {
+  const [teams, setTeams] = useState([]);
 
   const fetchStandings = (filePath, setTeams, conference) => {
     fetch(filePath)
@@ -32,16 +31,34 @@ function Standings() {
   };
 
   useEffect(() => {
-    fetchStandings("/predicted_seeds_2025.csv", setEastTeams, "E");
-    fetchStandings("/predicted_seeds_2025.csv", setWestTeams, "W");
-  }, []);
+    fetchStandings("/predicted_seeds_2025.csv", setTeams, conference);
+  }, [conference]);
 
   return (
     <div className="standings-container">
+      <div className="title-container">
+        <div className="blue-boxed">NBA STANDINGS</div>
+        <div className="main-title">
+          {conference == "W" ? "WESTERN" : "EASTERN"} CONFERENCE
+        </div>
+        <div>
+          THROUGH{" "}
+          {new Date()
+            .toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+            })
+            .toUpperCase()
+            .replace(/(\w{3})/, "$1.")}{" "}
+          GAMES
+        </div>
+      </div>{" "}
       <div className="conference">
-        <h2>Eastern Conference</h2>
-        <div className="team-list">
-          {eastTeams.map((team) => (
+        <div className="team-col playoffs">
+          <div className="game-type">
+            <img src="logos/nba.png" className="nba-logo"></img> PLAYOFFS
+          </div>
+          {teams.slice(0, 6).map((team) => (
             <StandingsCard
               key={team.rank}
               abbr={team.tm}
@@ -51,11 +68,23 @@ function Standings() {
             />
           ))}
         </div>
-      </div>
-      <div className="conference">
-        <h2>Western Conference</h2>
-        <div className="team-list">
-          {westTeams.map((team) => (
+        <div className="team-col play-in">
+          <div className="game-type">
+            <img src="logos/nba.png" className="nba-logo"></img>PLAY-IN TOURNAMENT
+          </div>
+          {teams.slice(6, 10).map((team) => (
+            <StandingsCard
+              key={team.rank}
+              abbr={team.tm}
+              rank={team.rank}
+              wins={team.wins}
+              losses={team.losses}
+            />
+          ))}
+        </div>
+        <div className="team-col">
+          <div className="game-type"></div>
+          {teams.slice(10).map((team) => (
             <StandingsCard
               key={team.rank}
               abbr={team.tm}
