@@ -1,0 +1,56 @@
+
+.standings-card-container {
+  width: 27rem;
+  height: 10rem;
+  display: flex;
+  gap: 5px;
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+  
+}
+.rank {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Fira Sans Condensed', sans-serif;
+  font-size: 3.75rem;
+  color: white;
+  border-radius: 10px;
+  width: 17%;
+}
+
+.team-info {
+  overflow: hidden;
+  border-radius: 10px;
+  width: 95%;
+  display: flex;
+  justify-content: center;
+  
+}
+
+.record{
+  display: flex;
+  flex-direction: column;
+  font-size: 2rem;
+  justify-content: center;
+  font-family: 'Fira Sans Condensed', sans-serif;
+  color: white;
+  text-align: left;
+  margin-left: 15px;
+
+}
+
+.img-container{
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+  margin: 0;
+  padding: 0; 
+  flex: 2;
+}
+.team-logo{
+  position: absolute;
+  height: 121%;
+  right: -25px;
+  bottom: -22px;
+}
