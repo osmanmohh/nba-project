@@ -5,8 +5,7 @@ function App() {
   return (
     <>
       <PlayoffBracket />
-
-    
+      <Standings conference={"E"} />
     </>
   );
 }

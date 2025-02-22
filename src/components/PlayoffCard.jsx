@@ -39,7 +39,7 @@ function PlayoffCard({ abbr, rank, wins, losses }) {
 
   return (
     <div className="playoff-card-container">
-      <div className="playoff-rank">{rank}</div>
+      <div className="playoff-rank"  style={{ backgroundColor: teamColor.primary }}>{rank}</div>
       <div className="info" style={{ backgroundColor: teamColor.primary }}>
         <div className="logo-container">
           <img

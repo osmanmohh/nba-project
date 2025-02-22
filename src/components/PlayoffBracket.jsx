@@ -26,50 +26,52 @@ function PlayoffBracket() {
 
   return (
     <div className="bracket-container">
-      {["e-round-1", "e-round-2", "e-round-3", "nba-finals"].map((round) => (
-        <div key={round} className={`round-container ${round}`}>
-          {playoffData
-            .filter((game) => game.Round === round)
-            .map((matchup, index) => (
-              <div key={index} className={`round ${round}`}>
-                <PlayoffCard
-                  abbr={matchup["Team 1 tm"]}
-                  rank={matchup["Team 1 Rank"]}
-                  wins={null}
-                  losses={null}
-                />
-                <PlayoffCard
-                  abbr={matchup["Team 2 tm"]}
-                  rank={matchup["Team 2 Rank"]}
-                  wins={null}
-                  losses={null}
-                />
-              </div>
-            ))}
-        </div>
-      ))}
-      {["w-round-3", "w-round-2", "w-round-1"].map((round) => (
-        <div key={round} className={`round-container ${round}`}>
-          {playoffData
-            .filter((game) => game.Round === round)
-            .map((matchup, index) => (
-              <div key={index} className={`round ${round}`}>
-                <PlayoffCard
-                  abbr={matchup["Team 1 tm"]}
-                  rank={matchup["Team 1 Rank"]}
-                  wins={null}
-                  losses={null}
-                />
-                <PlayoffCard
-                  abbr={matchup["Team 2 tm"]}
-                  rank={matchup["Team 2 Rank"]}
-                  wins={null}
-                  losses={null}
-                />
-              </div>
-            ))}
-        </div>
-      ))}
+      <div className="bracket">
+        {["e-round-1", "e-round-2", "e-round-3", "nba-finals"].map((round) => (
+          <div key={round} className={`round-container ${round}`}>
+            {playoffData
+              .filter((game) => game.Round === round)
+              .map((matchup, index) => (
+                <div key={index} className={`round ${round}`}>
+                  <PlayoffCard
+                    abbr={matchup["Team 1 tm"]}
+                    rank={matchup["Team 1 Rank"]}
+                    wins={null}
+                    losses={null}
+                  />
+                  <PlayoffCard
+                    abbr={matchup["Team 2 tm"]}
+                    rank={matchup["Team 2 Rank"]}
+                    wins={null}
+                    losses={null}
+                  />
+                </div>
+              ))}
+          </div>
+        ))}
+        {["w-round-3", "w-round-2", "w-round-1"].map((round) => (
+          <div key={round} className={`round-container ${round}`}>
+            {playoffData
+              .filter((game) => game.Round === round)
+              .map((matchup, index) => (
+                <div key={index} className={`round ${round}`}>
+                  <PlayoffCard
+                    abbr={matchup["Team 1 tm"]}
+                    rank={matchup["Team 1 Rank"]}
+                    wins={null}
+                    losses={null}
+                  />
+                  <PlayoffCard
+                    abbr={matchup["Team 2 tm"]}
+                    rank={matchup["Team 2 Rank"]}
+                    wins={null}
+                    losses={null}
+                  />
+                </div>
+              ))}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

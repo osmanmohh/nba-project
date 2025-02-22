@@ -1,24 +1,24 @@
 .playoff-card-container {
-  width: 10rem;
-  height: 3.75rem;
+  width: clamp(8rem, 10vw, 12rem); /* Scales with screen size */
+  height: clamp(3rem, 3.75rem, 5rem); /* Prevents shrinking */
   display: flex;
-  gap: 5px;
-  margin-top: 1rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-
 }
+
+/* Rank */
 .playoff-rank {
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: "Fira Sans Condensed", sans-serif;
-  font-size: 1.5rem;
+  font-size: clamp(1rem, 1.5rem, 2rem);
   font-weight: bold;
-  color: rgb(0, 0, 0);
-  background-color: rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
   width: 20%;
+  border-right: 1px solid white;
 }
 
+/* Info */
 .info {
   overflow: hidden;
   width: 95%;
@@ -27,26 +27,26 @@
   align-items: center;
 }
 
+/* Team Name */
 .team-name {
   display: flex;
-  font-size: 1rem;
+  font-size: clamp(0.75rem, 1rem, 1.25rem); /* Responsive text */
   justify-content: center;
   font-family: "Fira Sans Condensed", sans-serif;
   color: white;
-  margin-right: 10%
-;
+  margin-right: 5%; /* Avoid too much spacing */
 }
 
+/* Logo Container */
 .logo-container {
   display: flex;
-  align-items: flex-end;
-  position: relative;
-  margin: 0;
-  padding: 0;
+  align-items: center;
+  justify-content: center;
   flex: 2;
 }
 
+/* Logo */
 .playoff-logo {
-  height: 55px;
-
+  height: clamp(40px, 55px, 70px); /* Scales smoothly */
+  width: auto;
 }

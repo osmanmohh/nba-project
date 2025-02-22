@@ -1,8 +1,8 @@
 body{
-  background-color: #1A3775;
   display: flex;
   justify-content: center;
-  align-items: center;
+  background-color: rgb(73, 128, 175);
+
 }
 
 /* Wrapper to hold both the top bar and the main banner shape */
