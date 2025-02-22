@@ -39,7 +39,7 @@ function StandingsCard({ abbr, rank, wins, losses }) {
 
   return (
     <div className="standings-card-container">
-      <div className="playoff-rank">{rank}</div>
+      <div className="standings-rank">{rank}</div>
       <div className="info" style={{ backgroundColor: teamColor.primary }}>
         <div className="logo-container">
           <img

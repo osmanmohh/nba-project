@@ -26,6 +26,13 @@ function PlayoffBracket() {
 
   return (
     <div className="bracket-container">
+            <div className="east-title">EASTERN CONFERENCE</div>
+            <div className="west-title">WESTERN CONFERENCE</div>
+
+      <div className="playoff-title">
+        <img className="playoff-nba-logo" src="/logos/nba.png"></img>
+        <p>PLAYOFFS</p>
+      </div>
       <div className="bracket">
         {["e-round-1", "e-round-2", "e-round-3", "nba-finals"].map((round) => (
           <div key={round} className={`round-container ${round}`}>

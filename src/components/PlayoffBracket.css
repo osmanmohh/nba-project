@@ -5,18 +5,55 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-
 }
 
 .bracket-container {
-  margin-top: 7vh;
+  margin-top: 9vh;
   display: flex;
   align-items: flex-end;
   justify-content: center;
   height: 90vh;
   align-self: center;
 }
-
+.playoff-title {
+  position: absolute;
+  border: 3px solid black;
+  color: white;
+  top: 3%;
+  width: 38%;
+  height: 17%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 7rem;
+  font-family: "Fira Sans Condensed", sans-serif;
+  font-weight: 600;
+  font-style: italic;
+}
+.playoff-title p {
+  transform: scaleY(1.2);
+  letter-spacing: -0.03cap; /* Stretches text vertically */
+  margin-left: -1.4rem;
+}
+.west-title,
+.east-title {
+  position: absolute;
+  color: white;
+  font-size: 2rem;
+  font-family: "Fira Sans Condensed", sans-serif;
+  font-weight: 600;
+  font-style: italic;
+  top: 2%;
+}
+.east-title {
+  left: 1%;
+}
+.west-title {
+  right: 2%;
+}
+.playoff-nba-logo {
+  height: 75%;
+}
 .bracket {
   display: flex;
   align-items: center;
@@ -37,7 +74,7 @@ body {
   display: flex;
   flex-direction: column;
   height: 25%;
-  justify-content: space-around;
+  justify-content: space-evenly;
 }
 
 .round.e-round-2,

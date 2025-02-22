@@ -5,8 +5,9 @@
   gap: 5px;
   margin-top: 1rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+
 }
-.playoff-rank {
+.standings-rank {
   display: flex;
   justify-content: center;
   align-items: center;
