@@ -1,0 +1,49 @@
+.bracket-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+.round-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  height: 100%;
+}
+
+.round-container.nba-finals {
+  height: 100%;
+}
+.round-container.e-round-3,
+.round-container.w-round-3 {
+  height: 100%;
+}
+.round-container.e-round-2,
+.round-container.w-round-2 {
+  height: 44rem;
+}
+.round-container.e-round-1,
+.round-container.w-round-1 {
+gap: 3.5rem;
+}
+
+.round.e-round-2,
+.round.w-round-2 {
+  display: flex;
+  flex-direction: column;
+  gap: 8.5rem;
+}
+.round.e-round-3,
+.round.w-round-3 {
+  display: flex;
+  flex-direction: column;
+  gap: 22rem;
+}
+.round.nba-finals {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+
+}

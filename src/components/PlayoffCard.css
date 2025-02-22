@@ -1,0 +1,52 @@
+.playoff-card-container {
+  width: 10rem;
+  height: 3.75rem;
+  display: flex;
+  gap: 5px;
+  margin-top: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+
+}
+.playoff-rank {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Fira Sans Condensed", sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
+  width: 20%;
+}
+
+.info {
+  overflow: hidden;
+  width: 95%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.team-name {
+  display: flex;
+  font-size: 1rem;
+  justify-content: center;
+  font-family: "Fira Sans Condensed", sans-serif;
+  color: white;
+  margin-right: 10%
+;
+}
+
+.logo-container {
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  flex: 2;
+}
+
+.playoff-logo {
+  height: 55px;
+
+}
