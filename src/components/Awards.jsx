@@ -38,7 +38,7 @@ function Awards() {
   return (
     <div className="ladders-container">
       <Ladder title="MVP" players={mvpPlayers} />
-      {/* <Ladder title="DPOY" players={dpoyPlayers} /> */}
+      <Ladder title="DPOY" players={dpoyPlayers} />
     </div>
   );
 }
