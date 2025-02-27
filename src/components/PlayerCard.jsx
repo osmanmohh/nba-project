@@ -28,7 +28,6 @@ function PlayerCard({ playerId, rank }) {
     primary: "#808080",
     secondary: "#606060",
   };
-  console.log("Player:", player.Name, "Team Abbreviation:", player.Tm);
 
   return (
     <div className="player-card-container">

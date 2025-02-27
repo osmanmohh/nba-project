@@ -16,10 +16,9 @@ function AllNBACard({ playerId, rank }) {
     return <div className="player-card-container">Player not found</div>;
   }
 
-  console.log("Player:", player.Name, "Team Abbreviation:", player.Tm);
 
   return (
-    <div className="all-nba-container">
+    <div className="all-nba-player-container">
       <div className="photo-container">
         <img
           className="all-nba-image"
@@ -30,7 +29,7 @@ function AllNBACard({ playerId, rank }) {
 
       <div className="all-nba-info">
         <div className="name">{player.Name}</div>
-        <div className="team">{player.Team}</div>
+        <div className="team">{player.Pos} • {player.Team}</div>
       </div>
     </div>
   );
