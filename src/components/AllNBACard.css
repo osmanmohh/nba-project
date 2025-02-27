@@ -1,0 +1,34 @@
+.all-nba-container {
+  height: 70vh;
+  width: 15vw;
+  border: solid #f2b24d;
+
+  display: flex;
+  flex-direction: column;
+  margin-left: 1rem;
+}
+.photo-container {
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background-color: #1c191a;
+  overflow: hidden;
+}
+.all-nba-image {
+  height: 100%;
+}
+.all-nba-info {
+  background-color: black;
+  height: 20%;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  font-family: "Fira Sans Condensed", sans-serif;
+}
+.name{
+  font-size: 1.2rem;
+  font-weight: bold;
+}
