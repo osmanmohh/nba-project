@@ -1,0 +1,22 @@
+.container.home-page{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.text-zone{
+  color: white;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  width: 50rem;
+}
+.container.home-page h1{
+  font-size: 3rem;
+}
+.container.home-page h2{
+  font-size: 1.25rem;
+  font-weight: 100;
+}
+
+.nba-logo.home-page{
+height: 20rem;
+}

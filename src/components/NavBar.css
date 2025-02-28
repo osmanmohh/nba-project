@@ -1,7 +1,8 @@
 .nav-bar { 
-  background: transparent; 
+  background: #3c7dff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 100%; 
-  height: 130px; 
+  height: 80px; 
   position: fixed; 
   top: 0;
   left: 0; 
@@ -184,5 +185,44 @@
   .nav-bar nav a { 
     padding-left: 22%; 
     margin: 30px;
+  }
+}
+.flat-button { 
+  border: none;
+  color: #fff;
+  background-image: linear-gradient(30deg, #0037ff, #165eda);
+  border-radius: 10px;
+  background-size: 100% auto;
+  font-family: inherit;
+  font-size: 20px;
+  text-align: center;
+  padding: 0.6em 1.5em;
+  white-space: nowrap;
+  text-decoration: none;
+  margin-top: 25px; 
+  float: left; 
+  width: 200px;
+  transition: background-size 0.3s ease-in-out;
+}
+
+/* Hover Effect */
+.flat-button:hover { 
+  background-position: right center;
+  background-size: 200% auto;
+  animation: pulse512 1.5s infinite;
+}
+
+/* Keyframes for Pulse Animation */
+@keyframes pulse512 {
+  0% {
+      box-shadow: 0 0 0 0 rgba(255, 165, 0, 0.6);
+  }
+  
+  70% {
+      box-shadow: 0 0 0 10px rgba(255, 165, 0, 0);
+  }
+  
+  100% {
+      box-shadow: 0 0 0 0 rgba(255, 165, 0, 0);
   }
 }
