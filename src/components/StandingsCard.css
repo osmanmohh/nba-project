@@ -7,6 +7,10 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 
 }
+.standings-card-container:hover {
+  filter: brightness(1.2);
+  cursor: pointer;
+}
 .standings-rank {
   display: flex;
   justify-content: center;

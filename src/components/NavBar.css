@@ -1,0 +1,188 @@
+.nav-bar { 
+  background: transparent; 
+  width: 100%; 
+  height: 130px; 
+  position: fixed; 
+  top: 0;
+  left: 0; 
+  z-index: 3;  
+  display: flex; 
+  align-items: center;
+}
+
+.nav-bar .logo {
+  padding: 40px 40px; 
+}
+
+.nav-bar .logo img { 
+  display: block; 
+  margin: 3px auto; 
+  margin-left: 15px;
+  width: 60px; 
+  height: auto;
+}
+
+.nav-bar .logo img.sub-logo { 
+  width: 150px; 
+  margin-left: -14px;
+}
+
+.nav-bar nav { 
+  display: flex; 
+  align-items: center;
+  justify-content: space-evenly; 
+  padding-left: 0;
+  flex-grow: 1;
+}
+
+.nav-bar nav a { 
+  font-size: 25px; 
+  color: #f0f0f083;
+  display: block; 
+  margin: 0 80px; 
+  position: relative; 
+  text-decoration: none; 
+}
+
+.nav-bar nav a i { 
+  transition: all 0.3s ease-out; 
+}
+
+.nav-bar nav a:hover { 
+  color: #fff;
+}
+
+.nav-bar nav a:hover svg { 
+  opacity: 0; 
+}
+
+.nav-bar nav a:hover:after { 
+  opacity: 1; 
+}
+
+.nav-bar nav a:after { 
+  content: ""; 
+  font-size: 20px; 
+  letter-spacing: 2px; 
+  position: absolute; 
+  bottom: 0; 
+  display: block; 
+  text-align: center; 
+  opacity: 0; 
+  transition: all 0.3s ease-out;
+}
+
+.nav-bar nav a:first-child:after { 
+  content: 'HOME'; 
+  margin-left: -12px;
+}
+
+.nav-bar nav a.search-link:after { 
+  content: "SEARCH";
+  margin-left: -20px;
+}
+
+.nav-bar nav a.standings-link:after { 
+  content: "STANDINGS"; 
+  margin-left: -28px;
+}
+
+.nav-bar nav a.playoffs-link:after { 
+  content: "PLAYOFFS"; 
+  margin-left: -28px;
+}
+
+.nav-bar nav a.awards-link:after { 
+  content: "AWARDS"; 
+  margin-left: -28px;
+}
+
+.nav-bar nav a.contact-link:after {
+  content: "CONTACT";
+  margin-left: -25px;
+}
+
+.nav-bar nav a.active svg {
+  color: #fff; 
+}
+
+.nav-bar .icon {
+  width: 50px;
+  margin: 30px;
+  opacity: 0.8;
+  color: #ff4000; 
+}
+
+.nav-bar .icon:hover { 
+  opacity: 1;
+}
+
+.hamburger-icon, 
+.close-icon { 
+  display: none;
+}
+
+@media screen and (max-width: 1150px) {
+  .nav-bar {
+    position: initial; 
+    height: 100px; 
+  }
+
+  .nav-bar .logo img { 
+    width: 50px; 
+  }
+
+  .nav-bar .logo img.sub-logo { 
+    width: 100px; 
+    margin-left: -7px;
+  }
+
+  .nav-bar nav {
+    display: none;
+    width: 100%; 
+    height: 100%;
+    background: #1a0408;
+    top: 0; 
+    left: 0; 
+    position: fixed; 
+    z-index: 2; 
+    margin: 0;
+  }
+
+  .nav-bar nav a { 
+    display: flex;
+    padding-left: 33%; 
+    margin: 30px;
+  }
+
+  .nav-bar nav a:after {
+    opacity: 1;
+    position: initial;
+    width: auto;
+    padding-left: 50px;
+  }
+
+  .nav-bar nav a svg {
+    opacity: 1 !important;
+  }
+
+  .nav-bar nav.mobile-show { 
+    display: block;
+  }
+
+  .hamburger-icon, 
+  .close-icon {
+    display: block;
+    position: absolute; 
+    top: 15px; 
+    right: 15px;
+    color: #f76d3f; 
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .nav-bar nav a { 
+    padding-left: 22%; 
+    margin: 30px;
+  }
+}

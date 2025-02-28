@@ -1,8 +1,8 @@
 body{
   display: flex;
   justify-content: center;
-  background-color: #252525;
-
+  background:linear-gradient(to right, #ff7e5f, #feb47b);
+  min-height: 100vh;
 }
 
 /* Wrapper to hold both the top bar and the main banner shape */
