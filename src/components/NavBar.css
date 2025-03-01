@@ -1,5 +1,5 @@
 .nav-bar { 
-  background: #3c7dff;
+  background: black;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 100%; 
   height: 80px; 
@@ -9,6 +9,7 @@
   z-index: 3;  
   display: flex; 
   align-items: center;
+  
 }
 
 .nav-bar .logo {

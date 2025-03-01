@@ -16,7 +16,6 @@ function AllNBACard({ playerId, rank }) {
     return <div className="player-card-container">Player not found</div>;
   }
 
-
   return (
     <div className="all-nba-player-container">
       <div className="photo-container">
@@ -29,7 +28,9 @@ function AllNBACard({ playerId, rank }) {
 
       <div className="all-nba-info">
         <div className="name">{player.Name}</div>
-        <div className="team">{player.Pos} • {player.Team}</div>
+        <div className="team">
+          {player.Pos} • {player.Team}
+        </div>
       </div>
     </div>
   );

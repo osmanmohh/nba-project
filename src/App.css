@@ -1,43 +1,15 @@
-body{
-  display: flex;
-  justify-content: center;
-  background: #3c7dff;
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   min-height: 100vh;
 }
 
-/* Wrapper to hold both the top bar and the main banner shape */
-.banner-wrapper {
-  position: absolute;
-  width: 220px;    /* Enough width for the top bar */
-  height: 330px;   /* Enough height for the bar + banner */
-  top: 50%;        /* Center the wrapper vertically */
-  right: 50%;
-  z-index: 100;
-  margin-top: 15px;      /* Center the wrapper horizontally */
-}
-  
-/* Top black bar, slightly wider than the banner */
-.banner-topbar {
-  position: absolute;
-  top: 10px;
-  left: 60%;
-  width: 150px;
-  height: 10px;
-  background-color: #0b1a3c;
-  border: 3px solid black;
-  border-radius: 10px;
+
+/* Default background */
+body {
   margin: 0;
-  z-index: 200;
+  transition: background-color 0.3s ease-in-out;
 }
 
-/* Main banner shape with a bottom V and black border around everything */
-.banner-shape {
-  margin-top: -7px;
-  position: absolute;
-  top: 25px;   /* Push it down so the top bar is visible */
-  left: 50%;
-  z-index: -1;
-  border-radius: 10px;
-
-
-}
