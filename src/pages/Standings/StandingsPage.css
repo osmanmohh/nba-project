@@ -1,8 +1,7 @@
 .standings-page-container{
-  margin-top: 80px;
+  margin-top: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  max-height: 100vh;
   
 }
