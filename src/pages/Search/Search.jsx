@@ -28,6 +28,25 @@ function Search() {
         );
 
         setPlayers(latestPlayers);
+
+        // Restore the last searched player from localStorage
+        const lastSearchedPlayerName = localStorage.getItem("lastSearchedPlayer");
+
+        if (lastSearchedPlayerName) {
+          const lastPlayer = latestPlayers.find(p => p.Name === lastSearchedPlayerName);
+          if (lastPlayer) {
+            setSelectedPlayer(lastPlayer);
+            setPlayerSeasons(data.filter(p => p.Name === lastSearchedPlayerName));
+            return;
+          }
+        }
+
+        // Default to the first player in the list
+        if (latestPlayers.length > 0) {
+          const defaultPlayerName = latestPlayers[0].Name;
+          setSelectedPlayer(latestPlayers[0]);
+          setPlayerSeasons(data.filter(p => p.Name === defaultPlayerName));
+        }
       })
       .catch((error) => console.error("Error loading player data:", error));
   }, []);
@@ -44,12 +63,14 @@ function Search() {
       const playerName = results[0].item.Name;
       setSelectedPlayer(results[0].item);
 
+      // Save the last searched player in localStorage
+      localStorage.setItem("lastSearchedPlayer", playerName);
+
       // Fetch all seasons for the selected player
       fetch("/all_players.json")
         .then((response) => response.json())
         .then((data) => {
-          const allSeasons = data.filter((p) => p.Name === playerName);
-          setPlayerSeasons(allSeasons);
+          setPlayerSeasons(data.filter((p) => p.Name === playerName));
         })
         .catch((error) => console.error("Error loading player season data:", error));
     }
