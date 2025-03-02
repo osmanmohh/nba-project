@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBasketball } from "@fortawesome/free-solid-svg-icons";
 function Home() {
   return (
-    <>
+    <div className="home-page-container">
       <div className="container home-page">
         <div className="text-zone">
           <h1>
@@ -25,7 +25,7 @@ function Home() {
           style={{ height: "15rem", color: "#ffffff" }}
         />
       </div>
-    </>
+    </div>
   );
 }
 
