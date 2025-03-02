@@ -1,7 +1,6 @@
 import "./StandingsCard.css";
-import { teamColors } from "../../public/teamColors";
+import { teamColors } from "../../../../public/teamColors";
 function StandingsCard({ abbr, rank, wins, losses }) {
-
   // Get team colors (default to gray if team is unknown)
   const teamColor = teamColors[abbr] || { primary: "#808080" };
 

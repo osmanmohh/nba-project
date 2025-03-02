@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import StandingsCard from "./StandingsCard";
+import StandingsCard from "../StandingsCard/StandingsCard";
 import "./Standings.css";
 
 function Standings({ conference }) {
@@ -70,7 +70,8 @@ function Standings({ conference }) {
         </div>
         <div className="team-col play-in">
           <div className="game-type">
-            <img src="logos/nba.png" className="nba-logo"></img>PLAY-IN TOURNAMENT
+            <img src="logos/nba.png" className="nba-logo"></img>PLAY-IN
+            TOURNAMENT
           </div>
           {teams.slice(6, 10).map((team) => (
             <StandingsCard

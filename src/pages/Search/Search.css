@@ -28,7 +28,7 @@
 .search-bar-container {
   position: absolute;
   margin-top: 80px;
-  top: 1.5%;
+  top: 3%;
   right: 0.5%;
   display: flex;
   align-items: center;
@@ -108,21 +108,21 @@
 
 .basic-stats {
   display: flex;
-  width: 50%;
+  width: 40%;
 }
 
 .player-details-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(2, auto);
-  width: 50%;
+  width: 60%;
 }
 
 .stat {
   border: 1px solid white;
   border-bottom: none;
   height: 100%;
-  width: 100%;
+  width: 25%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -154,11 +154,11 @@
 }
 
 .detail-label {
-  font-size: 1rem;
+  font-size: 0.8rem;
 }
 
 .detail-value {
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 400;
 }
 

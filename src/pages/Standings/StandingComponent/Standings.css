@@ -13,11 +13,11 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 20px;
-  height: 36rem;
+  height: 65vh;
 }
 
 .title-container {
-  height: 11rem;
+  height: 10rem;
   color: white;
   text-align: center;
   display: flex;
@@ -40,7 +40,7 @@
 }
 .game-type {
   display: flex;
-  height: 3.75rem;
+  height: 3rem;
   color: #ffffff;
   font-style: italic;
   text-align: center;
