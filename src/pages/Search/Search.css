@@ -1,5 +1,6 @@
 .search-wrapper{
-  overflow-x: hidden;
+  overflow: hidden;
+  height: 100vh;
   
 }
 .search-results-container {
@@ -161,12 +162,14 @@
   font-weight: 400;
 }
 
-.player-bio-section{
+.player-bio-section {
   background-color: #F6F6F6;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; /* Ensures content starts from the top */
   overflow-y: auto;
-  height: 100%;
+  height: 35vh; /* Takes remaining height */
+  padding: 20px 0; /* Adds space at both the top and bottom */
+  width: 100%;
 }

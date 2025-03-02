@@ -10,7 +10,7 @@ export default function PlayerStatsTable({ playerData, statsType }) {
       "BLK", "PF", "+/-"
     ],
     advanced: [
-      "Year", "Tm", "G", "MP", "eFG%", "2P%", "ORtg", "DRtg", "NRtg", "W/L%", "WS", "WS/48", "BPM", "VORP"
+      "Year", "Tm", "G", "MP","eFG%", "2P%", "ORtg", "DRtg", "NRtg", "W/L%", "WS", "WS/48", "BPM", "VORP"
     ]
   };
 
@@ -46,7 +46,7 @@ export default function PlayerStatsTable({ playerData, statsType }) {
         <thead>
           <tr>
             <th colSpan={statsOrder.length} className="table-header">
-              {statsType === "traditional" ? "Traditional Stats" : "Advanced Stats"}
+            {statsType === "traditional" ? "TRADITIONAL STATS" : "ADVANCED STATS"}
             </th>
           </tr>
           <tr className="column-headers">

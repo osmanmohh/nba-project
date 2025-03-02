@@ -97,7 +97,7 @@ function Search() {
         {player && (
           <>
             <PlayerProfile player={player} />
-            <PlayerStatistics player={player} />
+            <PlayerStatistics player={player} teamColor={teamColor} />
           </>
         )}
       </div>

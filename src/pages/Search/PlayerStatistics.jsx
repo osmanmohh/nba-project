@@ -1,4 +1,4 @@
-export default function PlayerStatistics({ player }) {
+export default function PlayerStatistics({ player, teamColor }) {
   return (
     <div className="player-statistics">
       <div className="basic-stats">
