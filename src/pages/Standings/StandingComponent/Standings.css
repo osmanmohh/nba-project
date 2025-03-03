@@ -7,14 +7,17 @@
   font-family: "Fira Sans Condensed", sans-serif;
   font-size: 1.8rem;
   font-weight: 500;
-  height: 100%;
+  
+
 }
 
 .conference {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 20px;
-  height: 90vh;
+  gap: 10px;
+  height: 70vh;
+
+  width: 100%;
 }
 
 .game-type {
@@ -33,9 +36,10 @@
 .team-col {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  align-items: center;
   padding: 10px;
-  height: 65%;
+  width: 20vw;
+
 }
 
 .nba-logo {

@@ -1,159 +1,142 @@
-.nav-bar { 
+.nav-bar {
   background: transparent;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 100%; 
-  height: 80px; 
-  position: fixed; 
+  width: 72px;
+  height: 100%;
+  position: fixed;
   top: 0;
-  left: 0; 
-  z-index: 3;  
-  display: flex; 
+  left: 0px;
+  z-index: 3;
+  display: flex;
   align-items: center;
-  
+  background-color: #181818;
+  flex-direction: column;
+  justify-content: center;
 }
-
-.nav-bar .logo {
-  padding: 40px 40px; 
+.link-icon{
+  position: absolute;
 }
-
-.nav-bar .logo img { 
-  display: block; 
-  margin: 3px auto; 
-  margin-left: 15px;
-  width: 60px; 
-  height: auto;
-}
-
-.nav-bar .logo img.sub-logo { 
-  width: 150px; 
-  margin-left: -14px;
-}
-
-.nav-bar nav { 
-  display: flex; 
+.nav-bar nav {
+  display: flex;
   align-items: center;
-  justify-content: space-evenly; 
+  justify-content: center;
+  gap: 70px;
   padding-left: 0;
   flex-grow: 1;
+  flex-direction: column;
 }
 
-.nav-bar nav a { 
-  font-size: 25px; 
+.nav-bar nav a {
+  font-size: 24px;
   color: #f0f0f083;
-  display: block; 
-  margin: 0 80px; 
-  position: relative; 
-  text-decoration: none; 
+  display: flex;
+  margin: 0 80px;
+  text-decoration: none;
+  width: 35px;
+  height: 35px;
+  justify-content: center;
+  align-items: center;
 }
 
-.nav-bar nav a i { 
-  transition: all 0.3s ease-out; 
-}
-
-.nav-bar nav a:hover { 
-  color: #fff;
-}
-
-.nav-bar nav a:hover svg { 
-  opacity: 0; 
-}
-
-.nav-bar nav a:hover:after { 
-  opacity: 1; 
-}
-
-.nav-bar nav a:after { 
-  content: ""; 
-  font-size: 20px; 
-  letter-spacing: 2px; 
-  position: absolute; 
-  bottom: 0; 
-  display: block; 
-  text-align: center; 
-  opacity: 0; 
+.nav-bar nav a i {
   transition: all 0.3s ease-out;
 }
 
-.nav-bar nav a:first-child:after { 
-  content: 'HOME'; 
-  margin-left: -12px;
+.nav-bar nav a:hover {
+  color: #fff;
 }
 
-.nav-bar nav a.search-link:after { 
+.nav-bar nav a:hover svg {
+  opacity: 0;
+}
+
+.nav-bar nav a:hover:after {
+  opacity: 1;
+}
+
+.nav-bar nav a:after {
+  content: "";
+  font-size: 11px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+  opacity: 0;
+  transition: all 0.3s ease-out;
+}
+
+.nav-bar nav a:first-child:after {
+  content: "HOME";
+}
+
+.nav-bar nav a.search-link:after {
   content: "SEARCH";
-  margin-left: -20px;
+
 }
 
-.nav-bar nav a.standings-link:after { 
-  content: "STANDINGS"; 
-  margin-left: -28px;
+.nav-bar nav a.standings-link:after {
+  content: "STANDINGS";
 }
 
-.nav-bar nav a.playoffs-link:after { 
-  content: "PLAYOFFS"; 
-  margin-left: -28px;
+.nav-bar nav a.playoffs-link:after {
+  content: "PLAYOFFS";
 }
 
-.nav-bar nav a.awards-link:after { 
-  content: "AWARDS"; 
-  margin-left: -28px;
+.nav-bar nav a.awards-link:after {
+  content: "AWARDS";
 }
 
 .nav-bar nav a.contact-link:after {
   content: "CONTACT";
-  margin-left: -25px;
 }
 
 .nav-bar nav a.active svg {
-  color: #fff; 
+  color: #fff;
 }
 
 .nav-bar .icon {
   width: 50px;
   margin: 30px;
   opacity: 0.8;
-  color: #ff4000; 
+  color: #ff4000;
 }
 
-.nav-bar .icon:hover { 
+.nav-bar .icon:hover {
   opacity: 1;
 }
 
-.hamburger-icon, 
-.close-icon { 
+.hamburger-icon,
+.close-icon {
   display: none;
 }
 
 @media screen and (max-width: 1150px) {
   .nav-bar {
-    position: initial; 
-    height: 100px; 
+    position: initial;
+    height: 100px;
   }
 
-  .nav-bar .logo img { 
-    width: 50px; 
+  .nav-bar .logo img {
+    width: 50px;
   }
 
-  .nav-bar .logo img.sub-logo { 
-    width: 100px; 
-    margin-left: -7px;
-  }
 
   .nav-bar nav {
     display: none;
-    width: 100%; 
+    width: 100%;
     height: 100%;
     background: #1a0408;
-    top: 0; 
-    left: 0; 
-    position: fixed; 
-    z-index: 2; 
+    top: 0;
+    left: 0;
+    position: fixed;
+    z-index: 2;
     margin: 0;
   }
 
-  .nav-bar nav a { 
+  .nav-bar nav a {
     display: flex;
-    padding-left: 33%; 
+    padding-left: 33%;
     margin: 30px;
   }
 
@@ -168,30 +151,30 @@
     opacity: 1 !important;
   }
 
-  .nav-bar nav.mobile-show { 
+  .nav-bar nav.mobile-show {
     display: block;
   }
 
-  .hamburger-icon, 
+  .hamburger-icon,
   .close-icon {
     display: block;
-    position: absolute; 
-    top: 15px; 
+    position: absolute;
+    top: 15px;
     right: 15px;
-    color: #f76d3f; 
+    color: #000000;
   }
 }
 
 @media screen and (max-width: 500px) {
-  .nav-bar nav a { 
-    padding-left: 22%; 
+  .nav-bar nav a {
+    padding-left: 22%;
     margin: 30px;
   }
 }
-.flat-button { 
+.flat-button {
   border: none;
   color: #fff;
-  background-image: linear-gradient(30deg, #0037ff, #165eda);
+  background-image: linear-gradient(30deg, #000000, #000000);
   border-radius: 10px;
   background-size: 100% auto;
   font-family: inherit;
@@ -200,14 +183,14 @@
   padding: 0.6em 1.5em;
   white-space: nowrap;
   text-decoration: none;
-  margin-top: 25px; 
-  float: left; 
+  margin-top: 25px;
+  float: left;
   width: 200px;
   transition: background-size 0.3s ease-in-out;
 }
 
 /* Hover Effect */
-.flat-button:hover { 
+.flat-button:hover {
   background-position: right center;
   background-size: 200% auto;
   animation: pulse512 1.5s infinite;
@@ -216,14 +199,14 @@
 /* Keyframes for Pulse Animation */
 @keyframes pulse512 {
   0% {
-      box-shadow: 0 0 0 0 rgba(255, 165, 0, 0.6);
+    box-shadow: 0 0 0 0 rgba(255, 165, 0, 0.6);
   }
-  
+
   70% {
-      box-shadow: 0 0 0 10px rgba(255, 165, 0, 0);
+    box-shadow: 0 0 0 10px rgba(255, 165, 0, 0);
   }
-  
+
   100% {
-      box-shadow: 0 0 0 0 rgba(255, 165, 0, 0);
+    box-shadow: 0 0 0 0 rgba(255, 165, 0, 0);
   }
 }

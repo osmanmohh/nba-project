@@ -19,26 +19,26 @@ function App() {
 function MainApp() {
   const location = useLocation();
 
-  useEffect(() => {
-    // Set background color based on route
-    switch (location.pathname) {
-      case "/":
-        document.body.style.backgroundColor = "#3c7dff"; // Blue for Home
-        break;
-      case "/search":
-        document.body.style.backgroundColor = "#ffffff"; // Green for Search
-        break;
-        case "/standings":
-        document.body.style.backgroundColor = "#191A1D"; // Green for Search
-        break;
-      default:
-        document.body.style.backgroundColor = "#ffffff"; // Default White
-    }
+  // useEffect(() => {
+  //   // Set background color based on route
+  //   switch (location.pathname) {
+  //     case "/":
+  //       document.body.style.backgroundColor = "#3c7dff"; // Blue for Home
+  //       break;
+  //     case "/search":
+  //       document.body.style.backgroundColor = "#ffffff"; // Green for Search
+  //       break;
+  //       case "/standings":
+  //       document.body.style.backgroundColor = "#191A1D"; // Green for Search
+  //       break;
+  //     default:
+  //       document.body.style.backgroundColor = "#ffffff"; // Default White
+  //   }
 
-    return () => {
-      document.body.style.backgroundColor = ""; // Reset when component unmounts
-    };
-  }, [location.pathname]);
+  //   return () => {
+  //     document.body.style.backgroundColor = ""; // Reset when component unmounts
+  //   };
+  // }, [location.pathname]);
 
   return (
     <>
