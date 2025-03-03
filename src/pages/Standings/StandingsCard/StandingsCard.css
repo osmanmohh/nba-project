@@ -1,17 +1,22 @@
 .standings-card-container {
-  width: 14.5rem;
-  height: 3.75rem; /* Default height */
+  width: 17vw;
+  height: 6.5vh; /* Default height */
   display: flex;
   gap: 5px;
   margin-top: 1rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-  transition: height 0.3s ease-in-out; /* Smooth expand */
-  overflow: hidden;
+  transition:
+    height 0.3s ease-in-out,
+    margin-bottom 0.3s ease-in-out; /* Add margin-bottom to transition */
+  overflow: visible; /* Allow it to overlap other cards */
   position: relative;
+  z-index: 1;
 }
 
 .standings-card-container.expanded {
-  height: 14rem; /* Expanded height */
+  height: 27vh; /* Expanded height */
+  margin-bottom: -20.5vh; /* Overlaps instead of pushing down */
+  z-index: 999; /* Above subsequent cards */
 }
 
 .standings-card-container:hover {
@@ -24,11 +29,26 @@
   justify-content: center;
   align-items: center;
   font-family: "Fira Sans Condensed", sans-serif;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: bold;
   color: rgb(0, 0, 0);
   background-color: rgb(255, 255, 255);
-  width: 20%;
+  width: 35%;
+  padding-left: 0.3rem;
+}
+.predicted-rank {
+  font-size: 0.6em;
+  opacity: 0.7;
+  margin-left: 4px;
+  font-weight: 400;
+}
+
+.predicted-rank.up {
+  color: green;
+}
+
+.predicted-rank.down {
+  color: red;
 }
 
 .info {
@@ -82,7 +102,7 @@
 }
 
 .standings-card-container.expanded .logo {
-  height: 50px; /* Smaller logo in expanded mode */
+  height: 6vh; /* Smaller logo in expanded mode */
   position: relative;
   bottom: auto;
   left: auto;
@@ -98,22 +118,27 @@
 .standings-card-container.expanded .expanded-content {
   max-height: 4rem; /* Expands smoothly */
 }
+
 .expanded-text {
   position: absolute;
-  top: 23%;
+  top: 7vh;
   left: 3%;
   text-align: left;
   font-family: "Fira Sans Condensed", sans-serif;
-  font-size: 0.75rem;
+  font-size: 37%;
   color: rgb(255, 255, 255);
-  width: 100%;
+  width: 12vw;
+  height: 65%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 }
-.abbr{
+
+.abbr {
   font-family: "Fira Sans Condensed", sans-serif;
   font-size: 1.25rem;
   color: rgb(255, 255, 255);
   position: absolute;
   top: 0;
   left: 35%;
-
 }

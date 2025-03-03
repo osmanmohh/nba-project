@@ -1,47 +1,61 @@
-import { useState } from "react";
 import "./StandingsCard.css";
 import { teamColors } from "../../../../public/teamColors";
 
-function StandingsCard({ abbr, rank, wins, losses }) {
-  const [expanded, setExpanded] = useState(false);
+function StandingsCard({ team, predictedRank, isExpanded, onExpand }) {
+  if (!team) return null; // Prevents errors if data is missing
+
+  const { tm, rank, wins, losses, ortg, drtg, nrtg, predicted_win_loss_percentage } = team;
 
   // Get team colors (default to gray if team is unknown)
-  const teamColor = teamColors[abbr] || { primary: "#808080" };
+  const teamColor = teamColors[tm] || { primary: "#808080" };
+
+  // Round predicted win/loss percentage to an integer (e.g., 78% instead of 0.78)
+  const roundedWinLossPercentage = Math.round(predicted_win_loss_percentage * 100);
+
+  // Determine movement indicator based on predicted rank
+  let movement = "";
+  if (predictedRank < rank) movement = "↑"; // Moving up
+  else if (predictedRank > rank) movement = "↓"; // Moving down
 
   return (
     <div
-      className={`standings-card-container ${expanded ? "expanded" : ""}`}
-      onClick={() => setExpanded(!expanded)}
+      className={`standings-card-container ${isExpanded ? "expanded" : ""}`}
+      onClick={onExpand} // Controlled by parent component
     >
-      <div className="standings-rank">{rank}</div>
+      <div className="standings-rank">
+        {rank}{" "}
+        <span className={`predicted-rank ${movement === "↑" ? "up" : movement === "↓" ? "down" : ""}`}>
+          ( {predictedRank} {movement})
+        </span>
+      </div>
+
       <div className="info" style={{ backgroundColor: teamColor.primary }}>
-        {expanded && <p className="abbr">{abbr.toUpperCase()}</p>}
+        {isExpanded && <p className="abbr">{tm.toUpperCase()}</p>}
+
         <div className="expanded-content">
-          {expanded && (
+          {isExpanded && (
             <div className="expanded-text">
-              <p>Win/Loss % : -</p>
-              <p>Offensive Rating: -</p>
-              <p>Defensive Rating: -</p>
-              <p>Net Rating: -</p>
-              <p>Pace: -</p>
-              <p>True Shooting %: -</p>
+              <div>Win/Loss %: {predicted_win_loss_percentage}%</div>
+              <div>Offensive Rating: {ortg}</div>
+              <div>Defensive Rating: {drtg}</div>
+              <div>Net Rating: {nrtg}</div>
+              <div>Predicted 2025 rank: {predictedRank}</div>
+              <div>True Shooting %: -</div>
             </div>
           )}
         </div>
+
         <div className="logo-container">
           <img
-            src={`logos/${abbr.toLowerCase()}.png`}
+            src={`logos/${tm.toLowerCase()}.png`}
             className="logo"
-            alt={`${abbr} logo`}
+            alt={`${tm} logo`}
           />
         </div>
-        {/* Wins/Losses will disappear when expanded */}
-        <div className="team-record">
-          {wins}-{losses}
-        </div>
-      </div>
 
-      {/* Expanded Section */}
+        {/* Wins/Losses disappear when expanded */}
+        {!isExpanded && <div className="team-record">{wins}-{losses}</div>}
+      </div>
     </div>
   );
 }
