@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 80px;
+  margin-top: 160px;
 }
 .standings-page-container {
 
@@ -27,9 +27,19 @@
   font-size: 1rem;
   margin-bottom: 10px;
   margin-top: 10px;
+  position: relative;
+
+  width: 100%;
+
+}
+.main-title{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }
 
-.main-title {
+.main-title span {
   font-size: 4.5rem;
   display: inline-block;
   font-weight: 600;
@@ -67,4 +77,18 @@
 /* Right line */
 .faded-line::after {
   right: -27vw;
+}
+.conference-toggle {
+  position: absolute;
+  top: 30%;
+  right: -20vh;
+
+  color: #878889;
+  cursor: pointer;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.conference-toggle:hover {
+  transform: scale(1.1);
+  color: #ffffff;
 }

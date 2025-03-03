@@ -35,7 +35,7 @@ function StandingsCard({ team, predictedRank, isExpanded, onExpand }) {
         <div className="expanded-content">
           {isExpanded && (
             <div className="expanded-text">
-              <div>Win/Loss %: {predicted_win_loss_percentage}%</div>
+              <div>Win/Loss %: {(wins / 82 * 100).toFixed(1)}%</div>
               <div>Offensive Rating: {ortg}</div>
               <div>Defensive Rating: {drtg}</div>
               <div>Net Rating: {nrtg}</div>

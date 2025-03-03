@@ -9,6 +9,7 @@
   font-weight: 500;
   height: 100%;
 }
+
 .conference {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -24,24 +25,30 @@
   text-align: center;
   font-size: 1.3rem;
   transform: scaleY(1); /* Stretches text vertically */
-
   justify-content: center;
   align-items: center;
   width: 100%;
 }
+
 .team-col {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   padding: 10px;
-  height: 60%;
+  height: 65%;
 }
+
 .nba-logo {
   height: 50px;
 }
+
 .playoffs {
   border-right: 1px dashed white;
 }
+
 .play-in {
   border-right: 1px solid white;
 }
+
+/* 🎯 Conference Toggle Button (⇄) */
+
