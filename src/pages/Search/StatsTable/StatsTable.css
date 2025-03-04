@@ -2,13 +2,11 @@
 .table-container {
   margin-top: 30px;
   font-family: "Fira Sans Condensed", sans-serif;
-  background-color: white;
-  padding: 20px;
   width: 75vw;
 }
 
 /* Header Bar (Now Spanning Full Width) */
-.table-header {
+.table-title {
   background-color: #051C2D;
   color: white;
   font-size: 16px; /* Reduced from 18px */
@@ -16,6 +14,8 @@
   padding: 12px;
   text-align: left;
   border-radius: 6px 6px 0 0;
+  margin-bottom: 0;
+  
 }
 
 /* Table Styling */

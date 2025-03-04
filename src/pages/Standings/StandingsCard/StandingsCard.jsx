@@ -1,21 +1,22 @@
 import "./StandingsCard.css";
 import { teamColors } from "../../../../public/teamColors";
 
-function StandingsCard({ team, predictedRank, isExpanded, onExpand }) {
+function StandingsCard({ rank, team, predictedRank, isExpanded, onExpand }) {
   if (!team) return null; // Prevents errors if data is missing
 
-  const { tm, rank, wins, losses, ortg, drtg, nrtg, predicted_win_loss_percentage } = team;
+  const { Tm,  W, L, ORtg, DRtg, NRtg } = team;
+  const predictedWinLossPercentage = team["W/L%"] || 0; // Ensure it doesn't break if missing
 
   // Get team colors (default to gray if team is unknown)
-  const teamColor = teamColors[tm] || { primary: "#808080" };
+  const teamColor = teamColors[Tm] || { primary: "#808080" };
 
   // Round predicted win/loss percentage to an integer (e.g., 78% instead of 0.78)
-  const roundedWinLossPercentage = Math.round(predicted_win_loss_percentage * 100);
+  const roundedWinLossPercentage = Math.round(predictedWinLossPercentage * 100);
 
   // Determine movement indicator based on predicted rank
   let movement = "";
-  if (predictedRank < rank) movement = "↑"; // Moving up
-  else if (predictedRank > rank) movement = "↓"; // Moving down
+  if (predictedRank && predictedRank < rank) movement = "↑"; // Moving up
+  else if (predictedRank && predictedRank > rank) movement = "↓"; // Moving down
 
   return (
     <div
@@ -23,23 +24,25 @@ function StandingsCard({ team, predictedRank, isExpanded, onExpand }) {
       onClick={onExpand} // Controlled by parent component
     >
       <div className="standings-rank">
-        {rank}{" "}
-        <span className={`predicted-rank ${movement === "↑" ? "up" : movement === "↓" ? "down" : ""}`}>
-          ( {predictedRank} {movement})
-        </span>
+        {rank}
+        {predictedRank ? (
+          <span className={`predicted-rank ${movement === "↑" ? "up" : movement === "↓" ? "down" : ""}`}>
+            ( {predictedRank} {movement})
+          </span>
+        ) : null}
       </div>
 
       <div className="info" style={{ backgroundColor: teamColor.primary }}>
-        {isExpanded && <p className="abbr">{tm.toUpperCase()}</p>}
+        {isExpanded && <p className="abbr">{Tm?.toUpperCase() || "N/A"}</p>}
 
         <div className="expanded-content">
           {isExpanded && (
             <div className="expanded-text">
-              <div>Win/Loss %: {(wins / 82 * 100).toFixed(1)}%</div>
-              <div>Offensive Rating: {ortg}</div>
-              <div>Defensive Rating: {drtg}</div>
-              <div>Net Rating: {nrtg}</div>
-              <div>Predicted 2025 rank: {predictedRank}</div>
+              <div>Win/Loss %: {(W / 82 * 100).toFixed(1)}%</div>
+              <div>Offensive Rating: {ORtg || "N/A"}</div>
+              <div>Defensive Rating: {DRtg || "N/A"}</div>
+              <div>Net Rating: {NRtg || "N/A"}</div>
+              {predictedRank && <div>Predicted 2025 rank: {predictedRank}</div>}
               <div>True Shooting %: -</div>
             </div>
           )}
@@ -47,14 +50,14 @@ function StandingsCard({ team, predictedRank, isExpanded, onExpand }) {
 
         <div className="logo-container">
           <img
-            src={`logos/${tm.toLowerCase()}.png`}
+            src={`logos/${Tm?.toLowerCase() || "default"}.png`}
             className="logo"
-            alt={`${tm} logo`}
+            alt={`${Tm || "default"} logo`}
           />
         </div>
 
         {/* Wins/Losses disappear when expanded */}
-        {!isExpanded && <div className="team-record">{wins}-{losses}</div>}
+        {!isExpanded && <div className="team-record">{W}-{L}</div>}
       </div>
     </div>
   );
