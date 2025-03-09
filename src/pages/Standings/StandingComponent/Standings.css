@@ -1,3 +1,15 @@
+/* NEW: Fade-in and slide-up animation for the standings container */
+@keyframes fadeInSlide {
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .standings-container {
   display: grid;
   justify-content: center;
@@ -7,8 +19,9 @@
   font-family: "Fira Sans Condensed", sans-serif;
   font-size: 1.8rem;
   font-weight: 500;
-  
-
+  /* Apply the container animation */
+  animation: fadeInSlide 1s ease-out forwards;
+  animation-fill-mode: backwards;
 }
 
 .conference {
@@ -16,7 +29,6 @@
   grid-template-columns: 1fr 1fr 1fr;
   gap: 10px;
   height: 70vh;
-
   width: 100%;
 }
 
@@ -39,7 +51,6 @@
   align-items: center;
   padding: 10px;
   width: 20vw;
-
 }
 
 .nba-logo {
@@ -55,4 +66,3 @@
 }
 
 /* 🎯 Conference Toggle Button (⇄) */
-

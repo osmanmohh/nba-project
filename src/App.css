@@ -4,7 +4,7 @@
 /* Default background */
 body {
   margin: 0;
-  background: linear-gradient(to bottom, #191A1D, #4b4b4b, rgb(132, 130, 130));
+  background:#252627;
   transition: background 0.3s ease-in-out;
 
 

@@ -37,14 +37,16 @@ export default function StandingsPage() {
                 ? "WESTERN CONFERENCE"
                 : "EASTERN CONFERENCE"}
             </span>
-            <FontAwesomeIcon
-              className="conference-toggle"
-              icon={faRightLeft}
-              flip
-              size="2xl"
-              style={{ color: "#878889", cursor: "pointer" }}
-              onClick={toggleConference}
-            />
+            <div className="conference-toggle-wrapper" style={{ color: "#878889", cursor: "pointer" }}
+                onClick={toggleConference}>
+              <FontAwesomeIcon
+                className="conference-toggle"
+                icon={faRightLeft}
+                flip
+                size="2xl"
+                
+              />
+            </div>
           </div>
           <div className="faded-line">
             THROUGH{" "}
@@ -60,11 +62,11 @@ export default function StandingsPage() {
         <Standings conference={currentConference} />
       </div>
       {/* ✅ Pass Filtered Team Data to StatsTable */}
-      <StatsTable
+      {/* <StatsTable
         jsonData={teamData} // ✅ Pass teamData instead of currentConference
         columnsToShow={[ "Tm", "W", "L", "ORtg", "DRtg", "NRtg", "W/L%"]}
         title="TEAM ADVANCED STATS"
-      />
+      /> */}
     </div>
   );
 }

@@ -2,8 +2,7 @@ import NavBar from "./components/NavBar";
 import Home from "./pages/Home/Home";
 import Search from "./pages/Search/Search";
 import StandingsPage from "./pages/Standings/StandingsPage";
-import StandingsCard from "./pages/Standings/StandingsCard/StandingsCard";
-
+import Playoffs from "./pages/Playoffs/Playoffs";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import "./App.css";
@@ -47,6 +46,7 @@ function MainApp() {
         <Route path="/" element={<Home />} />
         <Route path="/search" element={<Search />} />
         <Route path="/standings" element={<StandingsPage />} />
+        <Route path="/playoffs" element={<Playoffs />} />
 
       </Routes>
     </>

@@ -131,7 +131,7 @@ function Search() {
             "FT%",
             "ORB",
             "DRB",
-            "TRB",
+            "REB",
             "AST",
             "TOV",
             "STL",

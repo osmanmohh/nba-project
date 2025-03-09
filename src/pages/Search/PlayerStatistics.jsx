@@ -2,7 +2,7 @@ export default function PlayerStatistics({ player, teamColor }) {
   return (
     <div className="player-statistics">
       <div className="basic-stats">
-        {["PTS", "TRB", "AST", "FG%"].map((stat) => (
+        {["PTS", "REB", "AST", "FG%"].map((stat) => (
           <div className="stat" key={stat}>
             <div className="stat-label">{stat}</div>
             <div className="stat-value">

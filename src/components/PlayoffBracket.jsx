@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Papa from "papaparse";
 import PlayoffCard from "./PlayoffCard";
+import FinalsCard from "../pages/Playoffs/FinalsCard";
 import "./PlayoffBracket.css";
 
-const csvFilePath = "public/nba_playoff_results.csv"; // Update with the actual file path
+const csvFilePath = "/nba_playoff_results.csv"; // Update with the actual file path
 
 function PlayoffBracket() {
   const [playoffData, setPlayoffData] = useState([]);
@@ -25,60 +26,108 @@ function PlayoffBracket() {
   }, []);
 
   return (
-    <div className="bracket-container">
-            <div className="east-title">EASTERN CONFERENCE</div>
-            <div className="west-title">WESTERN CONFERENCE</div>
+    <div className="bracket">
+      {["w-round-1", "w-round-2", "w-round-3"].map((round) => (
+        <div key={round} className={`round-container ${round}`}>
+          <div className={`connector ${round}`}></div>
+          <div className={`connector btm ${round}`}></div>
+          {playoffData
+            .filter((game) => game.Round === round)
+            .map((matchup, index) => {
+              // Extract all game scores into an array
+              const gameScores = Array.from({ length: 7 }, (_, i) => [
+                matchup[`Game ${i + 1} Team 1 Pts`],
+                matchup[`Game ${i + 1} Team 2 Pts`],
+              ]).filter(([t1, t2]) => t1 !== null && t2 !== null); // Remove unplayed games
 
-      <div className="playoff-title">
-        <img className="playoff-nba-logo" src="/logos/nba.png"></img>
-        <p>PLAYOFFS</p>
+              const lastGamePlayed = matchup["Games Played"];
+              const finalTeam1Points = matchup[`Game ${lastGamePlayed} Team 1 Pts`];
+              const finalTeam2Points = matchup[`Game ${lastGamePlayed} Team 2 Pts`];
+
+              return (
+                <PlayoffCard
+                  key={index}
+                  team1Abbr={matchup["Team 1 tm"]}
+                  team1Name={matchup["Team 1 Name"]}
+                  rank1={matchup["Team 1 Rank"]}
+                  team2Abbr={matchup["Team 2 tm"]}
+                  team2Name={matchup["Team 2 Name"]}
+                  rank2={matchup["Team 2 Rank"]}
+                  winner={matchup["Winner tm"]}
+                  gamesPlayed={matchup["Games Played"]}
+                  gameScores={gameScores} // Pass full game score array
+                  finalTeam1Points={finalTeam1Points}
+                  finalTeam2Points={finalTeam2Points}
+                />
+              );
+            })}
+        </div>
+      ))}
+
+      <div key="nba-finals" className={"round-container nba-finals"}>
+        <div className="middle-line"></div>
+        {playoffData
+          .filter((game) => game.Round === "nba-finals")
+          .map((matchup, index) => {
+            const lastGamePlayed = matchup["Games Played"];
+            const team1PointsKey = `Game ${lastGamePlayed} Team 1 Pts`;
+            const team2PointsKey = `Game ${lastGamePlayed} Team 2 Pts`;
+
+            return (
+              <FinalsCard
+                key={index}
+                team1Abbr={matchup["Team 1 tm"]}
+                team1Name={matchup["Team 1 Name"]}
+                rank1={matchup["Team 1 Rank"]}
+                team1Points={matchup[team1PointsKey]}
+                team2Abbr={matchup["Team 2 tm"]}
+                team2Name={matchup["Team 2 Name"]}
+                rank2={matchup["Team 2 Rank"]}
+                team2Points={matchup[team2PointsKey]}
+                winner={matchup["Winner tm"]}
+                gamesPlayed={matchup["Games Played"]}
+              />
+            );
+          })}
       </div>
-      <div className="bracket">
-        {["e-round-1", "e-round-2", "e-round-3", "nba-finals"].map((round) => (
-          <div key={round} className={`round-container ${round}`}>
-            {playoffData
-              .filter((game) => game.Round === round)
-              .map((matchup, index) => (
-                <div key={index} className={`round ${round}`}>
-                  <PlayoffCard
-                    abbr={matchup["Team 1 tm"]}
-                    rank={matchup["Team 1 Rank"]}
-                    wins={null}
-                    losses={null}
-                  />
-                  <PlayoffCard
-                    abbr={matchup["Team 2 tm"]}
-                    rank={matchup["Team 2 Rank"]}
-                    wins={null}
-                    losses={null}
-                  />
-                </div>
-              ))}
-          </div>
-        ))}
-        {["w-round-3", "w-round-2", "w-round-1"].map((round) => (
-          <div key={round} className={`round-container ${round}`}>
-            {playoffData
-              .filter((game) => game.Round === round)
-              .map((matchup, index) => (
-                <div key={index} className={`round ${round}`}>
-                  <PlayoffCard
-                    abbr={matchup["Team 1 tm"]}
-                    rank={matchup["Team 1 Rank"]}
-                    wins={null}
-                    losses={null}
-                  />
-                  <PlayoffCard
-                    abbr={matchup["Team 2 tm"]}
-                    rank={matchup["Team 2 Rank"]}
-                    wins={null}
-                    losses={null}
-                  />
-                </div>
-              ))}
-          </div>
-        ))}
-      </div>
+
+      {["e-round-3", "e-round-2", "e-round-1"].map((round) => (
+        <div key={round} className={`round-container ${round}`}>
+          <div className={`connector ${round}`}></div>
+          <div className={`connector btm ${round}`}></div>
+
+          {playoffData
+            .filter((game) => game.Round === round)
+            .map((matchup, index) => {
+              // Extract all game scores into an array
+              const gameScores = Array.from({ length: 7 }, (_, i) => [
+                matchup[`Game ${i + 1} Team 1 Pts`],
+                matchup[`Game ${i + 1} Team 2 Pts`],
+              ]).filter(([t1, t2]) => t1 !== null && t2 !== null); // Remove unplayed games
+
+              const lastGamePlayed = matchup["Games Played"];
+              const finalTeam1Points = matchup[`Game ${lastGamePlayed} Team 1 Pts`];
+              const finalTeam2Points = matchup[`Game ${lastGamePlayed} Team 2 Pts`];
+
+              return (
+                <PlayoffCard
+                  key={index}
+                  team1Abbr={matchup["Team 1 tm"]}
+                  team1Name={matchup["Team 1 Name"]}
+                  rank1={matchup["Team 1 Rank"]}
+                  team2Abbr={matchup["Team 2 tm"]}
+                  team2Name={matchup["Team 2 Name"]}
+                  rank2={matchup["Team 2 Rank"]}
+                  winner={matchup["Winner tm"]}
+                  gamesPlayed={matchup["Games Played"]}
+                  gameScores={gameScores} // Pass full game score array
+                  finalTeam1Points={finalTeam1Points}
+                  finalTeam2Points={finalTeam2Points}
+                />
+              );
+            })}
+        </div>
+      ))}
     </div>
   );
 }
