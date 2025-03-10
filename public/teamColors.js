@@ -25,7 +25,7 @@ export const teamColors = {
   phx: { primary: "#190E50", secondary: "#100838" },
   por: { primary: "#C03134", secondary: "#8C1E20" },
   sac: { primary: "#4A2673", secondary: "#2E184A" },
-  sas: { primary: "#A5ADB4", secondary: "#727C82" },
+  sas: { primary: "#000000", secondary: "#000000" },
   tor: { primary: "#B00E26", secondary: "#7E0B1A" },
   uta: { primary: "#00224C", secondary: "#00122A" },
   was: { primary: "#00224C", secondary: "#00122A" },

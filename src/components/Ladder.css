@@ -1,36 +1,21 @@
-.ladder-container {
+ .ladder-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin: 0;
+  gap: 5px;
+  width: 33vw;
+  max-width: 600px;
+
+  height: 40vh;
 }
-.title-container {
-  border: 1px solid rgb(255, 255, 255);
-  height: 11rem;
-  font-family: "Fira Sans Condensed", sans-serif;
-  color: white;
+.ladder-title{
+  background-color: #bc7100;
   text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-}
-.gold-boxed {
-  background-color: #cb994e;
-  padding-left: 1.7rem;
-  padding-right: 1.7rem;
-  width: fit-content;
-  color: #14181a;
+  font-family: 'Fira Sans Condensed', sans-serif;
+  width: 100%;
+  color: #ffffff;
   font-size: 1.8rem;
   font-weight: 500;
-}
-.main-title {
-  font-size: 3rem;
-  transform: scaleY(1.775); /* Stretches text vertically */
-  display: inline-block;
-  font-weight: 600;
-}
-.award-name {
-  color: #cb994e;
 }

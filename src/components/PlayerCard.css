@@ -6,32 +6,61 @@ body{
 }
 
 .player-card-container {
-  width: 27rem;
-  height: 10rem;
+  width: 100%;
+  height: 33%;
   display: flex;
   gap: 5px;
-  margin-top: 1rem;
-  border-radius: 0.5rem;
-  
+  font-family: 'Fira Sans Condensed', sans-serif;
 }
-.rank {
+.player-card-container:hover{
+  filter: brightness(1.3);
+  cursor: pointer;
+}
+
+.player-rank {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Fira Sans Condensed', sans-serif;
   font-size: 3.75rem;
   color: white;
   border-radius: 10px;
   width: 17%;
 }
 
-.player-info {
+.player-card-info {
   overflow: hidden;
   border-radius: 10px;
   width: 95%;
   display: flex;
   justify-content: center;
   
+}
+.award-stats{
+  width: 45%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+  color: white;
+  border-radius: 10px;
+
+}
+.award-stat-item{
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.award-stat-label{
+  font-size: 0.7rem;
+}
+.award-stat-value{
+  font-weight: bold;
+  font-size: 0.8rem;
+
 }
 
 .player-name{
@@ -47,13 +76,13 @@ body{
   z-index: 100;
 }
 .first-name {
-  font-weight: 400;
-  font-size: 1.3rem;
+  font-weight: 300;
+  font-size: 1rem;
 
 }
 .last-name {
  font-weight: 500; 
- font-size: 1.4rem;
+ font-size: 1.1rem;
 
 }
 .img-container{
@@ -69,11 +98,11 @@ body{
   height: 110%;
   display: flex;
   bottom: 0px;
-  right:-45px
+  right:-25px
 }
-.team-logo{
+.player-team-logo{
   position: absolute;
   height: 121%;
-  right: -25px;
+  right: -15px;
   bottom: -22px;
 }

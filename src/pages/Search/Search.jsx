@@ -1,5 +1,6 @@
 import "./Search.css";
 import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom"; // ✅ Import React Router Hooks
 import { teamColors } from "../../../public/teamColors";
 import Fuse from "fuse.js";
 import SearchBar from "./SearchBar";
@@ -8,11 +9,13 @@ import PlayerStatistics from "./PlayerStatistics";
 import StatsTable from "./StatsTable/StatsTable";
 
 function Search() {
-  const [query, setQuery] = useState("");
+  const { query: urlQuery } = useParams(); // ✅ Get search query from URL
+  const navigate = useNavigate(); // ✅ Allows updating the URL when searching
+  const [query, setQuery] = useState(urlQuery || ""); // Sync with URL
   const [selectedPlayer, setSelectedPlayer] = useState(null);
   const [players, setPlayers] = useState([]);
   const [playerSeasons, setPlayerSeasons] = useState([]);
-  const [allData, setAllData] = useState([]); // Store full JSON dataset
+  const [allData, setAllData] = useState([]); // Store full dataset
 
   useEffect(() => {
     fetch("/all_players.json")
@@ -20,7 +23,7 @@ function Search() {
       .then((data) => {
         if (!data || data.length === 0) return;
 
-        setAllData(data); // Store the full dataset
+        setAllData(data); // Store full dataset
 
         // Extract latest season for each player
         const latestPlayers = Object.values(
@@ -34,46 +37,65 @@ function Search() {
 
         setPlayers(latestPlayers);
 
-        // Restore the last searched player from localStorage
-        const lastSearchedPlayerName =
-          localStorage.getItem("lastSearchedPlayer");
-        const lastPlayer = lastSearchedPlayerName
-          ? latestPlayers.find((p) => p.Name === lastSearchedPlayerName)
-          : null;
+        // ✅ If a URL search exists, set the searched player
+        if (urlQuery) {
+          setPlayerFromQuery(urlQuery, latestPlayers, data);
+        } else {
+          // ✅ Restore last searched player from localStorage
+          const lastSearchedPlayerName = localStorage.getItem("lastSearchedPlayer");
+          const lastPlayer = lastSearchedPlayerName
+            ? latestPlayers.find((p) => p.Name === lastSearchedPlayerName)
+            : null;
 
-        if (lastPlayer) {
-          setSelectedPlayer(lastPlayer);
-          setPlayerSeasons(
-            data.filter((p) => p.Name === lastSearchedPlayerName)
-          ); // Get all seasons
-        } else if (latestPlayers.length > 0) {
-          setSelectedPlayer(latestPlayers[0]);
-          setPlayerSeasons(
-            data.filter((p) => p.Name === latestPlayers[0].Name)
-          ); // Get all seasons
+          if (lastPlayer) {
+            setSelectedPlayer(lastPlayer);
+            setPlayerSeasons(data.filter((p) => p.Name === lastSearchedPlayerName));
+          } else if (latestPlayers.length > 0) {
+            setSelectedPlayer(latestPlayers[0]);
+            setPlayerSeasons(data.filter((p) => p.Name === latestPlayers[0].Name));
+          }
         }
-      })
-      .catch((error) => console.error("Error loading player data:", error));
-  }, []);
+        console.log("Selected Player:", selectedPlayer);
 
+      })
+      
+      .catch((error) => console.error("Error loading player data:", error));
+  }, [urlQuery]); // ✅ Runs when URL changes
+
+  // ✅ Function to set player based on URL search
+  const setPlayerFromQuery = (searchTerm, latestPlayers, fullData) => {
+    const player = latestPlayers.find((p) =>
+      p.Name.toLowerCase() === searchTerm.toLowerCase() || p.Player_ID === searchTerm
+    );
+
+    if (player) {
+      setSelectedPlayer(player);
+      setPlayerSeasons(fullData.filter((p) => p.Name === player.Name));
+    }
+  };
+
+  // Setup fuzzy search
   const fuse = new Fuse(players, {
     keys: ["Name"],
     threshold: 0.3,
   });
 
+  // ✅ Handles search & updates URL
   const handleSearch = () => {
     if (!query.trim()) return;
     const results = fuse.search(query);
+    
     if (results.length > 0) {
-      const playerName = results[0].item.Name;
-      setSelectedPlayer(results[0].item);
-      localStorage.setItem("lastSearchedPlayer", playerName);
+      const player = results[0].item;
+      setSelectedPlayer(player);
+      setPlayerSeasons(allData.filter((p) => p.Name === player.Name));
 
-      // Get all seasons from allData instead of just filtering players (which only has latest seasons)
-      setPlayerSeasons(allData.filter((p) => p.Name === playerName));
+      // ✅ Update the URL to allow sharing
+      navigate(`/search/${encodeURIComponent(player.Name)}`);
     }
   };
 
+  // Search on pressing Enter
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       handleSearch();

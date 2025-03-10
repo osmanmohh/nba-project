@@ -1,11 +1,14 @@
 .all-nba-player-container {
-  height: 70vh;
-  width: 15vw;
+  height: 37vh; /* 70vh / 2 */
+  width: 14vw; /* 15vw / 2 */
   border: solid #f2b24d;
 
   display: flex;
   flex-direction: column;
-  margin-left: 1rem;
+}
+.all-nba-player-container:hover{
+  filter: brightness(1.3);
+  cursor: pointer;
 }
 .photo-container {
   height: 100%;
@@ -20,7 +23,8 @@
 }
 .all-nba-info {
   background-color: black;
-  height: 20%;
+  height: 25%; /* 20% / 2 */
+  text-align: center;
   color: white;
   display: flex;
   flex-direction: column;
@@ -28,7 +32,43 @@
   justify-content: space-around;
   font-family: "Fira Sans Condensed", sans-serif;
 }
-.name{
-  font-size: 1.2rem;
+.name-team{
+  display: flex;
+  flex-direction: column;
+  padding: 5px 0 5px 0;
+}
+.name {
+  font-size: 90%; /* 1.2rem / 2 */
   font-weight: bold;
+
+}
+.team{
+  font-size: 80%;
+}
+.all-nba-stats{
+  border-top: 1px solid white;
+  width: 100%;
+
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+
+}
+.all-nba-stat-item{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.all-nba-stat-label{
+  
+  font-size: 0.7rem;
+}
+.all-nba-stat-value{
+  font-weight: bold;
+  font-size: 0.8rem;
 }
