@@ -13,7 +13,7 @@
   flex-direction: column;
   justify-content: center;
 }
-.link-icon{
+.link-icon {
   position: absolute;
 }
 .nav-bar nav {
@@ -68,11 +68,12 @@
 
 .nav-bar nav a:first-child:after {
   content: "HOME";
+  font-size: 12px;
 }
 
 .nav-bar nav a.search-link:after {
   content: "SEARCH";
-
+  font-size: 12px;
 }
 
 .nav-bar nav a.standings-link:after {
@@ -85,10 +86,12 @@
 
 .nav-bar nav a.awards-link:after {
   content: "AWARDS";
+  font-size: 12px;
 }
 
-.nav-bar nav a.contact-link:after {
-  content: "CONTACT";
+.nav-bar nav a.stats-link:after {
+  content: "STATS";
+  font-size: 12px;
 }
 
 .nav-bar nav a.active svg {
@@ -120,7 +123,6 @@
   .nav-bar .logo img {
     width: 50px;
   }
-
 
   .nav-bar nav {
     display: none;

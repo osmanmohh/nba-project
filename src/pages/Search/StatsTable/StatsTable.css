@@ -2,20 +2,19 @@
 .table-container {
   margin-top: 30px;
   font-family: "Fira Sans Condensed", sans-serif;
-  width: 75vw;
+  border-radius: 0 0 6px 6px;
+  min-width: 75vw;
 }
 
 /* Header Bar (Now Spanning Full Width) */
 .table-title {
-  background-color: #051C2D;
+  background-color: #051c2d;
   color: white;
   font-size: 16px; /* Reduced from 18px */
   font-weight: 300;
   padding: 12px;
   text-align: left;
-  border-radius: 6px 6px 0 0;
   margin-bottom: 0;
-  
 }
 
 /* Table Styling */
@@ -24,7 +23,6 @@
   border-collapse: collapse;
   background: white;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 0 0 6px 6px;
   overflow: hidden;
 }
 
@@ -64,10 +62,17 @@
 .stats-table tbody tr:nth-child(odd) {
   background-color: #fafafa;
 }
-/* Highlight sorted column */
+
+/* ✅ Highlight entire sorted column */
 .sorted-column {
   background-color: #d1e7fd !important; /* Light blue highlight */
-  color: #051C2D; /* Dark text */
+  color: #051c2d; /* Dark text */
+  font-weight: bold;
+}
+
+/* ✅ Highlight the entire column when sorted */
+.stats-table td.sorted-column {
+  background-color: #d1e7fd !important; /* Light blue */
   font-weight: bold;
 }
 
@@ -80,3 +85,42 @@
 .column-headers th:hover {
   background-color: #e0e0e0;
 }
+
+/* ✅ Adjust Show More Button */
+.show-more-container {
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.show-more-btn {
+  margin: 10px auto;
+  display: block;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #007bff;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  background-color: transparent;
+}
+
+.show-more-btn:hover {
+  text-decoration: underline;
+}
+/* Player Name Container */
+.player-name-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Team Logo */
+.stats-team-logo {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+

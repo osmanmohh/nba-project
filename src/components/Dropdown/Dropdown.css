@@ -1,0 +1,29 @@
+/* Wrapper for positioning */
+.dropdown-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Custom Select */
+.native-dropdown {
+  appearance: none; /* Keeps native dropdown on macOS/iOS */
+  -webkit-appearance: none; /* Safari fix */
+  border-radius: 50px;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  font-size: 12px;
+  cursor: pointer;
+  background-color: white;
+  width: 100%;
+  padding-right: 30px; /* Space for icon */
+}
+
+/* Dropdown Icon */
+.dropdown-icon {
+  position: absolute;
+  right: 12px; /* Adjust to align properly */
+  pointer-events: none; /* Prevents interference with selection */
+  color: #0066cc;
+  font-size: 14px;
+}

@@ -1,6 +1,6 @@
 import "./Search.css";
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom"; // ✅ Import React Router Hooks
+import { useParams, useNavigate } from "react-router-dom"; // ✅ React Router Hooks
 import { teamColors } from "../../../public/teamColors";
 import Fuse from "fuse.js";
 import SearchBar from "./SearchBar";
@@ -37,32 +37,23 @@ function Search() {
 
         setPlayers(latestPlayers);
 
-        // ✅ If a URL search exists, set the searched player
         if (urlQuery) {
           setPlayerFromQuery(urlQuery, latestPlayers, data);
         } else {
           // ✅ Restore last searched player from localStorage
-          const lastSearchedPlayerName = localStorage.getItem("lastSearchedPlayer");
-          const lastPlayer = lastSearchedPlayerName
-            ? latestPlayers.find((p) => p.Name === lastSearchedPlayerName)
-            : null;
-
-          if (lastPlayer) {
-            setSelectedPlayer(lastPlayer);
-            setPlayerSeasons(data.filter((p) => p.Name === lastSearchedPlayerName));
+          const lastSearch = JSON.parse(localStorage.getItem("lastSearchedPlayer"));
+          if (lastSearch) {
+            setPlayerFromQuery(lastSearch.name, latestPlayers, data);
           } else if (latestPlayers.length > 0) {
             setSelectedPlayer(latestPlayers[0]);
             setPlayerSeasons(data.filter((p) => p.Name === latestPlayers[0].Name));
           }
         }
-        console.log("Selected Player:", selectedPlayer);
-
       })
-      
       .catch((error) => console.error("Error loading player data:", error));
   }, [urlQuery]); // ✅ Runs when URL changes
 
-  // ✅ Function to set player based on URL search
+  // ✅ Function to set player based on URL or last searched
   const setPlayerFromQuery = (searchTerm, latestPlayers, fullData) => {
     const player = latestPlayers.find((p) =>
       p.Name.toLowerCase() === searchTerm.toLowerCase() || p.Player_ID === searchTerm
@@ -71,6 +62,12 @@ function Search() {
     if (player) {
       setSelectedPlayer(player);
       setPlayerSeasons(fullData.filter((p) => p.Name === player.Name));
+
+      // ✅ Save last searched player to localStorage
+      localStorage.setItem(
+        "lastSearchedPlayer",
+        JSON.stringify({ name: player.Name, url: `/search/${encodeURIComponent(player.Name)}` })
+      );
     }
   };
 
@@ -84,7 +81,7 @@ function Search() {
   const handleSearch = () => {
     if (!query.trim()) return;
     const results = fuse.search(query);
-    
+
     if (results.length > 0) {
       const player = results[0].item;
       setSelectedPlayer(player);
@@ -92,6 +89,12 @@ function Search() {
 
       // ✅ Update the URL to allow sharing
       navigate(`/search/${encodeURIComponent(player.Name)}`);
+
+      // ✅ Store in localStorage
+      localStorage.setItem(
+        "lastSearchedPlayer",
+        JSON.stringify({ name: player.Name, url: `/search/${encodeURIComponent(player.Name)}` })
+      );
     }
   };
 

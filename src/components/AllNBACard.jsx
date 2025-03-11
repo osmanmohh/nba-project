@@ -21,7 +21,7 @@ function AllNBACard({ playerId, rank }) {
 
   // ✅ Function to navigate to the player search page
   const handleClick = () => {
-    navigate(`/search/${encodeURIComponent(player.Name)}`);
+    window.open(`/search/${encodeURIComponent(player.Name)}`);
   };
 
   return (

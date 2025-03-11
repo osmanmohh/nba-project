@@ -6,6 +6,7 @@ import StandingsPage from "./pages/Standings/StandingsPage";
 import Playoffs from "./pages/Playoffs/Playoffs";
 import AwardsPage from "./pages/Awards/AwardsPage";
 import "./App.css";
+import StatsPage from "./pages/Stats/StatsPage";
 
 function App() {
   return (
@@ -26,6 +27,10 @@ function MainApp() {
         <Route path="/standings" element={<StandingsPage />} />
         <Route path="/playoffs" element={<Playoffs />} />
         <Route path="/awards" element={<AwardsPage />} />
+        <Route path="/awards" element={<AwardsPage />} />
+        <Route path="/stats" element={<StatsPage />} />
+
+
       </Routes>
     </>
   );

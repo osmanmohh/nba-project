@@ -1,0 +1,32 @@
+
+.stats-page-wrapper {
+  height: 100vh; /* Take full viewport height */
+  width: 100vw;
+  overflow-y: auto; /* Enables scrolling */
+  overflow-x: hidden; /* Prevents horizontal scrolling */
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.stats-page-main{
+  margin-top: 40px;
+  height: 100%;
+  width: 80vw;
+  background-color: white;
+  position: relative;
+}
+.page-title{
+  font-family:Arial, Helvetica, sans-serif;
+  margin-top: 20px;
+  margin-left: 10px;
+}
+.stats-type-dropdown{
+position: absolute;
+right: 1%;
+top: 3%;
+
+}
+.dropdown-container{
+  margin-left: 5px;
+
+}

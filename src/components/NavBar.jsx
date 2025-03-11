@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHome,
   faSearch,
-  faEnvelope,
+  faChartLine,
   faClose,
   faBars,
   faList,
@@ -50,11 +50,11 @@ const NavBar = () => {
           <FontAwesomeIcon size="xs" className="link-icon" icon={faMedal} />
         </a>
         <a
-          href="/contact"
-          className="contact-link"
+          href="/stats"
+          className="stats-link"
           onClick={() => setShowNav(false)}
         >
-          <FontAwesomeIcon size="xs" className="link-icon" icon={faEnvelope} />
+          <FontAwesomeIcon size="xs" className="link-icon" icon={faChartLine} />
         </a>
 
         <FontAwesomeIcon
