@@ -32,7 +32,6 @@ body {
   flex-direction: column;
   gap: 20px;
   border: 2px solid white;
-
 }
 .section-title {
   background-color: #bc7100;
@@ -41,15 +40,12 @@ body {
   font-size: 1.3rem;
   font-family: "Fira Sans Condensed", sans-serif;
   font-weight: 500;
-  
-  text-align: left;
-  
-}
-.section-title p{
 
+  text-align: left;
+}
+.section-title p {
   margin-left: 20px;
 }
-
 
 .awards-title-container {
   height: 11rem;

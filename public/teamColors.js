@@ -8,7 +8,7 @@ export const teamColors = {
   dal: { primary: "#00477B", secondary: "#00224A" },
   den: { primary: "#0B1D36", secondary: "#081428" },
   det: { primary: "#B00E26", secondary: "#7E0B1A" },
-  gsw: { primary: "#192C6A", secondary: "#0D1E48" },
+  gsw: { primary: "#1C4288", secondary: "#0D1E48" },
   hou: { primary: "#B00E26", secondary: "#7E0B1A" },
   ind: { primary: "#00254F", secondary: "#00122F" },
   lac: { primary: "#B00E26", secondary: "#7E0B1A" },

@@ -1,16 +1,31 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
-export default function SearchBar({ query, setQuery, handleSearch, handleKeyDown, teamColor }) {
+export default function SearchBar({
+  query,
+  setQuery,
+  handleSearch,
+  teamColor,
+}) {
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      console.log("Search Query:", query);
+      handleSearch();
+    }
+  };
+
   return (
     <div className="search-bar-container">
+      {/* Search Icon as a Button */}
       <FontAwesomeIcon
         icon={faMagnifyingGlass}
         size="sm"
-        style={{ color: "#7B7B7B" }}
+        style={{ color: "#7B7B7B", cursor: "pointer" }} // ✅ Cursor ensures it looks clickable
         className="search-icon"
-        onClick={handleSearch}
+        onClick={handleSearch} // ✅ Triggers search on click
       />
+
+      {/* Search Input */}
       <input
         type="search"
         className="search-input"
