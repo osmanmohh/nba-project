@@ -30,7 +30,6 @@ export default function SearchBar({
         type="search"
         className="search-input"
         placeholder="Search for Teams or Players..."
-        style={{ backgroundColor: teamColor.secondary }}
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onKeyDown={handleKeyDown}

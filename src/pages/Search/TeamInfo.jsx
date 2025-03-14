@@ -5,9 +5,9 @@ import LeadersCard from "./LeadersCard";
 import TeamRankingsCard from "./TeamRankingsCard";
 import { teamColors } from "../../../public/teamColors";
 
-export default function TeamInfo({ team, teams }) {
+export default function TeamInfo({ team, teams, year }) {
   const selectedTeam = team[0];
-  console.log("Selected team: ", selectedTeam)
+  console.log("Selected team: ", selectedTeam);
   const [games, setGames] = useState([]);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export default function TeamInfo({ team, teams }) {
   }, []);
   // Filter and sort teams from the same conference
   const sameConfTeams = teams
-    .filter((t) => t.Year === 2024 && t.Conf === selectedTeam.Conf)
+    .filter((t) => t.Year === year && t.Conf === selectedTeam.Conf)
     .sort((a, b) => b.W - a.W); // Sort by Wins (Descending)
 
   // Assign proper conference ranks
@@ -50,20 +50,14 @@ export default function TeamInfo({ team, teams }) {
     start = Math.max(0, end - 5);
   }
 
-  const surroundingTeams = sameConfTeams.slice(start, end);;
+  const surroundingTeams = sameConfTeams.slice(start, end);
 
   return (
     <div className="team-section">
       {/* <h2 className="team-title">More {selectedTeam.Team.split(" ").pop()} Stats</h2> */}
       <div className="ctn">
-        <LeadersCard players={team} />
-        <TeamRankingsCard tm={selectedTeam.Tm} />
-      </div>
-
-      <div className="ctn">
         <div className="latest-team-info-stats-container">
           <div className="team-infos-container">
-            {/* Fixed Table Header */}
             <h1 className="card-title">2024-25 Conference Standings</h1>
             <div className="team-info-header stats">
               <span className="team-header">Team</span>
@@ -74,9 +68,15 @@ export default function TeamInfo({ team, teams }) {
 
             {/* Dynamic Team Data */}
             {surroundingTeams.map((t) => (
-              <div className="team-info" key={t.Tm} 
-              style={t.Tm === selectedTeam.Tm ? { backgroundColor: teamColors[t.Tm]?.primary } : {}}
->
+              <div
+                className="team-info"
+                key={t.Tm}
+                style={
+                  t.Tm === selectedTeam.Tm
+                    ? { backgroundColor: teamColors[t.Tm]?.primary }
+                    : {}
+                }
+              >
                 <div className="team-info-detail stats">
                   <div className="team-info-data stats">
                     <div className="team-vals opp">
@@ -115,40 +115,52 @@ export default function TeamInfo({ team, teams }) {
 
             {/* Dynamic Team Data */}
             {games.slice(0, 5).map((game, index) => (
-            <div className="team-info" key={index}>
-              <div className="team-info-detail stats">
-                <div className="team-info-data stats">
-                  <div className="team-vals">{game.Date}</div>
-                  <div className="team-vals matchup">
-                    <div className="opp-info-container">
-                      <div className="opp-logo-container">
-                        <img
-                          src={`/logos/${game.Location === "@" ? selectedTeam.Tm : game.Opponent}.png`}
-                          className="latest-team-logo"
-                          alt={game.Opponent}
-                        />
+              <div className="team-info" key={index}>
+                <div className="team-info-detail stats">
+                  <div className="team-info-data stats">
+                    <div className="team-vals">{game.Date}</div>
+                    <div className="team-vals matchup">
+                      <div className="opp-info-container">
+                        <div className="opp-logo-container">
+                          <img
+                            src={`/logos/${game.Location === "@" ? selectedTeam.Tm : game.Opponent}.png`}
+                            className="latest-team-logo"
+                            alt={game.Opponent}
+                          />
+                        </div>
+                        <div className="team-info-name">
+                          {game.Location === "@"
+                            ? selectedTeam.Tm.toUpperCase()
+                            : game.Opponent.toUpperCase()}
+                        </div>
                       </div>
-                      <div className="team-info-name">{game.Location === "@" ? selectedTeam.Tm.toUpperCase() : game.Opponent.toUpperCase()}</div>
-                    </div>
-                    <div>@</div>
-                    <div className="opp-info-container">
-                      <div className="opp-logo-container">
-                        <img
-                          src={`/logos/${game.Location === "@" ? game.Opponent : selectedTeam.Tm}.png`}
-                          className="latest-team-logo"
-                          alt={selectedTeam.Team}
-                        />
+                      <div>@</div>
+                      <div className="opp-info-container">
+                        <div className="opp-logo-container">
+                          <img
+                            src={`/logos/${game.Location === "@" ? game.Opponent : selectedTeam.Tm}.png`}
+                            className="latest-team-logo"
+                            alt={selectedTeam.Team}
+                          />
+                        </div>
+                        <div className="team-info-name">
+                          {game.Location === "@"
+                            ? game.Opponent.toUpperCase()
+                            : selectedTeam.Tm.toUpperCase()}
+                        </div>
                       </div>
-                      <div className="team-info-name">{game.Location === "@" ? game.Opponent.toUpperCase() : selectedTeam.Tm.toUpperCase()}</div>
                     </div>
+                    <div className="team-vals">{game.Time || "TBD"}</div>
                   </div>
-                  <div className="team-vals">{game.Time || "TBD"}</div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
           </div>
         </div>
+      </div>
+      <div className="ctn">
+        <LeadersCard players={team} />
+        <TeamRankingsCard tm={selectedTeam.Tm} year={year} />
       </div>
     </div>
   );

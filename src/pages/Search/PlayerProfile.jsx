@@ -13,7 +13,7 @@ export default function PlayerProfile({ player }) {
         <div className="team-position">
           {player["Team"]} | {"SG,PG".includes(player["Pos"]) ? "Guard" : "Forward"}
         </div>
-        <div className="player-name">{player["Name"].toUpperCase()}</div>
+        <div className="profile-name">{player["Name"].toUpperCase()}</div>
       </div>
     </div>
   );

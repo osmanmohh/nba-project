@@ -66,14 +66,12 @@
 }
 
 .search-bar-container {
-  position: absolute;
-  margin-top: 80px;
-  top: -10%;
-  right: 0.5%;
+  position: relative;
+margin-top: 20px;
   display: flex;
   align-items: center;
-  width: 20%;
-  height: 2rem;
+  width: 100%;
+  height: 100px;
   background-color: inherit;
   border-radius: 1.5rem;
   z-index: 3;
@@ -86,11 +84,12 @@
   padding: 0.5rem 1rem 0.5rem 2rem;
   color: #ffffff;
   width: 100%;
-  height: 100%;
+  height: 40px;
+  background-color: #202124;
 }
 
 .search-input::placeholder {
-  color: #ffffff;
+  color: #9BA3AF;
   opacity: 20%;
 }
 
@@ -126,17 +125,24 @@
 }
 
 .player-info {
-  margin-left: 10%;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  left: 33%;
+  z-index: 2;
+
 }
 
 .team-position {
   font-family: "Fira Sans Condensed", sans-serif;
+  font-size: 1.1rem;
+
 }
 
-.player-name {
-  font-size: 4rem;
-  width: 50%;
+.profile-name {
+  font-size: 3rem;
   font-family: "Fira Sans Condensed", sans-serif;
+
 }
 
 .player-bio-section {

@@ -35,7 +35,13 @@ export default function LeadersCard({ players, statCategory }) {
                 <img
                   src={`/headshots/${player.Player_ID}.png`}
                   alt={player.Name}
+                  
                   className={`leader-headshot headshot-${index + 1}`}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "/headshots/blank.png";
+                  }}
+                  
                 />
               </div>
             </div>

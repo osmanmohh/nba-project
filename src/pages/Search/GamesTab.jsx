@@ -88,6 +88,7 @@ export default function GamesTab({ games }) {
               "TOV",
               "PF",
               "PTS",
+              "GmSc",
               "PlusMinus",
             ]}
             title={month}

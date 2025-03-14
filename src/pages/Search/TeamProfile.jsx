@@ -20,13 +20,24 @@ export default function team({ team }) {
         />
         <div className="player-info">
           <div className="team-position">
-            {/* {player["Team"]} | {"SG,PG".includes(player["Pos"]) ? "Guard" : "Forward"} */}
+            {team["W"]}-{team["L"]} | {team["Rk"]}
+            { // Determine the correct ordinal suffix (st, nd, rd, th)
+
+              ["th", "st", "nd", "rd"][
+                ((team["Rk"] % 100) - 11) % 10 === 0 ||
+                (team["Rk"] % 100) - 12 === 0 ||
+                (team["Rk"] % 100) - 13 === 0
+                  ? 0
+                  : team["Rk"] % 10 < 4
+                    ? team["Rk"] % 10
+                    : 0
+              ]
+            }{" "}
+            in {team["Conf"] === "W" ? "Western" : "Eastern"} Conference
           </div>
-          <div className="player-name">{team["Team"].toUpperCase()}</div>
+          <div className="profile-name">{team["Team"].toUpperCase()}</div>
         </div>
       </div>
-
-     
     </div>
   );
 }

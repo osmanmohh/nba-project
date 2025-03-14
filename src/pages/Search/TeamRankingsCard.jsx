@@ -2,7 +2,7 @@ import "./TeamRankingsCard.css";
 import { teamColors } from "../../../public/teamColors";
 import { useEffect, useState } from "react";
 
-export default function TeamRankingsCard({ tm }) {
+export default function TeamRankingsCard({ tm , year}) {
   const [teamStats, setTeamStats] = useState(null);
   const [teamRanks, setTeamRanks] = useState(null);
 
@@ -10,29 +10,28 @@ export default function TeamRankingsCard({ tm }) {
     fetch("/teams.json") // ✅ Lazy-load the JSON
       .then((response) => response.json())
       .then((data) => {
-        const all2024Teams = data.filter((team) => team.Year === 2024); // ✅ Get all 2024 teams
-        const selectedTeam = all2024Teams.find((team) => team.Tm === tm);
+        const allTeamsForYear = data.filter((team) => team.Year === year); // ✅ Use dynamic year
+        const selectedTeam = allTeamsForYear.find((team) => team.Tm === tm);
 
         if (selectedTeam) {
           // ✅ Calculate rankings dynamically
           const calculateRank = (stat, isLowerBetter = false) =>
-            all2024Teams
+            allTeamsForYear
               .sort((a, b) => (isLowerBetter ? a[stat] - b[stat] : b[stat] - a[stat])) // ✅ Correct Sorting
               .findIndex((team) => team.Tm === tm) + 1;
-          
 
           setTeamStats(selectedTeam);
           setTeamRanks({
-            ORtg: calculateRank("ORtg"), // High is better
-            DRtg: calculateRank("DRtg", true), // ✅ Low is better
-            NETRtg: calculateRank("NRtg"), // High is better
-            WL: calculateRank("W/L%"), // High is better
+            ORtg: calculateRank("ORtg"),
+            DRtg: calculateRank("DRtg", true),
+            NETRtg: calculateRank("NRtg"),
+            WL: calculateRank("W/L%"),
           });
-          
         }
       })
       .catch((error) => console.error("Error loading team data:", error));
-  }, [tm]);
+  }, [tm, year]); // ✅ Add `year` to dependency array
+
 
   if (!teamStats || !teamRanks) return <div className="leaders-card">Loading...</div>;
 
