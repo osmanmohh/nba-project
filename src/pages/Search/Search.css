@@ -140,10 +140,10 @@
 }
 
 .player-bio-section {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start; /* Ensures content starts from the top */
-  padding: 20px 0; /* Adds space at both the top and bottom */
   width: 100%;
 }

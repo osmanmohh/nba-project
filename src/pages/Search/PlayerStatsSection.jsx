@@ -30,7 +30,7 @@ function PlayerStatsSection({ playerSeasons }) {
           "PF",
           "+/-",
         ]}
-        title="TRADITIONAL STATS"
+        title="Regular Season"
       />
       <StatsTable
         jsonData={playerSeasons}
@@ -39,18 +39,27 @@ function PlayerStatsSection({ playerSeasons }) {
           "Tm",
           "G",
           "MP",
-          "eFG%",
-          "2P%",
-          "ORtg",
-          "DRtg",
-          "NRtg",
-          "W/L%",
-          "WS",
-          "WS/48",
-          "BPM",
-          "VORP",
+          "PTS",
+          "FG",
+          "FGA",
+          "FG%",
+          "3P",
+          "3PA",
+          "3P%",
+          "FT",
+          "FTA",
+          "FT%",
+          "ORB",
+          "DRB",
+          "REB",
+          "AST",
+          "TOV",
+          "STL",
+          "BLK",
+          "PF",
+          "+/-",
         ]}
-        title="ADVANCED STATS"
+        title="Playoffs"
       />
     </div>
   );

@@ -30,6 +30,16 @@ function PlayerViewToggle({ onViewChange, teamColor }) {
       >
         Stats
       </button>
+      <button
+        className={`games-btn ${view === "games" ? "active" : ""}`}
+        style={{
+          backgroundColor: view === "games" ? "#ffffff" : teamColor.secondary,
+          color: view === "games" ? "#000000" : "#ffffff",
+        }}
+        onClick={() => handleViewChange("games")}
+      >
+        Games
+      </button>
     </div>
   );
 }

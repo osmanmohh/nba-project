@@ -5,7 +5,7 @@ export default function StatsTable({
   jsonData,
   columnsToShow = null,
   title = null,
-  defaultSort = { key: "Year", direction: "desc" },
+  defaultSort = { key: "", direction: "desc" },
 }) {
   const [sortConfig, setSortConfig] = useState(null);
   const [columns, setColumns] = useState([]);
@@ -15,16 +15,22 @@ export default function StatsTable({
     if (jsonData.length > 0) {
       const detectedColumns = Object.keys(jsonData[0]).map((col) => col.trim());
       let finalColumns =
-        columnsToShow && columnsToShow.length > 0
-          ? columnsToShow
-          : detectedColumns;
+        columnsToShow && columnsToShow.length > 0 ? columnsToShow : detectedColumns;
+  
       if (finalColumns.includes("Rk")) {
         finalColumns = ["Rk", ...finalColumns.filter((col) => col !== "Rk")];
       }
-      setColumns(finalColumns);
-      setSortConfig(defaultSort);
+  
+      setColumns((prevColumns) =>
+        JSON.stringify(prevColumns) !== JSON.stringify(finalColumns) ? finalColumns : prevColumns
+      );
+  
+      setSortConfig((prevSort) =>
+        prevSort ? prevSort : defaultSort // Only set if sortConfig is null
+      );
     }
-  }, [jsonData, columnsToShow, defaultSort]);
+  }, [jsonData, columnsToShow]); // Removed `defaultSort` to prevent unnecessary updates
+  
 
   const sortedData = useMemo(() => {
     if (!sortConfig) return jsonData;

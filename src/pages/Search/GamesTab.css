@@ -1,0 +1,6 @@
+.season-dropdown-container{
+  position: absolute;
+  right: 25px;
+  top: -40px;
+  z-index: 100;
+}

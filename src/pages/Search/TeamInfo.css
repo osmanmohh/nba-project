@@ -1,13 +1,32 @@
-.games-section {
+.card-title {
+  width: 100%;
+  padding-left: 10px;
+}
+
+.team-title {
+  color: white;
+}
+.team-section {
+  color: #ffffff;
+  font-family: "Fira Sans Condensed", sans-serif;
+
   margin-top: 20px;
   border-radius: 20px;
-  width: calc(50% - 7px);
+  width: 100vw;
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.team-infos-section {
+  margin-top: 20px;
+  border-radius: 20px;
   gap: 20px;
   background-color: transparent;
   display: flex;
   flex-direction: column;
 }
-.latest-game-info {
+.latest-team-info-info {
   height: 30%;
   width: 100%;
   display: flex;
@@ -23,16 +42,17 @@
 .latest-player-name {
   font-size: 1.2rem;
 }
-.latest-game-details {
+.latest-team-info-details {
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   height: 20px;
   gap: 5px;
+
   color: #909396;
 }
-.latest-game-details span {
+.latest-team-info-details span {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -47,7 +67,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
   height: 20px;
 }
 .opp-container.latest {
@@ -55,12 +74,6 @@
 }
 .latest-result {
   margin-right: 5px;
-}
-.latest-result.W{
-color: rgb(53, 141, 53);
-
-}
-.latest-result.L{
   color: rgb(141, 53, 53);
 }
 .latest-team-logo {
@@ -68,36 +81,34 @@ color: rgb(53, 141, 53);
   margin: 0 5px;
   object-fit: contain;
 }
-.latest-game-stats-container {
+.latest-team-info-stats-container {
   display: flex;
   flex-direction: column;
   color: white;
 
-  font-family: "Fira Sans Condensed", sans-serif;
-  width: 100%;
-  height: 30vh;
+  width: calc(50% - 7px);
+  height: 40vh;
   background-color: #202125;
   border-radius: 20px;
 }
-.latest-game-stats-container h1 {
+.latest-team-info-stats-container h1 {
   font-size: 1.1rem;
   font-weight: 600;
   margin-left: 10px;
 }
-.games-container{
+.team-infos-container {
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-left: 20px;
 }
 
 /* Player Details Grid */
 .player-stats-grid.latest {
   grid-template-columns: repeat(9, 1fr);
 }
-.latest-game-stats-container.games{
+.latest-team-info-stats-container.team-infos {
   display: flex;
   flex-direction: column;
   color: white;
@@ -109,10 +120,7 @@ color: rgb(53, 141, 53);
   background-color: #202125;
   border-radius: 20px;
 }
-.game:last-child {
-  border-bottom: none;
-}
-.game {
+.team-info {
   display: flex;
   position: relative;
   justify-content: space-evenly;
@@ -121,55 +129,101 @@ color: rgb(53, 141, 53);
   flex: 1;
   border-bottom: 0.5px solid hsla(210, 3%, 58%, 0.434);
 }
-.game-detail {
+.team-info-detail {
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   flex: 1;
-  
+  width: 100%;
 }
 
-.game-header,
-.game-data {
+.team-info-header,
+.team-info-data {
   width: 100%;
   height: 50%;
-  
 }
 
-.game-header{
+.team-info-header {
   display: flex;
   align-items: center;
   color: #909396;
-
-
 }
-.game-data{
+.team-info-data {
   display: flex;
   align-items: center;
   color: white;
+}
 
-}
-.game-detail.stats{
-flex: 2;
-width: 25%;
-}
-.game-header.stats{
+.team-info-header.stats {
   display: flex;
   justify-content: space-evenly;
-
-  
+  flex: 1;
 }
-.game-data.stats{
+
+.team-info-data.stats {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
 }
-.game-detail.stats span{
-  width: 25%;
+.team-info-detail.stats span {
+  width: 20%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  }
+}
+.team-info-data.stats {
+  display: flex;
+  justify-content: space-evenly;
+}
+.team-vals {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  position: relative;
+}
+.team-vals.opp,
+.team-header {
+  flex: 2;
+}
+.team-info-rank {
+  left: 0;
+  color: #909396;
+}
+.opp-info-container {
+  display: flex;
+  align-items: center;
+  height: 20px;
+  width: 100%;
+}
+.team-vals.matchup {
+  display: flex;
+  justify-content: space-evenly;
+  flex: 2;
+}
+.opp-logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin-left: 15px;
+  width: 20px;
+  padding-right: 10px;
+}
+
+.team-header {
+  text-align: center;
+}
+.team-info:last-child {
+  border-bottom: none;
+}
+
+.last-game {
+  height: 25vh;
+  width: calc(50% - 7px);
+  border-radius: 20px;
+  margin-bottom: 50px;
+}

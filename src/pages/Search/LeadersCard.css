@@ -1,0 +1,99 @@
+/* 🔹 Card Wrapper */
+.leaders-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: calc(50% - 7px);
+  height: 35vh;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-family: "Fira Sans Condensed", sans-serif;
+  margin-bottom: 10px;
+  position: relative;
+  overflow: hidden;
+}
+.leaders-title {
+  font-size: 1.3rem;
+  width: 100%;
+  display: flex;
+  text-align: left;
+  margin-left: 7%;
+  margin-top: 10px;
+  margin-bottom: 40px;
+}
+/* 🔹 Player Container */
+.player-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-end;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  margin-top: -20px;
+}
+
+/* 🔹 Individual Leader Card */
+.leader-card-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  flex: 1;
+  bottom: -2%;
+}
+
+/* 🔹 Leader Stats Section */
+.leader {
+  height: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+/* 🔹 Player Name & Stat Labels */
+.leader-label,
+.leader-player {
+  font-size: 1rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.57);
+
+}
+
+/* 🔹 Leader Stat Value */
+.leader-value {
+  font-size: 2.3rem;
+}
+
+/* 🔹 Headshot Container */
+.leader-headshot-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 🔹 Headshot Image */
+.leader-headshot {
+  position: absolute;
+  height: 110%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* 🔹 Overlapping Player Images */
+.player-1 {
+  width: 30%;
+  z-index: 3;
+}
+.player-2 {
+  width: 30%;
+  z-index: 2;
+}
+.player-3 {
+  width: 30%;
+  z-index: 1;
+}
