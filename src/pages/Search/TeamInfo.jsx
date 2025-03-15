@@ -7,7 +7,6 @@ import { teamColors } from "../../../public/teamColors";
 
 export default function TeamInfo({ team, teams, year }) {
   const selectedTeam = team[0];
-  console.log("Selected team: ", selectedTeam);
   const [games, setGames] = useState([]);
 
   useEffect(() => {
@@ -34,7 +33,7 @@ export default function TeamInfo({ team, teams, year }) {
   const sameConfTeams = teams
     .filter((t) => t.Year === year && t.Conf === selectedTeam.Conf)
     .sort((a, b) => b.W - a.W); // Sort by Wins (Descending)
-
+    console.log("Same conf teams: ", sameConfTeams);
   // Assign proper conference ranks
   sameConfTeams.forEach((t, i) => (t.confRank = i + 1));
 

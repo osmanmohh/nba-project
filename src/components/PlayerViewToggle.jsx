@@ -18,7 +18,7 @@ function PlayerViewToggle({ onViewChange, teamColor }) {
         }}
         onClick={() => handleViewChange("overview")}
       >
-        Overview
+        <span>Overview</span>Overview
       </button>
       <button
         className={`stats-btn ${view === "stats" ? "active" : ""}`}
@@ -28,8 +28,8 @@ function PlayerViewToggle({ onViewChange, teamColor }) {
         }}
         onClick={() => handleViewChange("stats")}
       >
-        Stats
-      </button>
+        <span>Stats</span>Stats
+        </button>
       <button
         className={`games-btn ${view === "games" ? "active" : ""}`}
         style={{
@@ -38,8 +38,8 @@ function PlayerViewToggle({ onViewChange, teamColor }) {
         }}
         onClick={() => handleViewChange("games")}
       >
-        Games
-      </button>
+        <span>Games</span>Games
+        </button>
     </div>
   );
 }

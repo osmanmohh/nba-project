@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import "./Search.css";
 import TeamInfo from "./TeamInfo";
 import teams from "/teams.json";
+import teamData from "/team_data.json";
 import { teamColors } from "../../../public/teamColors";
 import SearchBar from "./SearchBar";
 import PlayerProfile from "./PlayerProfile";
@@ -78,7 +79,7 @@ function Search() {
               setSelectedSeason={setSelectedSeason} // ✅ Allow updates
             />
           ) : view === "stats" ? (
-            <StatsTab playerSeasons={playerSeasons} />
+            <StatsTab playerSeasons={teamData.filter(team => team.Tm.toLowerCase() === selectedTeam.Tm)} />
           ) : (
             <GamesTab games={gameLogs} />
           )}
@@ -115,7 +116,7 @@ function Search() {
           {view === "overview" ? (
             <OverviewTab
               player={selectedPlayer}
-              teamColor={teamColor}
+              setSelectedSeason={setSelectedSeason} // ✅ Allow updates
               selectedSeason={selectedSeason} // ✅ Pass to OverviewTab
             />
           ) : view === "stats" ? (
