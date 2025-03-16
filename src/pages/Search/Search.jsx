@@ -28,7 +28,25 @@ function Search() {
 
   const [view, setView] = useState("overview");
   const [latestTeam, setLatestTeam] = useState(null);
-  const [selectedSeason, setSelectedSeason] = useState("2024"); // ✅ Lift season state
+  const [selectedSeason, setSelectedSeason] = useState("2024");
+  const [isFading, setIsFading] = useState(false);
+  const [isTabTransitioning, setIsTabTransitioning] = useState(false);
+
+  // Handle fade effect on search
+  const handleSearchWithFade = async (searchQuery) => {
+    setIsFading(true);
+    await new Promise((resolve) => setTimeout(resolve, 200));
+    handleSearch(searchQuery);
+    setIsFading(false);
+  };
+
+  // Handle tab transitions
+  const handleViewChange = async (newView) => {
+    setIsTabTransitioning(true);
+    await new Promise((resolve) => setTimeout(resolve, 200));
+    setView(newView);
+    setIsTabTransitioning(false);
+  };
 
   useEffect(() => {
     if (selectedTeam && !selectedPlayer) {
@@ -38,6 +56,7 @@ function Search() {
 
       if (filteredTeam.length > 0 && filteredTeam !== latestTeam) {
         setLatestTeam(filteredTeam);
+        setView("overview"); // Reset to overview when team changes
       }
     } else {
       setLatestTeam(null);
@@ -48,7 +67,7 @@ function Search() {
     return <div>Loading players and teams...</div>;
   }
 
-  // ✅ Handle Team Rendering
+  // Handle Team Rendering
   if (latestTeam && !selectedPlayer) {
     const teamColor = teamColors[latestTeam[0].Tm] || {
       primary: "#808080",
@@ -57,42 +76,49 @@ function Search() {
 
     return (
       <div className="search-page">
-        <div className="search-wrapper">
+        <div className={`search-wrapper ${isFading ? "fade" : ""}`}>
           <SearchBar
             query={query}
             setQuery={setQuery}
-            handleSearch={handleSearch}
+            handleSearch={handleSearchWithFade}
             teamColor={teamColor}
           />
           <div
             className="search-results-container"
             style={{ backgroundColor: teamColor.primary }}
           >
-            <PlayerViewToggle onViewChange={setView} teamColor={teamColor} />
+            <PlayerViewToggle
+              onViewChange={handleViewChange}
+              teamColor={teamColor}
+            />
             <TeamProfile team={latestTeam[0]} />
           </div>
 
-          {view === "overview" ? (
-            <OverviewTab
-              team={latestTeam}
-              selectedSeason={selectedSeason} // ✅ Pass season state
-              setSelectedSeason={setSelectedSeason} // ✅ Allow updates
-            />
-          ) : view === "stats" ? (
-            <StatsTab
-            teamSeasons={teamData.filter(
-                (team) => team.Tm.toLowerCase() === selectedTeam.Tm
-              )}
-            />
-          ) : (
-            <GamesTab games={gameLogs} />
-          )}
+          <div
+            className={`player-bio-section ${isTabTransitioning ? "tab-transition" : ""}`}
+          >
+            {view === "overview" ? (
+              <OverviewTab
+                team={latestTeam}
+                selectedSeason={selectedSeason}
+                setSelectedSeason={setSelectedSeason}
+              />
+            ) : view === "stats" ? (
+              <StatsTab
+                teamSeasons={teamData.filter(
+                  (team) => team.Tm.toLowerCase() === selectedTeam.Tm
+                )}
+              />
+            ) : (
+              <GamesTab games={gameLogs} />
+            )}
+          </div>
         </div>
       </div>
     );
   }
 
-  // ✅ Handle Player Rendering
+  // Handle Player Rendering
   if (selectedPlayer) {
     const teamColor = teamColors[selectedPlayer.Tm] || {
       primary: "#808080",
@@ -101,11 +127,11 @@ function Search() {
 
     return (
       <div className="search-page">
-        <div className="search-wrapper">
+        <div className={`search-wrapper ${isFading ? "fade" : ""}`}>
           <SearchBar
             query={query}
             setQuery={setQuery}
-            handleSearch={handleSearch}
+            handleSearch={handleSearchWithFade}
             teamColor={teamColor}
           />
 
@@ -113,21 +139,28 @@ function Search() {
             className="search-results-container"
             style={{ backgroundColor: teamColor.primary }}
           >
-            <PlayerViewToggle onViewChange={setView} teamColor={teamColor} />
+            <PlayerViewToggle
+              onViewChange={handleViewChange}
+              teamColor={teamColor}
+            />
             <PlayerProfile player={selectedPlayer} />
           </div>
 
-          {view === "overview" ? (
-            <OverviewTab
-              player={selectedPlayer}
-              setSelectedSeason={setSelectedSeason} // ✅ Allow updates
-              selectedSeason={selectedSeason} // ✅ Pass to OverviewTab
-            />
-          ) : view === "stats" ? (
-            <StatsTab playerSeasons={playerSeasons} />
-          ) : (
-            <GamesTab games={gameLogs} />
-          )}
+          <div
+            className={`player-bio-section ${isTabTransitioning ? "tab-transition" : ""}`}
+          >
+            {view === "overview" ? (
+              <OverviewTab
+                player={selectedPlayer}
+                setSelectedSeason={setSelectedSeason}
+                selectedSeason={selectedSeason}
+              />
+            ) : view === "stats" ? (
+              <StatsTab playerSeasons={playerSeasons} />
+            ) : (
+              <GamesTab games={gameLogs} />
+            )}
+          </div>
         </div>
       </div>
     );

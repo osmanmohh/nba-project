@@ -7,9 +7,10 @@ export default function StatsTable({
   title = null,
   defaultSort = { key: "", direction: "desc" },
 }) {
+  const maxRows = 30;
   const [sortConfig, setSortConfig] = useState(null);
   const [columns, setColumns] = useState([]);
-  const [visibleRows, setVisibleRows] = useState(30);
+  const [visibleRows, setVisibleRows] = useState(maxRows);
 
   useEffect(() => {
     if (jsonData.length > 0) {

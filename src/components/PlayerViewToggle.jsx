@@ -9,37 +9,51 @@ function PlayerViewToggle({ onViewChange, teamColor }) {
   };
 
   return (
-    <div className="btn-container">
-      <button
-        className={`overview-btn ${view === "overview" ? "active" : ""}`}
-        style={{
-          backgroundColor: view === "overview" ? "#ffffff" : teamColor.secondary,
-          color: view === "overview" ? "#000000" : "#ffffff",
-        }}
+    <div className="btn-container-wrapper">
+      <div
+        className="btn-container"
         onClick={() => handleViewChange("overview")}
       >
-        <span>Overview</span>Overview
-      </button>
-      <button
-        className={`stats-btn ${view === "stats" ? "active" : ""}`}
-        style={{
-          backgroundColor: view === "stats" ? "#ffffff" : teamColor.secondary,
-          color: view === "stats" ? "#000000" : "#ffffff",
-        }}
-        onClick={() => handleViewChange("stats")}
-      >
-        <span>Stats</span>Stats
-        </button>
-      <button
-        className={`games-btn ${view === "games" ? "active" : ""}`}
-        style={{
-          backgroundColor: view === "games" ? "#ffffff" : teamColor.secondary,
-          color: view === "games" ? "#000000" : "#ffffff",
-        }}
-        onClick={() => handleViewChange("games")}
-      >
-        <span>Games</span>Games
-        </button>
+        <div className="btn-text">Overview</div>
+        <div className="btn-wrapper">
+          <button
+            className={`overview-bn ${view === "overview" ? "active" : ""}`}
+            style={{
+              backgroundColor: view === "overview" ? "#ffffff" : "transparent",
+            }}
+          >
+            Overview
+          </button>
+        </div>
+      </div>
+
+      <div className="btn-container" onClick={() => handleViewChange("stats")}>
+        <div className="btn-text">Stats</div>
+        <div className="btn-wrapper">
+          <button
+            className={`stats-btn ${view === "stats" ? "active" : ""}`}
+            style={{
+              backgroundColor: view === "stats" ? "#ffffff" : "transparent",
+            }}
+          >
+            Stats
+          </button>
+        </div>
+      </div>
+
+      <div className="btn-container" onClick={() => handleViewChange("games")}>
+        <div className="btn-text">Games</div>
+        <div className="btn-wrapper">
+          <button
+            className={`games-btn ${view === "games" ? "active" : ""}`}
+            style={{
+              backgroundColor: view === "games" ? "#ffffff" : "transparent",
+            }}
+          >
+            Games
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

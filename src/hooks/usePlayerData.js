@@ -7,7 +7,9 @@ function usePlayerData() {
   const navigate = useNavigate();
 
   // Retrieve last searched team/player from localStorage
-  const lastSearchedPlayer = JSON.parse(localStorage.getItem("lastSearchedPlayer"));
+  const lastSearchedPlayer = JSON.parse(
+    localStorage.getItem("lastSearchedPlayer")
+  );
   const lastSearchedTeam = JSON.parse(localStorage.getItem("lastSearchedTeam"));
 
   const [query, setQuery] = useState(urlQuery || "");
@@ -20,18 +22,20 @@ function usePlayerData() {
   const [teamData, setTeamData] = useState([]);
 
   useEffect(() => {
-    let isMounted = true; // ✅ Prevents state updates on an unmounted component
+    let isMounted = true;
 
-    // Load Players
-    fetch("/all_players.json")
-      .then((response) => response.json())
-      .then((data) => {
-        if (!isMounted || !data || data.length === 0) return;
+    const loadData = async () => {
+      try {
+        // Load Players
+        const playerResponse = await fetch("/all_players.json");
+        const playerData = await playerResponse.json();
 
-        setAllData(data);
+        if (!isMounted || !playerData || playerData.length === 0) return;
+
+        setAllData(playerData);
 
         const latestPlayers = Object.values(
-          data.reduce((acc, player) => {
+          playerData.reduce((acc, player) => {
             if (!acc[player.Name] || player.Year > acc[player.Name].Year) {
               acc[player.Name] = player;
             }
@@ -41,32 +45,62 @@ function usePlayerData() {
 
         setPlayers(latestPlayers);
 
-        // Set last searched player if no query is provided
+        // Load Teams
+        const teamResponse = await fetch("/teams.json");
+        const teamData = await teamResponse.json();
+
+        if (!isMounted || !teamData || teamData.length === 0) return;
+        setTeams(teamData);
+        setTeamData(teamData);
+
+        // Handle URL query
         if (urlQuery) {
-          setEntityFromQuery(urlQuery, latestPlayers, data);
-        } else if (lastSearchedPlayer) {
-          setEntityFromQuery(lastSearchedPlayer.name, latestPlayers, data);
-        }
-      })
-      .catch((error) => console.error("Error loading player data:", error));
+          // Try to find player first
+          const player = latestPlayers.find(
+            (p) => p.Name.toLowerCase() === urlQuery.toLowerCase()
+          );
 
-    // Load Teams
-    fetch("/teams.json")
-      .then((response) => response.json())
-      .then((data) => {
-        if (!isMounted || !data || data.length === 0) return;
-        setTeams(data);
-        setTeamData(data);
+          if (player) {
+            setSelectedPlayer(player);
+            setPlayerSeasons(playerData.filter((p) => p.Name === player.Name));
+            return;
+          }
 
-        // Set last searched team if no query is provided
-        if (!urlQuery && lastSearchedTeam) {
-          setEntityFromQuery(lastSearchedTeam.name, players, allData);
+          // If no player found, try to find team
+          const teamSeasons = teamData.filter(
+            (t) => t.Team.toLowerCase() === urlQuery.toLowerCase()
+          );
+
+          if (teamSeasons.length > 0) {
+            const latestTeam =
+              teamSeasons.find((t) => t.Year === 2024) || teamSeasons[0];
+            setSelectedTeam(latestTeam);
+          }
+        } else {
+          // Handle last searched entities if no URL query
+          if (lastSearchedPlayer) {
+            setEntityFromQuery(
+              lastSearchedPlayer.name,
+              latestPlayers,
+              playerData
+            );
+          } else if (lastSearchedTeam) {
+            setEntityFromQuery(
+              lastSearchedTeam.name,
+              latestPlayers,
+              playerData
+            );
+          }
         }
-      })
-      .catch((error) => console.error("Error loading team data:", error));
+      } catch (error) {
+        console.error("Error loading data:", error);
+      }
+    };
+
+    loadData();
 
     return () => {
-      isMounted = false; // ✅ Cleanup to prevent state updates if unmounted
+      isMounted = false;
     };
   }, [urlQuery]);
 
@@ -87,19 +121,16 @@ function usePlayerData() {
       return;
     }
 
-    // Search for team and select most recent year
-    const teamSeasons = teams.filter((t) =>
-      t.Team.toLowerCase() === searchTerm.toLowerCase()
+    // Search for team
+    const teamSeasons = teamData.filter(
+      (t) => t.Team.toLowerCase() === searchTerm.toLowerCase()
     );
 
     if (teamSeasons.length > 0) {
-      const latestTeam = teamSeasons.find((t) => t.Year === 2024) || teamSeasons[0];
-
-      if (selectedTeam?.Team !== latestTeam.Team || selectedTeam?.Year !== latestTeam.Year) {
-        setSelectedTeam(latestTeam);
-        setSelectedPlayer(null);
-        console.log(`Showing ${latestTeam.Team} for ${latestTeam.Year}`);
-      }
+      const latestTeam =
+        teamSeasons.find((t) => t.Year === 2024) || teamSeasons[0];
+      setSelectedTeam(latestTeam);
+      setSelectedPlayer(null);
     }
   };
 
