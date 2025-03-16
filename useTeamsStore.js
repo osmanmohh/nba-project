@@ -5,13 +5,11 @@ export function useTeams(conference) {
   const [predictedRanks, setPredictedRanks] = useState({});
 
   useEffect(() => {
-    console.log("Conference Passed to useTeams:", conference);
 
     Promise.all([
       fetch("/teams.json")
         .then((res) => res.json())
         .then((data) => {
-          console.log("Raw Teams JSON Data:", data); // Debugging
 
           // Separate teams by conference
           let filteredTeams = data
@@ -29,14 +27,12 @@ export function useTeams(conference) {
             rank: index + 1, // Ensure ranks are 1-15
           }));
 
-          console.log("Parsed Teams:", parsedTeams); // Debugging
           return parsedTeams;
         }),
 
       fetch("/predicted_seeds_2025.json")
         .then((res) => res.json())
         .then((data) => {
-          console.log("Predicted Seeds JSON Data:", data); // Debugging
 
           // Ensure predicted ranks are assigned using lowercase tm (from predicted_seeds_2025.json)
           const predictedData = data.reduce((acc, row) => {

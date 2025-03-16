@@ -79,7 +79,11 @@ function Search() {
               setSelectedSeason={setSelectedSeason} // ✅ Allow updates
             />
           ) : view === "stats" ? (
-            <StatsTab playerSeasons={teamData.filter(team => team.Tm.toLowerCase() === selectedTeam.Tm)} />
+            <StatsTab
+            teamSeasons={teamData.filter(
+                (team) => team.Tm.toLowerCase() === selectedTeam.Tm
+              )}
+            />
           ) : (
             <GamesTab games={gameLogs} />
           )}

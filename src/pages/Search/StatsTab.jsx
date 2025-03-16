@@ -2,10 +2,15 @@ import PlayerStatsSection from "./PlayerStatsSection";
 import GamesTab from "./GamesTab";
 import "./StatsTab.css";
 
-export default function StatsTab({ playerSeasons }) {
+export default function StatsTab({ playerSeasons, teamSeasons }) {
   return (
     <div className="stats-tab">
-      <PlayerStatsSection playerSeasons={playerSeasons}  />
+      
+      {playerSeasons ? (
+        <PlayerStatsSection playerSeasons={playerSeasons} />
+      ) : teamSeasons ? (
+        <PlayerStatsSection teamSeasons={teamSeasons} />
+      ) : null}
     </div>
   );
 }
