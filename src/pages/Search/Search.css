@@ -1,5 +1,6 @@
 /* ✅ Ensure `search-page` handles scrolling */
 .search-page {
+  
   height: 100vh; /* Full viewport height */
   width: 100vw;
   overflow-y: auto; /* ✅ Enables scrolling */
@@ -80,7 +81,7 @@
 .btn-wrapper {
   width: 100%;
   text-align: center;
-  height: 20%;
+  height: 10px;
 }
 
 .btn-text {

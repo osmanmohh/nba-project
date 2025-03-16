@@ -1,8 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Home.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBasketball } from "@fortawesome/free-solid-svg-icons";
+
 function Home() {
+  const navigate = useNavigate();
+
   return (
     <div className="home-page-container">
       <div className="container home-page">
@@ -17,12 +20,15 @@ function Home() {
             Just search, explore, and analyze team standings, playoffs, and
             awards...
           </h2>
-            <Link to="/search" className="flat-button">GET STARTED</Link>
+          <button className="flat-button" onClick={() => navigate("/search")}>
+            GET STARTED
+          </button>
         </div>
         <FontAwesomeIcon
+          className="basketball-icon"
           icon={faBasketball}
           beat
-          style={{ height: "15rem", color: "#ffffff" }}
+          style={{ color: "#ffffff" }}
         />
       </div>
     </div>

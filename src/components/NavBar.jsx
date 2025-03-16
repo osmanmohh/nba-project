@@ -4,7 +4,7 @@ import {
   faHome,
   faSearch,
   faChartLine,
-  faClose,
+  faTimes, // Changed faClose to faTimes for better visibility
   faBars,
   faList,
   faTrophy,
@@ -17,59 +17,45 @@ const NavBar = () => {
 
   return (
     <div className="nav-bar">
+      {/* Navigation */}
       <nav className={showNav ? "mobile-show" : ""}>
         <a href="/" onClick={() => setShowNav(false)}>
-          <FontAwesomeIcon size="xs" className="link-icon" icon={faHome} />
+          <FontAwesomeIcon className="link-icon" icon={faHome} />
         </a>
-        <a
-          href="/search"
-          className="search-link"
-          onClick={() => setShowNav(false)}
-        >
-          <FontAwesomeIcon size="xs" className="link-icon" icon={faSearch} />
+        <a href="/search" className="search-link" onClick={() => setShowNav(false)}>
+          <FontAwesomeIcon className="link-icon" icon={faSearch} />
         </a>
-        <a
-          href="/standings"
-          className="standings-link"
-          onClick={() => setShowNav(false)}
-        >
-          <FontAwesomeIcon size="xs" className="link-icon" icon={faList} />
+        <a href="/standings" className="standings-link" onClick={() => setShowNav(false)}>
+          <FontAwesomeIcon className="link-icon" icon={faList} />
         </a>
-        <a
-          href="/playoffs"
-          className="playoffs-link"
-          onClick={() => setShowNav(false)}
-        >
-          <FontAwesomeIcon size="xs" className="link-icon" icon={faTrophy} />
+        <a href="/playoffs" className="playoffs-link" onClick={() => setShowNav(false)}>
+          <FontAwesomeIcon className="link-icon" icon={faTrophy} />
         </a>
-        <a
-          href="/awards"
-          className="awards-link"
-          onClick={() => setShowNav(false)}
-        >
-          <FontAwesomeIcon size="xs" className="link-icon" icon={faMedal} />
+        <a href="/awards" className="awards-link" onClick={() => setShowNav(false)}>
+          <FontAwesomeIcon className="link-icon" icon={faMedal} />
         </a>
-        <a
-          href="/stats"
-          className="stats-link"
-          onClick={() => setShowNav(false)}
-        >
-          <FontAwesomeIcon size="xs" className="link-icon" icon={faChartLine} />
+        <a href="/stats" className="stats-link" onClick={() => setShowNav(false)}>
+          <FontAwesomeIcon className="link-icon" icon={faChartLine} />
         </a>
 
-        <FontAwesomeIcon
-          icon={faClose}
-          size="xs"
-          className="close-icon"
-          onClick={() => setShowNav(false)}
-        />
+        {/* Close icon inside the nav */}
+        {showNav && (
+          <FontAwesomeIcon
+            icon={faTimes}
+            className="close-icon"
+            onClick={() => setShowNav(false)}
+          />
+        )}
       </nav>
-      <FontAwesomeIcon
-        icon={faBars}
-        size="xs"
-        className="hamburger-icon"
-        onClick={() => setShowNav(!showNav)}
-      />
+
+      {/* Hamburger icon - Show only when nav is closed */}
+      {!showNav && (
+        <FontAwesomeIcon
+          icon={faBars}
+          className="hamburger-icon"
+          onClick={() => setShowNav(true)}
+        />
+      )}
     </div>
   );
 };
