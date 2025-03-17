@@ -125,3 +125,18 @@
   display: flex;
   font-size: 0.8rem;
 }
+@media (max-width: 768px) {
+  .banner-text {
+    position: absolute;
+    bottom: -210px;
+    height: 150px;
+    width: 180px;
+    left: 50%;
+
+  }
+  .finals-title{
+    font-size: 1.1rem;
+  }
+
+  
+}
