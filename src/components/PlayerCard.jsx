@@ -36,7 +36,9 @@ function PlayerCard({ playerId, rank }) {
   };
 
   return (
-    <div className="player-card-container" onClick={handleClick}>
+    <div className="player-card-container" onClick={handleClick} style={{
+      "--team-color": teamColor.primary, // Pass team color as a CSS variable
+    }}>
       <div
         className="player-rank"
         style={{ backgroundColor: teamColor.secondary }}

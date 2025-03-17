@@ -10,11 +10,23 @@
   gap: 5px;
 }
 .all-nba-title {
-  background-color: #cb994e;
+  background-color: #ffa51d;
   text-align: center;
   font-family: "Fira Sans Condensed", sans-serif;
   width: 100%;
   color: #ffffff;
   font-size: 1.8rem;
   font-weight: 500;
+
+}
+@media (max-width: 768px) {
+  .all-nba-container {
+
+    width: 94%;
+  }
+  .all-nba-card-container {
+    width: 100%;
+
+    gap: 0px;
+  }
 }

@@ -40,6 +40,7 @@ function AllNBACard({ playerId, rank }) {
           <div className="team">
             {player.Pos} • {player.Team}
           </div>
+          <div className="team short">{player.Team.split(" ").pop()}</div>
         </div>
         <div className="all-nba-stats">
           <div className="all-nba-stat-item">
