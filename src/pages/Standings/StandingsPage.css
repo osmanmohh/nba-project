@@ -166,3 +166,30 @@
   color: #ffffff;
   transform: scale(1.1);
 }
+@media (max-width: 1150px) {
+  .standings-page-wrapper{
+    height: 100dvh;
+    padding-top: 80px;
+    padding-bottom: 50px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scrollbar-width: none;
+  }
+  .main-title  span{
+    font-size: clamp(1rem, 10vw, 5rem); /* Min 1rem, scales up to 5rem */
+    white-space: nowrap;
+    max-width: 100%;  }
+  .faded-line {
+    font-size: clamp(1rem, 5vw, 1.5rem); /* Min 1rem, scales up to 5rem */
+
+  }
+  .conference-toggle-wrapper {
+    top: 75px;
+    font-size: 10px;
+    right: 0px;
+    color: #ffffff; 
+    z-index: 1000;
+
+  }
+
+}

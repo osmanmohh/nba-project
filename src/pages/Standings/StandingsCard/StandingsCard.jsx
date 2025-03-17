@@ -4,7 +4,7 @@ import { teamColors } from "../../../../public/teamColors";
 function StandingsCard({ rank, team, predictedRank, isExpanded, onExpand }) {
   if (!team) return null; // Prevents errors if data is missing
 
-  const { Tm,  W, L, ORtg, DRtg, NRtg } = team;
+  const { Tm, W, L, ORtg, DRtg, NRtg } = team;
   const predictedWinLossPercentage = team["W/L%"] || 0; // Ensure it doesn't break if missing
 
   // Get team colors (default to gray if team is unknown)
@@ -15,7 +15,8 @@ function StandingsCard({ rank, team, predictedRank, isExpanded, onExpand }) {
 
   // Determine movement indicator based on predicted rank
   let movement = "";
-  if (predictedRank && predictedRank < rank) movement = "↑"; // Moving up
+  if (predictedRank && predictedRank < rank)
+    movement = "↑"; // Moving up
   else if (predictedRank && predictedRank > rank) movement = "↓"; // Moving down
 
   return (
@@ -26,7 +27,9 @@ function StandingsCard({ rank, team, predictedRank, isExpanded, onExpand }) {
       <div className="standings-rank">
         {rank}
         {predictedRank ? (
-          <span className={`predicted-rank ${movement === "↑" ? "up" : movement === "↓" ? "down" : ""}`}>
+          <span
+            className={`predicted-rank ${movement === "↑" ? "up" : movement === "↓" ? "down" : ""}`}
+          >
             ( {predictedRank} {movement})
           </span>
         ) : null}
@@ -38,12 +41,11 @@ function StandingsCard({ rank, team, predictedRank, isExpanded, onExpand }) {
         <div className="expanded-content">
           {isExpanded && (
             <div className="expanded-text">
-              <div>Win/Loss %: {(W / 82 * 100).toFixed(1)}%</div>
-              <div>Offensive Rating: {ORtg || "N/A"}</div>
-              <div>Defensive Rating: {DRtg || "N/A"}</div>
-              <div>Net Rating: {NRtg || "N/A"}</div>
-              {predictedRank && <div>Predicted 2025 rank: {predictedRank}</div>}
-              <div>True Shooting %: -</div>
+              {predictedRank && <div>Projected rank: {predictedRank}{movement}</div>}
+              <div>W/L%: {((W / 82) * 100).toFixed(1)}%</div>
+              <div>ORTG: {ORtg || "N/A"}</div>
+              <div>DRTG: {DRtg || "N/A"}</div>
+              <div>NTRG: {NRtg || "N/A"}</div>
             </div>
           )}
         </div>
@@ -57,7 +59,11 @@ function StandingsCard({ rank, team, predictedRank, isExpanded, onExpand }) {
         </div>
 
         {/* Wins/Losses disappear when expanded */}
-        {!isExpanded && <div className="team-record">{W}-{L}</div>}
+        {!isExpanded && (
+          <div className="team-record">
+            {W}-{L}
+          </div>
+        )}
       </div>
     </div>
   );

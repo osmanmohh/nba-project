@@ -176,3 +176,35 @@
   top: 0;
   left: 35%;
 }
+@media (max-width: 825px) {
+  .logo{
+    height: 60px;
+bottom: -33px;
+
+left: -25px;
+  }
+  .standings-rank{
+    font-size: .8rem;
+    width: 40%;
+  }
+  .predicted-rank{
+    font-size: 0.5rem;
+  }
+  .team-record{
+    font-size: .9rem;
+    padding-left: 40px;
+  }
+  .expanded-text{
+    font-size: 9px;
+  }
+  .standings-card-container.expanded .logo {
+    height: 4vh; /* Smaller logo in expanded mode */
+    top: 0;
+    left: -5px;
+  }
+  .abbr{
+    font-size: .8rem;
+    top: 5px;
+    left: 45px;
+  }
+}

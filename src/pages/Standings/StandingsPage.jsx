@@ -1,23 +1,27 @@
 import { useState, useEffect } from "react";
 import "./StandingsPage.css";
 import Standings from "./StandingComponent/Standings";
-import StatsTable from "../Search/StatsTable/StatsTable";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightLeft } from "@fortawesome/free-solid-svg-icons";
 
 export default function StandingsPage() {
   const [currentConference, setCurrentConference] = useState("W"); // Default to West
   const [teamData, setTeamData] = useState([]); // Store filtered teams
+  const [isFadingOut, setIsFadingOut] = useState(false); // Track animation state
 
   const toggleConference = () => {
-    setCurrentConference((prev) => (prev === "W" ? "E" : "W"));
+    setIsFadingOut(true); // Start fade-out animation
+
+    setTimeout(() => {
+      setCurrentConference((prev) => (prev === "W" ? "E" : "W"));
+      setIsFadingOut(false); // Apply fade-in animation after conference switch
+    }, 300); // Match CSS fade-out duration (0.3s)
   };
 
   useEffect(() => {
     fetch("/teams.json") // Fetch teams.json
       .then((res) => res.json())
       .then((data) => {
-        // Filter teams by conference (W = Western, E = Eastern)
         const filteredTeams = data.filter(
           (team) => team.Conf === currentConference && team.Year === 2023
         );
@@ -60,15 +64,11 @@ export default function StandingsPage() {
           </div>
         </div>
 
-        {/* Standings Component */}
-        <Standings conference={currentConference} />
+        {/* Standings Component with animation */}
+        <div className={`standings-container ${isFadingOut ? "fade-out" : "fade-in"}`}>
+          <Standings conference={currentConference} />
+        </div>
       </div>
-      {/* ✅ Pass Filtered Team Data to StatsTable */}
-      {/* <StatsTable
-        jsonData={teamData} // ✅ Pass teamData instead of currentConference
-        columnsToShow={[ "Tm", "W", "L", "ORtg", "DRtg", "NRtg", "W/L%"]}
-        title="TEAM ADVANCED STATS"
-      /> */}
     </div>
   );
 }
