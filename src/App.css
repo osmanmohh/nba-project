@@ -8,6 +8,10 @@ body {
   transition: background 0.3s ease-in-out;
 
 
-
 }
 
+@media (max-width: 1150px) {
+  body {
+    margin-top: 40px;
+  }
+}

@@ -2,7 +2,6 @@
   margin-top: 20px;
   border-radius: 20px;
   width: calc(50% - 7px);
-  max-width: calc(50% - 7px);
   gap: 20px;
   background-color: transparent;
   display: flex;
@@ -85,4 +84,11 @@
 .detail-value {
   font-size: 1rem;
   font-weight: 400;
+}
+@media (max-width: 1150px) {
+  .player-statistics{
+    width: 95%;
+  }
+  .latest-team-info-stats-container{
+    width: 100%;}
 }

@@ -7,6 +7,8 @@
   color: white;
   font-family: "Fira Sans Condensed", sans-serif;
   margin: 0;
+  text-align: left;
+  width: 100%;
 }
 .team-section {
   color: #ffffff;
@@ -228,4 +230,18 @@
   width: calc(50% - 7px);
   border-radius: 20px;
   margin-bottom: 50px;
+}
+@media (max-width: 1150px) {
+  .team-section{
+    width: 95%;
+  }
+  .team-section .ctn{
+
+    gap: 10px;
+  }
+  .team-title{
+    margin-top: 20px;
+    margin-left: 20px;
+  }
+  
 }

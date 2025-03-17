@@ -53,7 +53,6 @@ export default function TeamInfo({ team, teams, year }) {
 
   return (
     <div className="team-section">
-      {/* <h2 className="team-title">More {selectedTeam.Team.split(" ").pop()} Stats</h2> */}
       <div className="ctn">
         <div className="latest-team-info-stats-container">
           <div className="team-infos-container">

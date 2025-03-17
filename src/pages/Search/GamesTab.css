@@ -4,3 +4,14 @@
   top: -40px;
   z-index: 100;
 }
+@media (max-width: 1150px) {
+  .season-dropdown-container{
+    position: static;
+    margin-top: 15px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 10px;
+  }
+}

@@ -97,3 +97,10 @@
   width: 30%;
   z-index: 1;
 }
+@media (max-width: 1150px) {
+
+.leaders-card{
+  width: 100%;
+  margin: 0;
+}
+}
