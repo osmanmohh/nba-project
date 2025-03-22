@@ -1,4 +1,4 @@
-.stats-tab{
+.stats-tab {
   width: 100%;
 
   display: flex;
@@ -6,7 +6,7 @@
   flex-direction: column;
 }
 @media (max-width: 1150px) {
-.stats-tab{
-  width: 100%;
-}
+  .stats-tab {
+    width: 100%;
+  }
 }

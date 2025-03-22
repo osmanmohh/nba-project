@@ -16,6 +16,8 @@ export default function LeadersCard({ players, statCategory }) {
           backgroundColor: teamColors[topPlayers[0]?.Tm]?.primary || "#909090",
         }}
       >
+        <div className="leaders-title">{statCategory} Leaders</div>
+
         <div className="player-container">
           {topPlayers.map((player, index) => (
             <div

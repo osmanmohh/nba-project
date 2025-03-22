@@ -15,7 +15,17 @@ function PlayerStatsSection({ playerSeasons, teamSeasons }) {
     <>
       {playerSeasons ? (
         <div className="player-bio-section">
+          <div className="season-dropdown-container">
+            <Dropdown
+              options={statTypeOptions}
+              value={statType}
+              onChange={setStatType}
+            />
+          </div>
           <StatsTable jsonData={playerSeasons} title="Regular Season" />
+          <StatsTable jsonData={playerSeasons} title="Regular Season" />
+          <StatsTable jsonData={playerSeasons} title="Regular Season" />
+
         </div>
       ) : teamSeasons ? (
         <div className="player-bio-section">
@@ -56,6 +66,7 @@ function PlayerStatsSection({ playerSeasons, teamSeasons }) {
               "PF",
             ]}
           />
+          
         </div>
       ) : null}
     </>

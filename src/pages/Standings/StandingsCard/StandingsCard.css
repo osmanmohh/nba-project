@@ -51,7 +51,7 @@
 /* The rest of your CSS remains unchanged */
 .standings-card-container.expanded {
   height: 27vh; /* Expanded height */
-  margin-bottom: -17vh; /* Overlaps instead of pushing down */
+  margin-bottom: -18vh; /* Overlaps instead of pushing down */
   z-index: 999; /* Above subsequent cards */
 }
 

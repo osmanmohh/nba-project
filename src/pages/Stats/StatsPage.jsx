@@ -4,6 +4,7 @@ import playersData from "/all_players.json"; // ✅ Import player dataset
 import teamData from "/teams.json"; // ✅ Import team dataset
 import Dropdown from "../../components/Dropdown/Dropdown";
 import "./StatsPage.css";
+import LeadersCard from "../Search/LeadersCard";
 
 export default function StatsPage() {
   // ✅ State for stats type (Players or Teams)
@@ -82,16 +83,7 @@ export default function StatsPage() {
     <div className="stats-page-wrapper">
       <div className="stats-page-main">
         {/* ✅ Dropdown to Switch Between Player & Team Stats */}
-        <div className="stats-type-dropdown">
-          <Dropdown
-            options={[
-              { value: "Players", label: "Player Stats" },
-              { value: "Teams", label: "Team Stats" },
-            ]}
-            value={statsType}
-            onChange={setStatsType}
-          />
-        </div>
+       
 
         {/* ✅ Title Updates Dynamically */}
         <h1 className="page-title">
@@ -101,7 +93,7 @@ export default function StatsPage() {
         </h1>
 
         {/* ✅ Dropdowns Adjust Based on Selected Stats Type */}
-        <div className="dropdown-container">
+        <div className="dropdowns-container">
           <Dropdown
             options={seasonOptions}
             value={selectedSeason}
@@ -126,6 +118,16 @@ export default function StatsPage() {
               onChange={setSelectedDivision}
             />
           )}
+           <div className="stats-type-dropdown">
+          <Dropdown
+            options={[
+              { value: "Players", label: "Player Stats" },
+              { value: "Teams", label: "Team Stats" },
+            ]}
+            value={statsType}
+            onChange={setStatsType}
+          />
+        </div>
         </div>
 
         {/* ✅ Display Player Stats OR Team Stats Based on Selection */}
@@ -180,6 +182,24 @@ export default function StatsPage() {
             defaultSort={{ key: "W", direction: "desc" }}
           />
         )}
+        <div className="league-leaders-wrapper">
+          <h1 className="team-title">League Leaders</h1>
+        <div className="league-leaders">
+
+          <div className="league-row">
+            <LeadersCard players={filteredPlayerData} statCategory={"PTS"} />
+            <LeadersCard players={filteredPlayerData} statCategory={"AST"} />
+          </div>
+          <div className="league-row">
+            <LeadersCard players={filteredPlayerData} statCategory={"REB"} />
+            <LeadersCard players={filteredPlayerData} statCategory={"BLK"} />
+          </div>
+          <div className="league-row">
+            <LeadersCard players={filteredPlayerData} statCategory={"STL"} />
+            <LeadersCard players={filteredPlayerData} statCategory={"3P"} />
+          </div>
+        </div>
+        </div>
       </div>
     </div>
   );

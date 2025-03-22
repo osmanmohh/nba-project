@@ -29,13 +29,18 @@ function Search() {
   const [view, setView] = useState("overview");
   const [latestTeam, setLatestTeam] = useState(null);
   const [selectedSeason, setSelectedSeason] = useState("2024");
-  const [isFading, setIsFading] = useState(false);
+  const [isFading, setIsFading] = useState(true); // Start with fade effect
   const [isTabTransitioning, setIsTabTransitioning] = useState(false);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setIsFading(false), 500);
+    return () => clearTimeout(timeout);
+  }, []);
 
   // Handle fade effect on search
   const handleSearchWithFade = async (searchQuery) => {
     setIsFading(true);
-    await new Promise((resolve) => setTimeout(resolve, 200));
+    await new Promise((resolve) => setTimeout(resolve, 300));
     handleSearch(searchQuery);
     setIsFading(false);
   };
@@ -75,9 +80,10 @@ function Search() {
     };
 
     return (
-      <div className="search-page">
-        <div className={`search-wrapper ${isFading ? "fade" : ""}`}>
+<div className={`search-page ${isFading ? "fade" : ""}`}>
+<div className={`search-wrapper ${isFading ? "fade" : ""}`}>
           <SearchBar
+          
             query={query}
             setQuery={setQuery}
             handleSearch={handleSearchWithFade}
@@ -156,7 +162,7 @@ function Search() {
                 selectedSeason={selectedSeason}
               />
             ) : view === "stats" ? (
-              <StatsTab playerSeasons={playerSeasons} />
+              <StatsTab playerSeasons={playerSeasons}/>
             ) : (
               <GamesTab games={gameLogs} />
             )}

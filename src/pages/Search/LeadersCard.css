@@ -12,6 +12,7 @@
   margin-bottom: 10px;
   position: relative;
   overflow: hidden;
+  color: white;
 }
 .leaders-title {
   font-size: 1.3rem;
@@ -58,7 +59,6 @@
   font-size: 1rem;
   font-weight: 400;
   color: rgba(255, 255, 255, 0.57);
-
 }
 
 /* 🔹 Leader Stat Value */
@@ -98,9 +98,8 @@
   z-index: 1;
 }
 @media (max-width: 1150px) {
-
-.leaders-card{
-  width: 100%;
-  margin: 0;
-}
+  .leaders-card {
+    width: 100%;
+    margin: 0;
+  }
 }

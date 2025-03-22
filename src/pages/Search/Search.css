@@ -9,12 +9,20 @@
   align-items: center;
   flex-direction: column;
 }
+.search-page {
+  opacity: 1;
+  transition: opacity 1s ease-in-out; /* Slower fade-in for the whole page */
+}
+
+.search-page.fade {
+  opacity: 0;
+}
 
 /* ✅ `search-wrapper` stays within `search-page`, no extra scrollbars */
 .search-wrapper {
   min-height: 100dvh; /* Allows content to expand */
   margin-left: 70px;
-  width: 65dvw;
+  width: 70dvw;
   overflow: visible; /* ✅ No internal scrolling */
   display: flex;
   align-items: center;
@@ -204,6 +212,7 @@
   align-items: center;
   justify-content: flex-start;
   width: 100%;
+  min-width: 100%;
   opacity: 1;
   transition: opacity 0.3s ease;
 }
@@ -232,15 +241,13 @@
     height: 100dvh;
   }
   .search-results-container {
-
     width: 95%;
   }
   .player-profile {
-
-border-radius: 20px;
+    border-radius: 20px;
     margin: 0;
   }
-  
+
   .search-input {
     border-radius: 0;
     margin: 0;
@@ -248,11 +255,9 @@ border-radius: 20px;
 
   .player-headshot {
     left: -8%;
-    height:67%;
+    height: 67%;
   }
-  
-  
-  
+
   .team-logo-small {
     position: absolute;
     left: 5%;
@@ -260,7 +265,6 @@ border-radius: 20px;
     height: 25%;
   }
   .player-info {
-
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -268,20 +272,19 @@ border-radius: 20px;
     left: 52%;
     width: 45%;
   }
-  
+
   .team-position {
-    font-size: .8rem;
+    font-size: 0.8rem;
   }
-  
+
   .profile-name {
     font-size: 1.6rem;
   }
-  .btn-container-wrapper{
-    left:52% ;
+  .btn-container-wrapper {
+    left: 52%;
   }
-  .player-bio-section{
+  .player-bio-section {
     margin: 0;
     width: 97%;
   }
-
 }

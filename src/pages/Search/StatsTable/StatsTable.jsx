@@ -7,7 +7,7 @@ export default function StatsTable({
   title = null,
   defaultSort = { key: "", direction: "desc" },
 }) {
-  const maxRows = 30;
+  const maxRows = 15;
   const [sortConfig, setSortConfig] = useState(null);
   const [columns, setColumns] = useState([]);
   const [visibleRows, setVisibleRows] = useState(maxRows);
