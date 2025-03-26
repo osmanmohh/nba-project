@@ -1,0 +1,157 @@
+/* === GLOBAL PAGE LOAD ANIMATIONS === */
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === SCROLL-BASED REVEAL EFFECT === */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* === BASE PAGE STYLES === */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Prevent double scrollbars */
+}
+
+.awards-page-wrapper {
+  height: 100vh;
+  width: 100vw;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: fadeInScale 0.8s ease-in-out;
+}
+
+.awards-page {
+  flex-grow: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 50px;
+}
+
+/* === SECTION ANIMATIONS === */
+.section {
+  width: 80vw;
+  margin-top: 10px;
+  padding-bottom: 20px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+  border: 1px solid #ffa51d;
+  animation: fadeSlideIn 0.6s ease-in-out;
+}
+
+.section-title {
+  background-color: #ffa51d;
+  width: 100%;
+  color: rgb(0, 0, 0);
+  font-size: 1.3rem;
+  font-family: "Fira Sans Condensed", sans-serif;
+  font-weight: 500;
+  z-index: 200;
+  text-align: left;
+  animation: fadeSlideIn 0.6s ease-in-out;
+}
+
+.section-title p {
+  margin-left: 20px;
+}
+
+.awards-title-container {
+  height: 11rem;
+  font-family: "Fira Sans Condensed", sans-serif;
+  color: white;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  animation: fadeInScale 0.8s ease-in-out;
+}
+
+.awards-gold-boxed {
+  background-color: #ffa51d;
+  padding-left: 1.7rem;
+  padding-right: 1.7rem;
+  width: fit-content;
+  color: #14181a;
+  font-size: 1.8rem;
+  font-weight: 500;
+  animation: fadeSlideIn 0.6s ease-in-out;
+}
+
+.awards-main-title {
+  font-size: 3rem;
+  transform: scaleY(1.775);
+  font-weight: 600;
+}
+
+/* === SCROLL-BASED REVEAL ANIMATION === */
+.row-container {
+  display: flex;
+  justify-content: center;
+  gap: 5%;
+  width: 80vw;
+  
+}
+
+/* === RESPONSIVENESS === */
+@media (max-width: 768px) {
+  .awards-page-wrapper {
+
+    padding-bottom: 100px;
+  }
+  .section {
+    width: 95dvw;
+  }
+  .row-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 94%;
+  }
+  .awards-main-title {
+    font-size: 2rem;
+    transform: scaleY(2.2);
+    font-weight: 600;
+  }
+  .awards-title-container {
+    margin-top: 100px;
+    margin-bottom: 20px;
+  }
+}

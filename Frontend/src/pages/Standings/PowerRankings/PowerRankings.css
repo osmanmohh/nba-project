@@ -1,0 +1,8 @@
+.power-rankings{
+  position: absolute;
+  border: solid white;
+  height: 400px;
+  width:100px;
+  right: 0;
+  bottom: 0;
+}

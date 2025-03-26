@@ -1,0 +1,142 @@
+.playoff-card-container.finals {
+  width: 90%; /* Scales with screen size */
+  height: clamp(8rem, 4.75rem, 6rem); /* Prevents shrinking */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+  font-family: "Fira Sans Condensed", sans-serif;
+}
+
+.matchup-container-finals {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 5px;
+}
+.title-container-finals {
+  display: flex;
+  flex-direction: column;
+  font-size: 1rem;
+}
+.finals-result {
+  margin-top: -15px;
+  text-align: center;
+  width: 100%;
+  color: #348fff;
+}
+.team-container-finals {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 35%;
+}
+
+.team-logo.finals {
+  height: 40px;
+}
+.rank.finals {
+  color: gray;
+  margin-right: 3px;
+}
+.line {
+  position: absolute;
+  background-color: gray;
+  height: 20px;
+  width: 2px;
+  bottom: -20px;
+}
+.line.left {
+  left: calc(50% - 55px);
+}
+.line.middle {
+  left: 50%;
+}
+.line.right {
+  left: calc(50% + 55px);
+}
+
+.banner-container {
+  position: absolute;
+  bottom: -260px;
+
+  left: 50%;
+  transform: translateX(-50%);
+  height: 250px;
+}
+
+.banner-text {
+  position: absolute;
+  bottom: -210px;
+  width: 180px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.year {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.finals-logo {
+  width: 80px;
+  height: auto;
+}
+
+.finals-title {
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.finals-logo {
+  height: 70px;
+}
+.year {
+  font-size: 2rem;
+  font-weight: bold;
+}
+.finals-title {
+  font-size: 1.4rem;
+}
+.finals-score {
+  position: relative;
+  font-size: 1.5rem;
+}
+.triangle-finals {
+  position: absolute;
+  background-color: rgb(255, 255, 255);
+  width: 10px;
+  height: 10px;
+  left: -15px;
+
+  bottom: calc(50% - 5px);
+  transform: rotate(135deg);
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+.info-container {
+  display: flex;
+  font-size: 0.8rem;
+}
+@media (max-width: 768px) {
+  .banner-text {
+    position: absolute;
+    bottom: -210px;
+    height: 150px;
+    width: 180px;
+    left: 50%;
+
+  }
+  .finals-title{
+    font-size: 1.1rem;
+  }
+
+  
+}

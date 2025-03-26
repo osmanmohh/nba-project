@@ -1,0 +1,192 @@
+/* === PREVENT FONT RENDERING ISSUES === */
+
+/* === PAGE LOAD ANIMATION WITH OVERSHOOT === */
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  80% {
+    opacity: 0.9;
+    transform: scale(1.03);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+}
+
+/* === TITLE SLIDE-IN ANIMATION WITH BOUNCE === */
+@keyframes slideInTitle {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  80% {
+    opacity: 1;
+    transform: translateY(10px);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+}
+
+/* === LOGO BOUNCE ANIMATION WITH EXTRA IMPACT === */
+@keyframes bounceLogo {
+  0% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-15px);
+  }
+  60% {
+    transform: translateY(7px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* === CONFERENCE TITLES SLIDE-IN WITH SLIGHT OVERSHOOT === */
+@keyframes slideInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-50px);
+    -webkit-font-smoothing: antialiased;
+  }
+  80% {
+    opacity: 1;
+    transform: translateX(5px);
+    -webkit-font-smoothing: antialiased;
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+@keyframes slideInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(50px);
+    -webkit-font-smoothing: antialiased;
+  }
+  80% {
+    opacity: 1;
+    transform: translateX(-5px);
+    -webkit-font-smoothing: antialiased;
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* === BASE STYLING === */
+.playoff-page {
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  opacity: 0;
+  animation: fadeInScale 1s ease-in-out forwards;
+  overflow: hidden;
+  will-change: transform, opacity;
+}
+
+/* === PLAYOFF LOGO ANIMATION === */
+.playoff-logo {
+  position: absolute;
+  width: 30vw;
+  top: 5%;
+  right: calc(50% - 18vw);
+  animation: bounceLogo 1s ease-in-out forwards 1s;
+  -webkit-font-smoothing: antialiased;
+  backface-visibility: hidden;
+}
+
+/* === EAST & WEST TITLE ANIMATIONS === */
+.west-title,
+.east-title {
+  position: absolute;
+  color: white;
+  font-size: 1rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 600;
+  top: 15%;
+  opacity: 0;
+}
+
+.east-title {
+  right: 2%;
+  animation: slideInRight 1s ease-in-out forwards 1s;
+  -webkit-font-smoothing: antialiased;
+  backface-visibility: hidden;
+}
+
+.west-title {
+  left: 6%;
+  animation: slideInLeft 1s ease-in-out forwards 1s;
+  -webkit-font-smoothing: antialiased;
+  backface-visibility: hidden;
+}
+@media (max-width: 768px) {
+  html, body {
+    width: 100%;
+    overflow-x: auto; /* Allows free horizontal scrolling */
+    overflow-y: auto;
+    touch-action: pan-x pan-y; /* Enables smooth touch scrolling */
+    scroll-behavior: smooth !important; /* Enables smooth transitions */
+    -webkit-overflow-scrolling: touch !important; /* Improves touch-based scrolling */
+}
+.playoff-container {
+    width: 100vw;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch !important; /* Enables iOS-style smooth inertia scrolling */
+    scroll-behavior: smooth !important; /* Ensures smooth horizontal panning */
+    touch-action: pan-x !important; /* Prevents zooming interference */
+
+}
+  .playoff-page {
+    width: 1280px;
+    min-width: 1280px;
+    height: 100vh;
+    overflow-x: auto !important;
+    overflow-y: auto !important;
+    white-space: nowrap;
+  padding-left: 200px;
+  touch-action: pan-x !important; /* Forces horizontal scrolling */
+  -webkit-overflow-scrolling: touch !important; /* Enables momentum scrolling */
+}
+.playoff-logo{
+  width: 300px;
+  top: 60px;
+
+  left: calc(47.5%);
+}
+.east-title{
+  right: -130px;
+}
+.west-title{
+  left: 75px;
+}
+}
