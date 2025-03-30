@@ -25,7 +25,9 @@
 .reveal {
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  transition:
+    opacity 0.8s ease-out,
+    transform 0.8s ease-out;
 }
 
 .reveal.visible {
@@ -127,13 +129,11 @@ body {
   justify-content: center;
   gap: 5%;
   width: 80vw;
-  
 }
 
 /* === RESPONSIVENESS === */
 @media (max-width: 768px) {
   .awards-page-wrapper {
-
     padding-bottom: 100px;
   }
   .section {

@@ -4,7 +4,10 @@
   border: solid #ffa51d;
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  transition:
+    transform 0.3s ease-in-out,
+    filter 0.3s ease-in-out,
+    box-shadow 0.3s ease-in-out;
   z-index: 200;
 }
 
@@ -102,22 +105,21 @@
     height: 25vh;
     border: 1px solid #ffa51d;
   }
- 
+
   .all-nba-stat-label {
     font-size: 0.4rem;
     font-weight: 300;
-
   }
   .all-nba-stat-value {
     font-size: 0.5rem;
     font-weight: 300;
   }
-  .all-nba-stats{
+  .all-nba-stats {
     height: 40px;
     display: none;
   }
   .name-team {
-    height:10px;
+    height: 10px;
 
     display: flex;
     flex-direction: column;
@@ -127,15 +129,14 @@
   .name {
     font-size: 0.5rem;
   }
- 
-  .team{
+
+  .team {
     height: 0;
     display: none;
   }
-.all-nba-image{
-  height: 100%;
-  bottom: 0;
-  position: absolute;
-
-}
+  .all-nba-image {
+    height: 100%;
+    bottom: 0;
+    position: absolute;
+  }
 }

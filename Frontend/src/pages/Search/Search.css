@@ -11,7 +11,7 @@
 }
 .search-page {
   opacity: 1;
-  transition: opacity 1s ease-in-out; /* Slower fade-in for the whole page */
+  transition: opacity .3s ease-in-out; /* Slower fade-in for the whole page */
 }
 
 .search-page.fade {
@@ -28,11 +28,22 @@
   align-items: center;
   flex-direction: column;
   position: relative;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.search-wrapper.fade {
+  opacity: 0;
 }
 
 .search-wrapper > *:not(.search-bar-container) {
   opacity: 1;
   transition: opacity 0.2s ease-in-out;
+}
+.loading-spinner {
+  font-size: 1.5rem;
+  padding: 2rem;
+  text-align: center;
 }
 
 .search-wrapper.fade > *:not(.search-bar-container) {

@@ -56,5 +56,27 @@ router.get("/:id/games", async (req, res) => {
     res.status(500).json({ success: false, error: "Error fetching game logs" });
   }
 });
+// GET bbref_id by fuzzy player name
+router.get("/lookup/:name", async (req, res) => {
+  const { name } = req.params;
+
+  try {
+    const result = await pool.query(
+      `SELECT bbref_id, name, pos FROM player_bios WHERE LOWER(name) LIKE LOWER($1) LIMIT 1`,
+      [`%${name}%`]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "Player not found" });
+    }
+
+    res.json(result.rows[0]); // e.g., { bbref_id: 'curryst01', name: 'Stephen Curry' }
+  } catch (err) {
+    console.error("Lookup error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+
 
 module.exports = router;

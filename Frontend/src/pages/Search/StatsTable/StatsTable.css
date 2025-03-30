@@ -57,7 +57,9 @@
   z-index: 5;
   cursor: pointer;
   user-select: none;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
 }
 
 /* ✅ Hover Effect for Headers */
@@ -148,9 +150,9 @@
 
 .table-container::-webkit-scrollbar-thumb {
   background-color: #3c4043; /* ✅ Scrollbar thumb color */
-  border-radius:20px;
+  border-radius: 20px;
 }
 
 .table-container::-webkit-scrollbar-track {
-  background-color: #2D2D2D; /* ✅ Scrollbar track color */
+  background-color: #2d2d2d; /* ✅ Scrollbar track color */
 }

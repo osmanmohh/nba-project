@@ -34,6 +34,9 @@
   color: white;
   border: none;
 }
+.player-grid-container.summary {
+  height: 100%;
+}
 .player-grid-container h1 {
   font-size: 1.1rem;
   font-weight: 600;
@@ -86,9 +89,10 @@
   font-weight: 400;
 }
 @media (max-width: 1150px) {
-  .player-statistics{
+  .player-statistics {
     width: 95%;
   }
-  .latest-team-info-stats-container{
-    width: 100%;}
+  .latest-team-info-stats-container {
+    width: 100%;
+  }
 }

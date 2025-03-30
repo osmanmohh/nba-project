@@ -12,7 +12,6 @@
   margin-bottom: 10px;
   position: relative;
   overflow: hidden;
-
 }
 .teams-title {
   font-size: 1.3rem;
@@ -52,8 +51,6 @@
   justify-content: center;
   align-items: center;
   gap: 5px;
-
-
 }
 
 /* 🔹 Player Name & Stat Labels */
@@ -69,9 +66,8 @@
   font-size: 2.3rem;
 }
 @media (max-width: 1150px) {
-  .teams-card{
+  .teams-card {
     width: 100%;
     margin: 0;
   }
-
 }

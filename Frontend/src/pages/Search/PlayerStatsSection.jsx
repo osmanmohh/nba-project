@@ -3,13 +3,39 @@ import Dropdown from "../../components/Dropdown/Dropdown";
 import { useState } from "react";
 
 function PlayerStatsSection({ playerSeasons, teamSeasons }) {
-  const [statType, setStatType] = useState("per_game");
+  const [statType, setStatType] = useState("Per Game");
 
   const statTypeOptions = [
-    { value: "per_game", label: "Per Game" },
-    { value: "per_poss", label: "Per 100 Possessions" },
-    { value: "totals", label: "Totals" },
+    { value: "Per Game", label: "Per Game" },
+    { value: "Per Minute", label: "Per Minute" },
+    { value: "Totals", label: "Totals" },
   ];
+
+  const formatMinutes = (minutes) => {
+    if (!minutes || isNaN(minutes)) return "-";
+    const totalSeconds = Math.round(minutes * 60);
+    const mins = Math.floor(totalSeconds / 60);
+    const secs = totalSeconds % 60;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
+  };
+
+  const formattedPlayerSeasons = (type, seasonType) =>
+    playerSeasons
+      ?.filter(
+        (season) =>
+          season.Season_Type === seasonType && season.Stat_Type === type
+      )
+      .map((season) => ({
+        ...season,
+        MP: formatMinutes(season.MP),
+      }));
+
+  const formattedTeamSeasons = teamSeasons
+    ?.filter((season) => season.StatType === statType)
+    .map((season) => ({
+      ...season,
+      MP: formatMinutes(season.MP),
+    }));
 
   return (
     <>
@@ -22,10 +48,14 @@ function PlayerStatsSection({ playerSeasons, teamSeasons }) {
               onChange={setStatType}
             />
           </div>
-          <StatsTable jsonData={playerSeasons} title="Regular Season" />
-          <StatsTable jsonData={playerSeasons} title="Regular Season" />
-          <StatsTable jsonData={playerSeasons} title="Regular Season" />
-
+          <StatsTable
+            jsonData={formattedPlayerSeasons(statType, "Regular")}
+            title="Regular Season"
+          />
+          <StatsTable
+            jsonData={formattedPlayerSeasons(statType, "Playoffs")}
+            title="Playoffs"
+          />
         </div>
       ) : teamSeasons ? (
         <div className="player-bio-section">
@@ -37,9 +67,7 @@ function PlayerStatsSection({ playerSeasons, teamSeasons }) {
             />
           </div>
           <StatsTable
-            jsonData={teamSeasons.filter(
-              (season) => season.StatType === statType
-            )}
+            jsonData={formattedTeamSeasons}
             title={statTypeOptions.find((opt) => opt.value === statType)?.label}
             columnsToShow={[
               "Year",
@@ -66,7 +94,6 @@ function PlayerStatsSection({ playerSeasons, teamSeasons }) {
               "PF",
             ]}
           />
-          
         </div>
       ) : null}
     </>

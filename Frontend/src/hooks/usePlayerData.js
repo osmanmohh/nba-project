@@ -6,7 +6,6 @@ function usePlayerData() {
   const { query: urlQuery } = useParams();
   const navigate = useNavigate();
 
-  // Retrieve last searched team/player from localStorage
   const lastSearchedPlayer = JSON.parse(
     localStorage.getItem("lastSearchedPlayer")
   );
@@ -20,13 +19,13 @@ function usePlayerData() {
   const [playerSeasons, setPlayerSeasons] = useState([]);
   const [allData, setAllData] = useState([]);
   const [teamData, setTeamData] = useState([]);
+  const [newPlayer, setNewPlayer] = useState(null);
 
   useEffect(() => {
     let isMounted = true;
 
     const loadData = async () => {
       try {
-        // Load Players
         const playerResponse = await fetch("/all_players.json");
         const playerData = await playerResponse.json();
 
@@ -45,7 +44,6 @@ function usePlayerData() {
 
         setPlayers(latestPlayers);
 
-        // Load Teams
         const teamResponse = await fetch("/teams.json");
         const teamData = await teamResponse.json();
 
@@ -53,20 +51,18 @@ function usePlayerData() {
         setTeams(teamData);
         setTeamData(teamData);
 
-        // Handle URL query
         if (urlQuery) {
-          // Try to find player first
           const player = latestPlayers.find(
             (p) => p.Name.toLowerCase() === urlQuery.toLowerCase()
           );
 
           if (player) {
             setSelectedPlayer(player);
+            setNewPlayer(player);
             setPlayerSeasons(playerData.filter((p) => p.Name === player.Name));
             return;
           }
 
-          // If no player found, try to find team
           const teamSeasons = teamData.filter(
             (t) => t.Team.toLowerCase() === urlQuery.toLowerCase()
           );
@@ -77,7 +73,6 @@ function usePlayerData() {
             setSelectedTeam(latestTeam);
           }
         } else {
-          // Handle last searched entities if no URL query
           if (lastSearchedPlayer) {
             setEntityFromQuery(
               lastSearchedPlayer.name,
@@ -105,7 +100,6 @@ function usePlayerData() {
   }, [urlQuery]);
 
   const setEntityFromQuery = (searchTerm, latestPlayers, fullData) => {
-    // Search for player first
     const player = latestPlayers.find(
       (p) =>
         p.Name.toLowerCase() === searchTerm.toLowerCase() ||
@@ -116,12 +110,12 @@ function usePlayerData() {
       if (selectedPlayer?.Name !== player.Name) {
         setSelectedPlayer(player);
         setSelectedTeam(null);
+        setNewPlayer(player);
         setPlayerSeasons(fullData.filter((p) => p.Name === player.Name));
       }
       return;
     }
 
-    // Search for team
     const teamSeasons = teamData.filter(
       (t) => t.Team.toLowerCase() === searchTerm.toLowerCase()
     );
@@ -147,26 +141,19 @@ function usePlayerData() {
   const handleSearch = () => {
     if (!query.trim()) return;
 
-    // First, search for a player
     const playerResults = playerFuse.search(query);
     if (playerResults.length > 0) {
       const player = playerResults[0].item;
       setSelectedPlayer(player);
       setSelectedTeam(null);
+      setNewPlayer(player);
       setPlayerSeasons(allData.filter((p) => p.Name === player.Name));
       navigate(`/search/${encodeURIComponent(player.Name)}`);
 
-      localStorage.setItem(
-        "lastSearchedPlayer",
-        JSON.stringify({
-          name: player.Name,
-          url: `/search/${encodeURIComponent(player.Name)}`,
-        })
-      );
+      
       return;
     }
 
-    // If no player is found, search for a team
     const teamResults = teamFuse.search(query);
     if (teamResults.length > 0) {
       const team = teamResults[0].item;
@@ -174,13 +161,7 @@ function usePlayerData() {
       setSelectedPlayer(null);
       navigate(`/search/${encodeURIComponent(team.Team)}`);
 
-      localStorage.setItem(
-        "lastSearchedTeam",
-        JSON.stringify({
-          name: team.Team,
-          url: `/search/${encodeURIComponent(team.Team)}`,
-        })
-      );
+      
     }
   };
 
@@ -193,6 +174,9 @@ function usePlayerData() {
     teams,
     playerSeasons,
     handleSearch,
+    newPlayer,
+    setSelectedPlayer, // ✅ Add this!
+
   };
 }
 

@@ -63,34 +63,7 @@ export default function GamesTab({ games }) {
           <StatsTable
             key={month}
             jsonData={games}
-            columnsToShow={[
-              "Date",
-              "Age",
-              "Tm",
-              "Opponent",
-              "Result",
-              "Minutes",
-              "FG",
-              "FGA",
-              "FG%",
-              "3P",
-              "3PA",
-              "3P%",
-              "FT",
-              "FTA",
-              "FT%",
-              "ORB",
-              "DRB",
-              "TRB",
-              "AST",
-              "STL",
-              "BLK",
-              "TOV",
-              "PF",
-              "PTS",
-              "GmSc",
-              "PlusMinus",
-            ]}
+            
             title={month}
           />
         ))}

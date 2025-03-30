@@ -10,10 +10,10 @@ app.use(cors());
 app.use(express.json());
 
 // Load route files
-const teamsRoutes = require("./routes/teams");
+const teamRoutes = require("./routes/team");
 const playerRoutes = require("./routes/player");
 
-app.use("/api/teams", teamsRoutes);
+app.use("/api/team", teamRoutes);
 app.use("/api/player", playerRoutes);
 
 // Test DB connection

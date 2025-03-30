@@ -8,8 +8,17 @@ import TeamInfo from "./TeamInfo";
 import Dropdown from "../../components/Dropdown/Dropdown";
 import { teamColors } from "../../../public/teamColors";
 
-export default function OverviewTab({ player, team }) {
+export default function OverviewTab({ player, team, newPlayer, games, playerHeadshot, teams, allTeams, newRoster}) {
   // ✅ Extract all unique seasons from `allPlayers`, not just `team`
+
+
+
+
+  // console.log(allTeams.find(
+  //   (team) => team.Tm?.toLowerCase() === newPlayer.teamAbbr?.toLowerCase()
+  // ));
+
+
   const seasons = useMemo(() => {
     if (!team || team.length === 0) return [];
 
@@ -53,18 +62,25 @@ export default function OverviewTab({ player, team }) {
         // ✅ Player Overview (unchanged)
         <div className="overview-tab">
           <div className="ctn">
-            <PlayerStatistics player={player} />
-            <PlayerGamesSection player={player} />
+            <PlayerStatistics player={player} newPlayer={newPlayer} />
+            <PlayerGamesSection player={player} newPlayer={newPlayer} games={games} playerHeadshot={playerHeadshot}/>
           </div>
           <h2 className="team-title">
-            More {player["Team"].split(" ").pop()} Info
+            {/* More {player["Team"].split(" ").pop()} Info */}
           </h2>
 
           <div className="ctn">
             <TeamInfo
               team={players.filter((p) => p.Tm === player.Tm && p.Year === selectedSeason)}
               teams={teams}
+              newRoster={newRoster}
+              newPlayer={newPlayer}
               year={parseInt(selectedSeason)}
+              allTeams={allTeams}
+              newTeam={allTeams.find(
+                (team) => team.Tm?.toLowerCase() === newPlayer.teamAbbr?.toLowerCase()
+              )}
+              games={games}
             />
           </div>
         </div>
@@ -83,6 +99,7 @@ export default function OverviewTab({ player, team }) {
 
           <div className="ctn">
             <TeamInfo
+              newRoster={newRoster}
               team={players.filter((p) => p.Tm === team[0]?.Tm && p.Year.toString() === selectedSeason)}
               teams={teams}
               year={parseInt(selectedSeason)}

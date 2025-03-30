@@ -56,11 +56,10 @@
 .latest-result {
   margin-right: 5px;
 }
-.latest-result.W{
-color: rgb(53, 141, 53);
-
+.latest-result.W {
+  color: rgb(53, 141, 53);
 }
-.latest-result.L{
+.latest-result.L {
   color: rgb(141, 53, 53);
 }
 .latest-team-logo {
@@ -84,7 +83,7 @@ color: rgb(53, 141, 53);
   font-weight: 600;
   margin-left: 10px;
 }
-.games-container{
+.games-container {
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -97,15 +96,14 @@ color: rgb(53, 141, 53);
 .player-stats-grid.latest {
   grid-template-columns: repeat(9, 1fr);
 }
-.latest-game-stats-container.games{
+.latest-game-stats-container.games {
   display: flex;
   flex-direction: column;
   color: white;
   justify-content: center;
 
-  font-family: "Fira Sans Condensed", sans-serif;
   width: 100%;
-  height: 60vh;
+  height: calc(60vh + 10px);
   background-color: #202125;
   border-radius: 20px;
 }
@@ -128,54 +126,47 @@ color: rgb(53, 141, 53);
   justify-content: center;
   align-items: center;
   flex: 1;
-  
 }
 
 .game-header,
 .game-data {
   width: 100%;
   height: 50%;
-  
 }
 
-.game-header{
+.game-header {
   display: flex;
   align-items: center;
   color: #909396;
-
-
 }
-.game-data{
+.game-data {
   display: flex;
   align-items: center;
   color: white;
-
 }
-.game-detail.stats{
-flex: 2;
-width: 25%;
+.game-detail.stats {
+  flex: 2;
+  width: 25%;
 }
-.game-header.stats{
+.game-header.stats {
   display: flex;
   justify-content: space-evenly;
-
-  
 }
-.game-data.stats{
+.game-data.stats {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
 }
-.game-detail.stats span{
+.game-detail.stats span {
   width: 25%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  }
+}
 
-  @media (max-width: 1150px) {
-    .games-section{
-      width: 95%;
-    }
+@media (max-width: 1150px) {
+  .games-section {
+    width: 95%;
   }
+}

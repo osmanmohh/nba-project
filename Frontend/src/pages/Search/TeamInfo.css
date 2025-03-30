@@ -4,9 +4,10 @@
 }
 
 .team-title {
+  margin: 0;
+margin-top: 20px;
   color: white;
   font-family: "Fira Sans Condensed", sans-serif;
-  margin: 0;
   text-align: left;
   width: 100%;
 }
@@ -14,7 +15,7 @@
   color: #ffffff;
   font-family: "Fira Sans Condensed", sans-serif;
 
-  margin-top: 20px;
+  margin-top: 10px;
   border-radius: 20px;
   width: 100vw;
   gap: 20px;
@@ -232,16 +233,14 @@
   margin-bottom: 50px;
 }
 @media (max-width: 1150px) {
-  .team-section{
+  .team-section {
     width: 95%;
   }
-  .team-section .ctn{
-
+  .team-section .ctn {
     gap: 10px;
   }
-  .team-title{
+  .team-title {
     margin-top: 20px;
     margin-left: 20px;
   }
-  
 }
