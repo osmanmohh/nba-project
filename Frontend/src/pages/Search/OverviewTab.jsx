@@ -1,4 +1,5 @@
-import { useState, useMemo, useEffect } from "react";
+// OverviewTab.jsx
+import { useState, useEffect } from "react";
 import players from "/all_players.json";
 import teams from "/teams.json";
 import "./OverviewTab.css";
@@ -7,92 +8,109 @@ import PlayerGamesSection from "./PlayerGamesSection";
 import TeamInfo from "./TeamInfo";
 import Dropdown from "../../components/Dropdown/Dropdown";
 import { teamColors } from "../../../public/teamColors";
+import { getHeadshot } from "../../../public/getHeadshot";
 
-export default function OverviewTab({ player, team, newPlayer, games, playerHeadshot, teams, allTeams, newRoster}) {
-  // ✅ Extract all unique seasons from `allPlayers`, not just `team`
-
-
-
-
-  // console.log(allTeams.find(
-  //   (team) => team.Tm?.toLowerCase() === newPlayer.teamAbbr?.toLowerCase()
-  // ));
-
-
-  const seasons = useMemo(() => {
-    if (!team || team.length === 0) return [];
-
-    // Find all seasons for this team in allPlayers
-    const teamSeasons = [...new Set(players
-      .filter((p) => p.Tm === team[0]?.Tm)
-      .map((p) => p.Year))];
-
-    return teamSeasons
-      .sort((a, b) => b - a) // Sort descending (latest first)
-      .map((year) => ({
-        label: `${year - 1}-${year}`,
-        value: year.toString(),
-      }));
-  }, [team]);
-
-  // ✅ Default season is 2024
+export default function OverviewTab({
+  player,
+  team,
+  newPlayer,
+  games,
+  playerHeadshot,
+  teams,
+  allTeams,
+  newRoster,
+  teamStats,
+}) {
   const [selectedSeason, setSelectedSeason] = useState("2024");
   const [roster, setRoster] = useState([]);
+  const [headshots, setHeadshots] = useState({});
+
+  const seasons =
+    team && team.length > 0
+      ? [
+          ...new Set(
+            players.filter((p) => p.Tm === team[0]?.Tm).map((p) => p.Year)
+          ),
+        ]
+          .sort((a, b) => b - a)
+          .map((year) => ({
+            label: `${year - 1}-${year}`,
+            value: year.toString(),
+          }))
+      : [];
 
   useEffect(() => {
     if (team && team.length > 0) {
-      // ✅ First, clear the roster to prevent old players from lingering
-      setRoster([]);
-  
-      // ✅ Update roster with the new team's players
       const updatedRoster = players
         .filter((p) => p.Tm === team[0]?.Tm)
         .filter((p) => p.Year.toString() === selectedSeason);
-  
       setRoster(updatedRoster);
     } else {
-      setRoster([]); // ✅ Ensure the roster fully clears when no team is selected
+      setRoster([]);
     }
-  }, [team, selectedSeason]); // ✅ Runs when team or season changes
-  
+  }, [team, selectedSeason]);
+
+  useEffect(() => {
+    const fetchHeadshots = async () => {
+      const map = {};
+      const seenPlayers = new Set();
+      for (const player of newRoster) {
+        if (seenPlayers.has(player.playerID)) continue;
+        seenPlayers.add(player.playerID);
+        const image = await getHeadshot(player.Name);
+        map[player.playerID] = image;
+        console.log("player", player.Name, player.playerID, image);
+      }
+      setHeadshots(map);
+    };
+
+    if (newRoster.length > 0) fetchHeadshots();
+  }, [newRoster]);
 
   return (
     <div className="ctn">
       {player ? (
-        // ✅ Player Overview (unchanged)
         <div className="overview-tab">
           <div className="ctn">
             <PlayerStatistics player={player} newPlayer={newPlayer} />
-            <PlayerGamesSection player={player} newPlayer={newPlayer} games={games} playerHeadshot={playerHeadshot}/>
+            <PlayerGamesSection
+              player={player}
+              newPlayer={newPlayer}
+              games={games}
+              playerHeadshot={playerHeadshot}
+            />
           </div>
           <h2 className="team-title">
-            {/* More {player["Team"].split(" ").pop()} Info */}
+            More {newPlayer.team.split(" ").pop()} Info
           </h2>
 
           <div className="ctn">
             <TeamInfo
-              team={players.filter((p) => p.Tm === player.Tm && p.Year === selectedSeason)}
+              team={players.filter(
+                (p) => p.Tm === player.Tm && p.Year === selectedSeason
+              )}
               teams={teams}
               newRoster={newRoster}
               newPlayer={newPlayer}
               year={parseInt(selectedSeason)}
               allTeams={allTeams}
               newTeam={allTeams.find(
-                (team) => team.Tm?.toLowerCase() === newPlayer.teamAbbr?.toLowerCase()
+                (team) =>
+                  team.Tm?.toLowerCase() === newPlayer.teamAbbr?.toLowerCase()
               )}
               games={games}
+              teamStats={teamStats}
             />
           </div>
         </div>
       ) : team ? (
-        // ✅ Team Overview with Season Dropdown
         <div className="overview-tab">
           {seasons.length > 0 && (
             <div className="season-dropdown-container">
-              <Dropdown 
-                options={seasons} 
-                value={selectedSeason} 
-                onChange={(newValue) => setSelectedSeason(newValue)} 
+              <Dropdown
+                options={seasons}
+                value={selectedSeason}
+                onChange={(newValue) => setSelectedSeason(newValue)}
               />
             </div>
           )}
@@ -100,9 +118,13 @@ export default function OverviewTab({ player, team, newPlayer, games, playerHead
           <div className="ctn">
             <TeamInfo
               newRoster={newRoster}
-              team={players.filter((p) => p.Tm === team[0]?.Tm && p.Year.toString() === selectedSeason)}
+              team={team}
               teams={teams}
               year={parseInt(selectedSeason)}
+              newTeam={team}
+              allTeams={allTeams}
+              games={games}
+              teamStats={teamStats}
             />
           </div>
 
@@ -110,29 +132,49 @@ export default function OverviewTab({ player, team, newPlayer, games, playerHead
 
           <div className="ctn">
             <div className="roster">
-              {roster.map((player) => {
-                const playerImage = `/headshots/${player["Player_ID"]}.png`;
-                return (
-                  <div
-                    className="roster-card"
-                    key={player.Player_ID}
-                    style={
-                      player.Tm
-                        ? { backgroundColor: teamColors[player.Tm]?.primary }
-                        : {}
-                    }
-                  >
-                    <img
-                      src={playerImage}
-                      alt={player.Name}
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = "/headshots/blank.png";
-                      }}
-                    />
-                  </div>
-                );
-              })}
+              {(() => {
+                const seen = new Set();
+                return newRoster
+                  .filter((p) => {
+                    if (!p.playerID || seen.has(p.playerID)) return false;
+                    seen.add(p.playerID);
+                    return true;
+                  })
+                  .map((player) => {
+                    const playerImage =
+                      headshots[player.playerID] || "/headshots/blank.png";
+                    return (
+                      <div
+                        className="roster-card"
+                        key={player.playerID}
+                        style={
+                          player.Tm
+                            ? {
+                                backgroundColor:
+                                  teamColors[player.Tm.toLowerCase()]?.primary,
+                              }
+                            : {}
+                        }
+                      >
+                        <img
+                          src={
+                            playerImage || `/headshots/${player.playerID}.png`
+                          }
+                          alt={player.Name}
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = "/headshots/blank.png";
+                            console.log(
+                              "Image failed:",
+                              player.playerID,
+                              player.Name
+                            );
+                          }}
+                        />
+                      </div>
+                    );
+                  });
+              })()}
             </div>
           </div>
         </div>

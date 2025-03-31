@@ -94,10 +94,15 @@ router.get("/:team/stats", async (req, res) => {
       WHERE "Tm" = $1 AND "Year" = $2
       ORDER BY "PTS" DESC
     `;
-    const result = await pool.query(query, [team.toUpperCase(), parseInt(year)]);
+    const result = await pool.query(query, [
+      team.toUpperCase(),
+      parseInt(year),
+    ]);
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ message: "No players found for this team and year" });
+      return res
+        .status(404)
+        .json({ message: "No players found for this team and year" });
     }
 
     res.json(result.rows);
@@ -106,34 +111,33 @@ router.get("/:team/stats", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
 router.get("/:team/games", async (req, res) => {
   const { team } = req.params;
   const { year } = req.query;
 
-  if (!year) {
-    return res.status(400).json({ message: "Year query parameter is required" });
-  }
-
   try {
     const query = `
-      SELECT *
+      SELECT DISTINCT ON ("Date")
+        "Year", "Date", "Team", "Location", "Opponent", "Result"
       FROM player_game_logs
-      WHERE "Team" = $1 AND "Year" = $2
-      ORDER BY "Date" DESC
+      WHERE ("Team" = $1)
+      ${year ? `AND "Year" = $2` : ""}
+      ORDER BY "Date" DESC, "Minutes" DESC
     `;
-    const values = [team.toUpperCase(), parseInt(year)];
+
+    const values = year ? [team.toUpperCase(), parseInt(year)] : [team.toUpperCase()];
     const result = await pool.query(query, values);
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ message: "No games found for this team and year" });
+      return res.status(404).json({ message: "No games found for this team" });
     }
 
     res.json(result.rows);
   } catch (err) {
-    console.error("❌ Error fetching team game logs:", err);
+    console.error("❌ Error fetching team schedule:", err);
     res.status(500).json({ message: "Internal server error" });
   }
 });
-
 
 module.exports = router;

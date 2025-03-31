@@ -5,12 +5,11 @@ import LeadersCard from "./LeadersCard";
 import TeamRankingsCard from "./TeamRankingsCard";
 import { teamColors } from "../../../public/teamColors";
 
-export default function TeamInfo({ team = [], year, allTeams = [], games = [], newRoster = [], newTeam = {} }) {
-  const selectedTeam = team[0] || {};
+export default function TeamInfo({ year, allTeams = [], games = {}, newRoster = [], newTeam = {} }) {
+;
+ 
   const [newGames, setNewGames] = useState([]);
-  useEffect(() => {
-    console.log("team info newRoster", newRoster);
-  }, [newRoster]);
+  
 
  
 
@@ -53,13 +52,33 @@ export default function TeamInfo({ team = [], year, allTeams = [], games = [], n
     return Math.max(0.05, Math.min(prob, 0.95));
   };
 
-  useEffect(() => {
-    if (!newTeam?.Tm || !games.length) return;
-    const recentGames = games
-      .filter((game) => game.Team === newTeam.Tm)
-      .sort((a, b) => new Date(b.Date) - new Date(a.Date));
-    setNewGames(recentGames.slice(0, 5));
-  }, [games, newTeam, allTeams, year]);
+useEffect(() => {
+  if (!newTeam?.Tm || !games.length) return;
+
+  const seenDates = new Set();
+  const uniqueGames = [];
+
+  for (const game of games) {
+    const isTeamInvolved =
+      game.Team?.toUpperCase() === newTeam.Tm?.toUpperCase() ||
+      game.Opponent?.toUpperCase() === newTeam.Tm?.toUpperCase();
+
+    const gameDate = game.Date?.split("T")[0];
+
+    if (isTeamInvolved && !seenDates.has(gameDate)) {
+      seenDates.add(gameDate);
+      uniqueGames.push(game);
+    }
+  }
+
+  const sorted = uniqueGames.sort(
+    (a, b) => new Date(b.Date) - new Date(a.Date)
+  );
+
+  setNewGames(sorted.slice(0, 5));
+  console.log("🎯 Final games:", sorted.slice(0, 5));
+}, [games, newTeam]);
+
 
   const formatDate = (isoDate) =>
     isoDate ? new Date(isoDate).toLocaleDateString() : "";
@@ -180,7 +199,7 @@ export default function TeamInfo({ team = [], year, allTeams = [], games = [], n
                         <div className="opp-info-container">
                           <div className="opp-logo-container">
                             <img
-                              src={`/logos/${isHome ? game?.Opponent : selectedTeam?.Tm}.png`}
+                              src={`/logos/${isHome ? game?.Opponent : newTeam?.Tm}.png`}
                               className="latest-team-logo"
                               alt={game?.Opponent}
                             />
@@ -188,21 +207,21 @@ export default function TeamInfo({ team = [], year, allTeams = [], games = [], n
                           <div className="team-info-name">
                             {isHome
                               ? game?.Opponent?.toUpperCase()
-                              : selectedTeam?.Tm?.toUpperCase()}
+                              : newTeam?.Tm?.toUpperCase()}
                           </div>
                         </div>
                         <div>@</div>
                         <div className="opp-info-container">
                           <div className="opp-logo-container">
                             <img
-                              src={`/logos/${isHome ? selectedTeam?.Tm : game?.Opponent}.png`}
+                              src={`/logos/${isHome ? newTeam?.Tm : game?.Opponent}.png`}
                               className="latest-team-logo"
-                              alt={selectedTeam?.Team}
+                              alt={newTeam?.Team}
                             />
                           </div>
                           <div className="team-info-name">
                             {isHome
-                              ? selectedTeam?.Tm?.toUpperCase()
+                              ? newTeam?.Tm?.toUpperCase()
                               : game?.Opponent?.toUpperCase()}
                           </div>
                         </div>

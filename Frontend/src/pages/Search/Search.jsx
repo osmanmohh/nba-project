@@ -10,21 +10,18 @@ import { getHeadshot } from "../../../public/getHeadshot";
 import OverviewTab from "./OverviewTab";
 import StatsTab from "./StatsTab";
 import GamesTab from "./GamesTab";
-import teams from "/teams.json";
-import gameLogs from "/game_logs.json";
+
 
 function Search() {
   const {
     query,
     setQuery,
     selectedPlayer,
-    selectedTeam,
     setSelectedPlayer,
     handleSearch,
   } = usePlayerData();
 
   const [view, setView] = useState("overview");
-  const [latestTeam, setLatestTeam] = useState(null);
   const [selectedSeason, setSelectedSeason] = useState("2024");
   const [isTabTransitioning, setIsTabTransitioning] = useState(false);
   const [isFading, setIsFading] = useState(false);
@@ -33,7 +30,10 @@ function Search() {
   const [fetchedGames, setFetchedGames] = useState([]);
   const [allTeams, setAllTeams] = useState([]);
   const [newRoster, setNewRoster] = useState([]);
-  const [playerVersion, setPlayerVersion] = useState(0); // 💡 force refresh on same player
+  const [playerVersion, setPlayerVersion] = useState(0);
+  const [matchedTeam, setMatchedTeam] = useState(null);
+  const [teamGames, setTeamGames] = useState([]);
+  const [teamStats, setTeamStats] = useState(null);
 
   const [newPlayer, setNewPlayer] = useState(() => {
     try {
@@ -54,25 +54,15 @@ function Search() {
     };
   }
 
-  // Load all team data
   useEffect(() => {
     fetch("http://localhost:5001/api/team")
       .then((res) => res.json())
-      .then((data) => {
-        setAllTeams(data);
-        console.log("🏀 Loaded allTeams:", data.length);
-      })
-      .catch((err) => console.error("❌ Failed to fetch teams:", err));
+      .then((data) => setAllTeams(data))
+      .catch((err) => console.error("Failed to fetch teams:", err));
   }, []);
 
-  // 🔄 Main fetcher - triggered when player or version changes
   useEffect(() => {
-    if (!newPlayer?.bbref_id || allTeams.length === 0) {
-      console.log("⚠️ useEffect skipped (missing newPlayer or allTeams)");
-      return;
-    }
-
-    console.log("🔁 useEffect triggered for:", newPlayer.name, `(v${playerVersion})`);
+    if (!newPlayer?.bbref_id || allTeams.length === 0) return;
 
     const fetchAll = async () => {
       try {
@@ -85,8 +75,6 @@ function Search() {
         const games = await gamesRes.json();
         setFetchedStats(stats);
         setFetchedGames(games);
-        console.log("📊 Stats loaded:", stats.length);
-        console.log("📈 Games loaded:", games.length);
 
         const latestAbbr = games[0]?.Team?.toUpperCase();
         const abbrLower = latestAbbr?.toLowerCase();
@@ -106,7 +94,6 @@ function Search() {
         const headshot = await getHeadshot(newPlayer.name);
         if (headshot) {
           setNewPlayer((prev) => ({ ...prev, headshot }));
-          console.log("🧠 Headshot found for", newPlayer.name);
         }
 
         const rosterRes = await fetch(
@@ -118,7 +105,6 @@ function Search() {
             (p) => p?.Stat_Type === "Per Game" && p?.Season_Type === "Regular"
           )
         );
-        console.log("🧑‍🤝‍🧑 Roster loaded:", rosterData.length);
       } catch (err) {
         console.error("❌ Error in fetchAll:", err);
       } finally {
@@ -132,30 +118,68 @@ function Search() {
     fetchAll();
   }, [newPlayer?.bbref_id, allTeams, playerVersion]);
 
-  // 🔍 Handles full search + transition
   const handleSearchWithFade = async (searchQuery) => {
     console.log("🔍 Search Query:", searchQuery);
+
+    const team = allTeams.find(
+      (t) =>
+        t?.Team?.toLowerCase() === searchQuery.toLowerCase() ||
+        t?.Tm?.toLowerCase() === searchQuery.toLowerCase()
+    );
+
+    if (team) {
+      setIsFading(true);
+      setIsLoadingNewContent(true);
+      setMatchedTeam(team);
+      setSelectedPlayer(null);
+
+      try {
+        const res = await fetch(
+          `http://localhost:5001/api/team/${team.Tm}/games`
+        );
+        const data = await res.json();
+        setTeamGames(data);
+
+        const statsRes = await fetch(
+          `http://localhost:5001/api/team/${team.Tm.toUpperCase()}`
+        );
+        const statsData = await statsRes.json();
+        setTeamStats(statsData);
+
+        const rosterRes = await fetch(
+          `http://localhost:5001/api/team/${team.Tm}/stats?year=${selectedSeason}`
+        );
+        const rosterData = await rosterRes.json();
+        setNewRoster(
+          rosterData.filter(
+            (p) => p?.Stat_Type === "Per Game" && p?.Season_Type === "Regular"
+          )
+        );
+      } catch (err) {
+        console.error("❌ Failed to fetch team schedule or roster:", err);
+      } finally {
+        setTimeout(() => {
+          setIsFading(false);
+          setIsLoadingNewContent(false);
+        }, 300);
+      }
+
+      return;
+    }
+
     setIsFading(true);
     setIsLoadingNewContent(true);
     await new Promise((res) => setTimeout(res, 300));
-
     await handleSearch(searchQuery);
 
     try {
       const playerRes = await fetch(
         `http://localhost:5001/api/player/lookup/${encodeURIComponent(searchQuery)}`
       );
-      let playerData = null;
 
       if (playerRes.ok) {
-        playerData = await playerRes.json();
-        console.log("✅ Player found:", playerData.name);
-      } else {
-        console.warn("❌ Player not found from API");
-      }
+        const playerData = await playerRes.json();
 
-      if (playerData?.name) {
-        console.log("🎯 Setting playerState to:", playerData);
         setFetchedStats([]);
         setFetchedGames([]);
         setNewRoster([]);
@@ -164,31 +188,24 @@ function Search() {
           name: playerData.name,
           bbref_id: playerData.bbref_id,
           teamAbbr: playerData.teamAbbr || "unknown",
+          pos: playerData.pos || "Unknown",
           team: playerData.team || "Unknown",
-          logo: `https://a.espncdn.com/i/teamlogos/nba/500/${(playerData.teamAbbr || "unknown").toLowerCase()}.png`,
+          logo: `https://a.espncdn.com/i/teamlogos/nba/500/${
+            (playerData.teamAbbr || "unknown").toLowerCase()
+          }.png`,
         });
-        setPlayerVersion((v) => v + 1); // 💥 Force refresh
-        setLatestTeam(null);
+        setPlayerVersion((v) => v + 1);
+        setMatchedTeam(null);
       } else {
-        const team = allTeams.find(
-          (t) =>
-            t?.Team?.toLowerCase() === searchQuery.toLowerCase() ||
-            t?.Tm?.toLowerCase() === searchQuery.toLowerCase()
-        );
-
-        if (team) {
-          setLatestTeam(team);
-          console.log("✅ Team match found:", team);
-        } else {
-          console.warn("❌ No player or team found");
-          setNewPlayer(null);
-          setLatestTeam(null);
-        }
+        setNewPlayer(null);
+        setSelectedPlayer(null);
+        setMatchedTeam(null);
       }
     } catch (err) {
       console.error("❌ Search handler failed:", err);
       setNewPlayer(null);
-      setLatestTeam(null);
+      setSelectedPlayer(null);
+      setMatchedTeam(null);
     }
   };
 
@@ -199,23 +216,22 @@ function Search() {
     setIsTabTransitioning(false);
   };
 
-  const isDataReady =
+  const isPlayerDataReady =
     newPlayer &&
     fetchedStats.length &&
     fetchedGames.length &&
-    allTeams.length &&
     newRoster.length;
 
+  const isTeamDataReady = matchedTeam && teamGames.length && newRoster.length;
+
+  const isDataReady = allTeams.length && (isPlayerDataReady || isTeamDataReady);
+
   if (!isDataReady || isLoadingNewContent) {
-    return (
-      <div className="search-page fade">
-        <div className="loading-spinner">⏳ Loading...</div>
-      </div>
-    );
+    return <div className="search-page fade"></div>;
   }
 
   const teamColor = teamColors?.[
-    (selectedPlayer ? newPlayer?.teamAbbr : latestTeam?.[0]?.Tm)?.toLowerCase()
+    (selectedPlayer ? newPlayer?.teamAbbr : matchedTeam?.Tm)?.toLowerCase()
   ] || {
     primary: "#808080",
     secondary: "#606060",
@@ -239,11 +255,15 @@ function Search() {
             onViewChange={handleViewChange}
             teamColor={teamColor}
           />
-          <PlayerProfile
-            player={selectedPlayer}
-            newPlayer={newPlayer}
-            teams={allTeams}
-          />
+          {matchedTeam && !selectedPlayer ? (
+            <TeamProfile team={matchedTeam} />
+          ) : (
+            <PlayerProfile
+              player={selectedPlayer}
+              newPlayer={newPlayer}
+              teams={allTeams}
+            />
+          )}
         </div>
 
         <div className={`player-bio-section ${isTabTransitioning ? "tab-transition" : ""}`}>
@@ -251,29 +271,31 @@ function Search() {
             <OverviewTab
               player={selectedPlayer}
               newPlayer={newPlayer}
-              stats={fetchedStats}
-              games={fetchedGames}
+              stats={selectedPlayer ? fetchedStats : teamStats}
+              games={selectedPlayer ? fetchedGames : teamGames}
+              teamStats={teamStats}
               setSelectedSeason={setSelectedSeason}
               selectedSeason={selectedSeason}
-              teams={teams}
+              teams={allTeams}
               allTeams={allTeams}
               newRoster={newRoster}
-              team={latestTeam}
+              team={matchedTeam}
             />
           ) : view === "stats" ? (
             <StatsTab
               playerSeasons={
                 selectedPlayer
                   ? fetchedStats
-                  : allTeams.filter(
-                      (team) =>
-                        team?.Tm?.toLowerCase() === selectedTeam?.Tm?.toLowerCase() &&
-                        team?.Year === parseInt(selectedSeason)
-                    )
+                  : null
+              }
+              teamSeasons={
+                matchedTeam
+                  ? teamStats
+                  : null
               }
             />
           ) : (
-            <GamesTab games={selectedPlayer ? fetchedGames : gameLogs} />
+            <GamesTab games={selectedPlayer ? fetchedGames : teamGames} />
           )}
         </div>
       </div>
