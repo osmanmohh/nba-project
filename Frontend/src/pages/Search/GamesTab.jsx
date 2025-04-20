@@ -3,8 +3,13 @@ import "./GamesTab.css";
 import StatsTable from "./StatsTable/StatsTable";
 import Dropdown from "../../components/Dropdown/Dropdown";
 
-export default function GamesTab({ games }) {
-  const [selectedSeason, setSelectedSeason] = useState("2025"); // Default season
+export default function GamesTab({
+  games,
+  selectedSeason,
+  setSelectedSeason,
+  isActive,
+}) {
+  if (!isActive) return null;
 
   // Extract available seasons dynamically
   const seasons = useMemo(() => {
@@ -36,7 +41,11 @@ export default function GamesTab({ games }) {
       if (!acc[month]) acc[month] = [];
       acc[month].push({
         ...game,
-        Date: gameDate.toLocaleDateString("en-US", { weekday: "short", month: "numeric", day: "numeric" })
+        Date: gameDate.toLocaleDateString("en-US", {
+          weekday: "short",
+          month: "numeric",
+          day: "numeric",
+        }),
       });
 
       // Sort games in the month by most recent first
@@ -47,8 +56,8 @@ export default function GamesTab({ games }) {
   }, [filteredGames]);
 
   return (
-    <div className="player-bio-section">
-      {/* ✅ Season Dropdown */}
+    <div className="player-bio-section games">
+      {/*  Season Dropdown */}
       <div className="season-dropdown-container">
         <Dropdown
           options={seasons}
@@ -63,10 +72,29 @@ export default function GamesTab({ games }) {
           <StatsTable
             key={month}
             jsonData={games}
-            
             title={month}
+            columnsToShow={[]}
           />
         ))}
     </div>
   );
 }
+//[
+//  "Date",
+//  "Team",
+//  "Location",
+//  "Opponent",
+//  "Result",
+//  "Minutes",
+//  "Points",
+//  "Rebounds",
+//  "Assists",
+//  "FGM",
+//  "FGA",
+//  "FG%",
+//  "3PM",
+//  "3PA",
+//  "3P%",
+//  "FTM",
+//  "FTA",
+//  "FT%",

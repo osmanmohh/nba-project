@@ -3,8 +3,8 @@ import Papa from "papaparse";
 import AllNBACard from "./AllNBACard";
 import "./AllNBATeam.css";
 
-const allNBACsvFilePath = "/all_nba_predictions_2025.csv";
-const allDefenseCsvFilePath = "/all_defense_predictions_2025.csv";
+const allNBACsvFilePath = "/all_nba_predictions.csv";
+const allDefenseCsvFilePath = "/all_defense_predictions.csv";
 
 function AllNBATeam({ teamType, isDefense }) {
   const [teamData, setTeamData] = useState([]);
@@ -19,12 +19,13 @@ function AllNBATeam({ teamType, isDefense }) {
         return response.text();
       })
       .then((csvText) => {
+
         Papa.parse(csvText, {
           header: true,
           skipEmptyLines: true,
           dynamicTyping: true,
           complete: (result) => {
-            console.log("Parsed CSV Data:", result.data); // Debugging log
+
             setTeamData(result.data);
           },
         });
@@ -33,7 +34,7 @@ function AllNBATeam({ teamType, isDefense }) {
   }, [isDefense]);
 
   // Convert numeric teamType (1, 2, 3) to matching string ("1T", "2T", "3T")
-  const selectionType = `${teamType}T`;
+  const selectionType = teamType;
 
   // Filter players based on teamType
   const filteredPlayers = teamData.filter(
@@ -50,10 +51,9 @@ function AllNBATeam({ teamType, isDefense }) {
         {filteredPlayers.length > 0 ? (
           filteredPlayers.map((row, index) => (
             <AllNBACard
-              key={row.Player_ID || index} // Use Player_ID or fallback index
-              playerId={row.Player_ID} // Pass Player ID
-              team={row.Tm} // Pass team abbreviation
-              position={row.Pos} // Pass player position
+              key={row.playerID || index} // Use Player_ID or fallback index
+              playerId={row.playerID} // Pass Player ID
+              tm={row.Tm}
               selection={row.Selection} // Pass selection (1T, 2T, 3T)
             />
           ))

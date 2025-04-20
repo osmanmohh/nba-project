@@ -3,13 +3,20 @@ import Dropdown from "../../components/Dropdown/Dropdown";
 import { useEffect, useState } from "react";
 import "./StatsTab.css";
 
-export default function StatsTab({ playerSeasons, teamSeasons }) {
+export default function StatsTab({ playerSeasons, teamSeasons, isActive }) {
   const isTeam = !!teamSeasons;
   const [statType, setStatType] = useState(isTeam ? "per_game" : "Per Game");
 
   useEffect(() => {
-    console.log("StatsTab teamSeasons", teamSeasons);
-  }, [teamSeasons]);
+    // Reset stat type when team changes
+    if (isTeam) {
+      setStatType("per_game");
+    } else {
+      setStatType("Per Game");
+    }
+  }, [teamSeasons, playerSeasons, isTeam]);
+
+  if (!isActive) return null;
 
   const playerStatTypeOptions = [
     { value: "Per Game", label: "Per Game" },
@@ -80,7 +87,9 @@ export default function StatsTab({ playerSeasons, teamSeasons }) {
           </div>
           <StatsTable
             jsonData={formattedTeamSeasons}
-            title={teamStatTypeOptions.find((opt) => opt.value === statType)?.label}
+            title={
+              teamStatTypeOptions.find((opt) => opt.value === statType)?.label
+            }
             columnsToShow={[
               "Year",
               "Tm",

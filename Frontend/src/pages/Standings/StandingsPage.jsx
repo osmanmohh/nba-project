@@ -41,18 +41,7 @@ export default function StandingsPage() {
                 ? "WESTERN CONFERENCE"
                 : "EASTERN CONFERENCE"}
             </span>
-            <div
-              className="conference-toggle-wrapper"
-              style={{ color: "#878889", cursor: "pointer" }}
-              onClick={toggleConference}
-            >
-              <FontAwesomeIcon
-                className="conference-toggle"
-                icon={faRightLeft}
-                flip
-                size="2xl"
-              />
-            </div>
+           
           </div>
           <div className="faded-line">
             THROUGH{" "}
@@ -68,7 +57,20 @@ export default function StandingsPage() {
         <div className={`standings-container ${isFadingOut ? "fade-out" : "fade-in"}`}>
           <Standings conference={currentConference} />
         </div>
+         
       </div>
+      <div
+              className="conference-toggle-wrapper"
+              style={{ color: "#878889", cursor: "pointer" }}
+              onClick={toggleConference}
+            >
+              <FontAwesomeIcon
+                className="conference-toggle"
+                icon={faRightLeft}
+                flip
+                size="2xl"
+              />
+            </div>
     </div>
   );
 }

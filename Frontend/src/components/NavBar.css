@@ -128,6 +128,9 @@
     justify-content: space-between;
     flex-direction: row;
   }
+  .nav-bar.standings, .nav-bar.playoffs{
+    background-color: transparent;
+  }
 
   .nav-bar .logo img {
     width: 50px;

@@ -2,26 +2,16 @@ import { useEffect, useState } from "react";
 import "./PlayerStatistics.css";
 import { teamColors } from "../../../public/teamColors";
 
-export default function PlayerStatistics({ newPlayer }) {
-  const [bio, setBio] = useState(null);
+export default function PlayerStatistics({ newPlayer, stats, bio }) {
   const [perGameStats, setPerGameStats] = useState(null);
   const [playoffStats, setPlayoffStats] = useState(null);
 
+  const statsData = stats;
   useEffect(() => {
-    if (!newPlayer?.bbref_id) return;
+    if (!newPlayer?.bbref_id || perGameStats) return;
 
     const fetchPlayerData = async () => {
       try {
-        const [bioRes, statsRes] = await Promise.all([
-          fetch(`/api/player/${newPlayer.bbref_id}`),
-          fetch(`/api/player/${newPlayer.bbref_id}/stats`)
-        ]);
-
-        const bioData = await bioRes.json();
-        const statsData = await statsRes.json();
-
-        setBio(bioData);
-
         const calculateWeightedStats = (stats, seasonType) => {
           const gamesPlayedStats = stats.filter(
             (s) => s.Stat_Type === "Per Game" && s.Season_Type === seasonType
@@ -155,12 +145,37 @@ export default function PlayerStatistics({ newPlayer }) {
     },
   ];
 
-  const statKeys = ["PTS", "REB", "AST", "STL", "BLK", "MP", "FG%", "3P%", "FT%", "TOV"];
-  const statLabels = ["PPG", "RPG", "APG", "SPG", "BPG", "MPG", "FG%", "3P%", "FT%", "TOV"];
+  const statKeys = [
+    "PTS",
+    "REB",
+    "AST",
+    "STL",
+    "BLK",
+    "MP",
+    "FG%",
+    "3P%",
+    "FT%",
+    "TOV",
+  ];
+  const statLabels = [
+    "PPG",
+    "RPG",
+    "APG",
+    "SPG",
+    "BPG",
+    "MPG",
+    "FG%",
+    "3P%",
+    "FT%",
+    "TOV",
+  ];
 
   return (
     <div className="player-statistics">
-      <div className="player-grid-container" style={{ backgroundColor: teamColor.primary }}>
+      <div
+        className="player-grid-container"
+        style={{ backgroundColor: teamColor.primary }}
+      >
         <div className="player-details-grid bio">
           {bioDetails.map((item) => (
             <Detail key={item.label} label={item.label} value={item.value} />
@@ -168,7 +183,10 @@ export default function PlayerStatistics({ newPlayer }) {
         </div>
       </div>
 
-      <div className="player-grid-container" style={{ backgroundColor: teamColor.primary }}>
+      <div
+        className="player-grid-container"
+        style={{ backgroundColor: teamColor.primary }}
+      >
         <h1>Career Regular Season</h1>
         <div className="player-stats-grid">
           {statKeys.map((key, i) => (
@@ -182,7 +200,11 @@ export default function PlayerStatistics({ newPlayer }) {
           <h1>Career Playoffs</h1>
           <div className="player-stats-grid">
             {statKeys.map((key, i) => (
-              <Detail key={key} label={statLabels[i]} value={playoffStats[key]} />
+              <Detail
+                key={key}
+                label={statLabels[i]}
+                value={playoffStats[key]}
+              />
             ))}
           </div>
         </div>
@@ -192,9 +214,22 @@ export default function PlayerStatistics({ newPlayer }) {
         <h1>Summary</h1>
         <p className="player-summary">
           {bio.name} is a {bio.pos?.toLowerCase() || "player"} who was drafted
-          {bio.draft ? ` in ${bio.draft.split(" ")[0]} (${bio.draft})` : " as an undrafted free agent"}.
-          {bio.college && bio.college !== "-" ? ` He attended ${bio.college}.` : ""} He stands at {bio.height} and weighs {bio.weight},
-          and {bio.shoots ? `shoots ${bio.shoots.toLowerCase()} handed.` : "his shooting hand is unknown."} In his most recent regular season, he averaged {perGameStats["PTS"]} points, {perGameStats["AST"]} assists, and {perGameStats["REB"]} rebounds per game. He shot {perGameStats["FG%"]}% from the field, {perGameStats["3P%"]}% from three, and {perGameStats["FT%"]}% from the free-throw line.
+          {bio.draft
+            ? ` in ${bio.draft.split(" ")[0]} (${bio.draft})`
+            : " as an undrafted free agent"}
+          .
+          {bio.college && bio.college !== "-"
+            ? ` He attended ${bio.college}.`
+            : ""}{" "}
+          He stands at {bio.height} and weighs {bio.weight}, and{" "}
+          {bio.shoots
+            ? `shoots ${bio.shoots.toLowerCase()} handed.`
+            : "his shooting hand is unknown."}{" "}
+          In his most recent regular season, he averaged {perGameStats["PTS"]}{" "}
+          points, {perGameStats["AST"]} assists, and {perGameStats["REB"]}{" "}
+          rebounds per game. He shot {perGameStats["FG%"]}% from the field,{" "}
+          {perGameStats["3P%"]}% from three, and {perGameStats["FT%"]}% from the
+          free-throw line.
         </p>
       </div>
     </div>

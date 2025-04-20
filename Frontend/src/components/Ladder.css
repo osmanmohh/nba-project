@@ -5,24 +5,26 @@
   align-items: center;
   margin: 0;
   gap: 5px;
-  width: 33vw;
-  max-width: 600px;
-
-  height: 40vh;
+  width: 36vw;
+  height: 350px;
 }
 .ladder-title {
-  background-color: #ffa51d;
+  padding: 5px 0px;
+  background-color: #1c1c1b;
+  margin-bottom: 5px;
   text-align: center;
   font-family: "Fira Sans Condensed", sans-serif;
   width: 100%;
-  color: #000000;
+  color: var(--gold);
   font-size: 1.8rem;
   font-weight: 500;
   z-index: 200;
 }
-@media (max-width: 768px) {
+
+@media (max-width: 950px) {
   .ladder-container {
     width: 100%;
+
     margin: 0;
   }
 }

@@ -7,6 +7,7 @@ function PlayerViewToggle({ onViewChange, teamColor }) {
     setView(newView);
     onViewChange(newView);
   };
+  
 
   return (
     <div className="btn-container-wrapper">
@@ -20,7 +21,9 @@ function PlayerViewToggle({ onViewChange, teamColor }) {
             className={`overview-bn ${view === "overview" ? "active" : ""}`}
             style={{
               backgroundColor: view === "overview" ? "#ffffff" : "transparent",
+              
             }}
+            
           >
             Overview
           </button>

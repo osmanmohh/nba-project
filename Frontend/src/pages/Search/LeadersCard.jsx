@@ -1,21 +1,37 @@
 import "./LeadersCard.css";
 import { useEffect, useState } from "react";
 import { teamColors } from "../../../public/teamColors";
-import { getHeadshot } from "../../../public/getHeadshot";
+import { getHeadshot } from "../../../public/getHeadshot"; // 🛠 adjust the import path
 
-export default function LeadersCard({ players = [], statCategory = null }) {
+export default function LeadersCard({
+  statCategory = null,
+  tm = "",
+  year = "",
+  players = [],
+  newRoster = [],
+}) {
   const [headshotsLoaded, setHeadshotsLoaded] = useState(false);
   const [headshotSources, setHeadshotSources] = useState([]);
+  const [roster, setRoster] = useState([]);
+
+  // Use the roster data passed as a prop or from the players array
+  useEffect(() => {
+    if (newRoster && newRoster.length > 0) {
+      setRoster(newRoster);
+    } else if (players && players.length > 0) {
+      setRoster(players);
+    }
+  }, [newRoster, players]);
 
   const getLastName = (name = "") => name.split(" ").slice(-1)[0] || "";
 
   const safeSorted = (key) =>
-    [...players]
+    [...roster]
       .filter((p) => p?.[key] !== undefined)
       .sort((a, b) => b[key] - a[key]);
 
   const leaderStats = statCategory
-    ? [...players]
+    ? [...roster]
         .filter((p) => p?.[statCategory] !== undefined)
         .sort((a, b) => b[statCategory] - a[statCategory])
         .slice(0, 3)
@@ -32,18 +48,22 @@ export default function LeadersCard({ players = [], statCategory = null }) {
 
   useEffect(() => {
     const loadImages = async () => {
+      if (!leaderStats.length) return;
+
       const sources = await Promise.all(
         leaderStats.map(async ({ player }) => {
-          const src = await getHeadshot(player?.Name);
-          return src || "/headshots/blank.png";
+          if (!player?.Name) return "blank.png";
+          const src = await getHeadshot(player.Name);
+          return src || "blank.png";
         })
       );
+
       setHeadshotSources(sources);
       setHeadshotsLoaded(true);
     };
 
     loadImages();
-  }, [players, statCategory]);
+  }, [roster, statCategory]);
 
   if (!headshotsLoaded) return null;
 
@@ -52,7 +72,8 @@ export default function LeadersCard({ players = [], statCategory = null }) {
       className="leaders-card"
       style={{
         backgroundColor:
-          teamColors[players[0]?.Tm?.toLowerCase()]?.primary || "#909090",
+          teamColors[leaderStats[0]?.player?.Tm?.toLowerCase()]?.primary ||
+          "#909090",
       }}
     >
       <div className="leaders-title">

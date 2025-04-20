@@ -6,11 +6,12 @@ export default function Playoffs() {
     <div className="playoff-container">
     <div className="playoff-page">
           <img src="logos/playoffs.png" className="playoff-logo"></img>
-
       <div className="west-title">WESTERN CONFERENCE</div>
       <div className="east-title">EASTERN CONFERENCE</div>
       <PlayoffBracket></PlayoffBracket>
+
     </div>
+    
     </div>
   );
 }

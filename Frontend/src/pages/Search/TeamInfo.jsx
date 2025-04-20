@@ -4,18 +4,55 @@ import "./TeamInfo.css";
 import LeadersCard from "./LeadersCard";
 import TeamRankingsCard from "./TeamRankingsCard";
 import { teamColors } from "../../../public/teamColors";
+import { getLogo } from "../../../public/getLogo";
 
-export default function TeamInfo({ year, allTeams = [], games = {}, newRoster = [], newTeam = {} }) {
-;
- 
+export default function TeamInfo({
+  year,
+  allTeams = [],
+  games = {},
+  newRoster = [],
+  newTeam = {},
+}) {
+  const [isVisible, setIsVisible] = useState(false);
   const [newGames, setNewGames] = useState([]);
-  
 
- 
+  useEffect(() => {
+    const timeout = setTimeout(() => setIsVisible(true), 300);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  useEffect(() => {
+    if (!newTeam?.Tm || !games.length) return;
+
+    const seenDates = new Set();
+    const uniqueGames = [];
+
+    for (const game of games) {
+      const isTeamInvolved =
+        game.Team?.toUpperCase() === newTeam.Tm?.toUpperCase() ||
+        game.Opponent?.toUpperCase() === newTeam.Tm?.toUpperCase();
+
+      const gameDate = game.Date?.split("T")[0];
+
+      if (isTeamInvolved && !seenDates.has(gameDate)) {
+        seenDates.add(gameDate);
+        uniqueGames.push(game);
+      }
+    }
+
+    const sorted = uniqueGames.sort(
+      (a, b) => new Date(b.Date) - new Date(a.Date)
+    );
+
+    setNewGames(sorted.slice(0, 5));
+  }, [games, newTeam]);
+
+  const formatDate = (isoDate) =>
+    isoDate ? new Date(isoDate).toLocaleDateString() : "";
 
   const getTeamStrength = (team) => {
     if (!team) return 0;
-    const nr = team.NRtg ?? (team.ORtg - team.DRtg);
+    const nr = team.NRtg ?? team.ORtg - team.DRtg;
     const score =
       nr * 0.5 +
       (team["FG%"] || 0) * 100 * 0.1 +
@@ -43,7 +80,7 @@ export default function TeamInfo({ year, allTeams = [], games = {}, newRoster = 
     let ratingHome = getTeamStrength(homeTeam);
     let ratingAway = getTeamStrength(awayTeam);
 
-    ratingHome += 1.5; // home court advantage
+    ratingHome += 1.5;
 
     const scaledHome = ratingHome / 20;
     const scaledAway = ratingAway / 20;
@@ -52,45 +89,15 @@ export default function TeamInfo({ year, allTeams = [], games = {}, newRoster = 
     return Math.max(0.05, Math.min(prob, 0.95));
   };
 
-useEffect(() => {
-  if (!newTeam?.Tm || !games.length) return;
-
-  const seenDates = new Set();
-  const uniqueGames = [];
-
-  for (const game of games) {
-    const isTeamInvolved =
-      game.Team?.toUpperCase() === newTeam.Tm?.toUpperCase() ||
-      game.Opponent?.toUpperCase() === newTeam.Tm?.toUpperCase();
-
-    const gameDate = game.Date?.split("T")[0];
-
-    if (isTeamInvolved && !seenDates.has(gameDate)) {
-      seenDates.add(gameDate);
-      uniqueGames.push(game);
-    }
-  }
-
-  const sorted = uniqueGames.sort(
-    (a, b) => new Date(b.Date) - new Date(a.Date)
-  );
-
-  setNewGames(sorted.slice(0, 5));
-  console.log("🎯 Final games:", sorted.slice(0, 5));
-}, [games, newTeam]);
-
-
-  const formatDate = (isoDate) =>
-    isoDate ? new Date(isoDate).toLocaleDateString() : "";
-
-  const sameConfTeams = allTeams
-    ?.filter(
-      (t) =>
-        t?.Year === year &&
-        t?.Conf === newTeam?.Conf &&
-        t?.StatType === "per_game"
-    )
-    .sort((a, b) => b.W - a.W) || [];
+  const sameConfTeams =
+    allTeams
+      ?.filter(
+        (t) =>
+          t?.Year === year &&
+          t?.Conf === newTeam?.Conf &&
+          t?.StatType === "per_game"
+      )
+      .sort((a, b) => b.W - a.W) || [];
 
   sameConfTeams?.forEach((t, i) => (t.confRank = i + 1));
 
@@ -101,13 +108,16 @@ useEffect(() => {
 
   const surroundingTeams = sameConfTeams?.slice(start, end) || [];
 
+  if (!isVisible) return null;
+
   return (
     <div className="team-section">
       <div className="ctn">
-        {/* STANDINGS */}
         <div className="latest-team-info-stats-container">
           <div className="team-infos-container">
-            <h1 className="card-title">2024-25 Conference Standings</h1>
+            <h1 className="card-title">
+              {`${year - 1}-${year.toString().slice(-2)}`} Conference Standings
+            </h1>
             <div className="team-info-header stats">
               <span className="team-header">Team</span>
               <span className="team-vals">W</span>
@@ -134,7 +144,7 @@ useEffect(() => {
                       <div className="opp-info-container">
                         <div className="opp-logo-container">
                           <img
-                            src={`/logos/${t?.Tm}.png`}
+                            src={getLogo(t?.Tm)}
                             className="latest-team-logo"
                             alt={t?.Team}
                           />
@@ -154,7 +164,6 @@ useEffect(() => {
           </div>
         </div>
 
-        {/* SCHEDULE */}
         <div className="latest-team-info-stats-container">
           <div className="team-infos-container">
             <h1 className="card-title">Schedule</h1>
@@ -164,7 +173,7 @@ useEffect(() => {
               <span className="team-vals">ODDS</span>
             </div>
             {newGames?.map((game, index) => {
-              const isHome = game?.Location !== "@";
+              const isHome = game?.Location == "Home";
               const homeAbbr = isHome ? newTeam?.Tm : game?.Opponent;
               const awayAbbr = isHome ? game?.Opponent : newTeam?.Tm;
 
@@ -199,7 +208,9 @@ useEffect(() => {
                         <div className="opp-info-container">
                           <div className="opp-logo-container">
                             <img
-                              src={`/logos/${isHome ? game?.Opponent : newTeam?.Tm}.png`}
+                              src={getLogo(
+                                isHome ? game?.Opponent : newTeam?.Tm
+                              )}
                               className="latest-team-logo"
                               alt={game?.Opponent}
                             />
@@ -214,7 +225,9 @@ useEffect(() => {
                         <div className="opp-info-container">
                           <div className="opp-logo-container">
                             <img
-                              src={`/logos/${isHome ? newTeam?.Tm : game?.Opponent}.png`}
+                              src={getLogo(
+                                isHome ? newTeam?.Tm : game?.Opponent
+                              )}
                               className="latest-team-logo"
                               alt={newTeam?.Team}
                             />
@@ -239,7 +252,11 @@ useEffect(() => {
       </div>
 
       <div className="ctn">
-        <LeadersCard players={newRoster || []} newPlayers={newRoster || []} />
+        <LeadersCard
+          year={year}
+          tm={newTeam?.Tm?.toLowerCase?.() || ""}
+          newRoster={newRoster}
+        />
         <TeamRankingsCard tm={newTeam?.Tm?.toLowerCase?.() || ""} year={year} />
       </div>
     </div>

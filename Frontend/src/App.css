@@ -3,10 +3,21 @@ body {
   margin: 0;
   background: #151516;
   transition: background 0.3s ease-in-out;
+  
 }
 
 @media (max-width: 600px) {
-  body {
-    margin-top: 40px;
-  }
+  
 }
+
+::-webkit-scrollbar{
+  width: 10px
+}
+::-webkit-scrollbar-track{
+  background: #2C2C2C;
+}
+::-webkit-scrollbar-thumb{
+  background: #6B6B6B;
+  border-radius: 10px;
+}
+

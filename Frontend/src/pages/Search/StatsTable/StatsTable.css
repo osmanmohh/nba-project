@@ -1,4 +1,4 @@
-/* ✅ Table Container */
+/*  Table Container */
 .table-container {
   font-family: "Fira Sans Condensed", sans-serif;
   border-radius: 0 0 6px 6px;
@@ -6,14 +6,21 @@
   overflow-x: auto; /* Enables horizontal scrolling */
   max-width: 100%;
   position: relative;
-  background-color: #202124; /* ✅ Unified Background */
-  color: #909396; /* ✅ Text color */
+  background-color: #202124; /*  Unified Background */
+  color: #909396; /*  Text color */
   margin-top: 20px;
-}
 
-/* ✅ Full-Width Fixed Table Title */
+
+  /* transition: opacity 0.2 s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s cubic-bezier(0.4, 0, 0.2, 1); */
+
+}
+/* .table-container.mount-animate {
+  opacity: 1;
+
+} */
+
 .table-title {
-  background-color: #202124; /* ✅ Unified Background */
+  background-color: #202124; /*  Unified Background */
   color: #ffffff;
   padding-left: 10px;
   font-weight: bold;
@@ -27,29 +34,29 @@
   white-space: nowrap;
 }
 
-/* ✅ Scrollable Table Wrapper */
+/*  Scrollable Table Wrapper */
 .table-wrapper {
   width: 100%;
   overflow-x: auto; /* Enables horizontal scrolling */
   position: relative;
 }
 
-/* ✅ Table Styling */
+/*  Table Styling */
 .stats-table {
   width: 100%;
   border-collapse: collapse;
-  background-color: #202124; /* ✅ Unified Background */
-  color: #909396; /* ✅ Text color */
+  background-color: #202124; /*  Unified Background */
+  color: #909396; /*  Text color */
   min-width: 800px;
 }
 
-/* ✅ Column Headers */
+/*  Column Headers */
 .column-headers th {
-  background-color: #202124; /* ✅ Unified Background */
+  background-color: #202124; /*  Unified Background */
   padding: 12px;
   text-align: center;
   font-weight: bold;
-  color: #909396; /* ✅ Unified Text */
+  color: #909396; /*  Unified Text */
   text-transform: uppercase;
   font-size: 14px;
   white-space: nowrap;
@@ -62,52 +69,52 @@
     color 0.2s ease;
 }
 
-/* ✅ Hover Effect for Headers */
+/*  Hover Effect for Headers */
 .column-headers th:hover {
-  background-color: #3c4043; /* ✅ Slightly lighter for hover effect */
+  background-color: #3c4043; /*  Slightly lighter for hover effect */
 }
 
-/* ✅ Ensure Click Works for Sorting */
+/*  Ensure Click Works for Sorting */
 .column-headers th:active {
   background-color: #505357;
 }
 
-/* ✅ Sorted Column Highlight */
+/*  Sorted Column Highlight */
 .sorted-column {
-  background-color: #37383d !important; /* ✅ Highlighted column */
+  background-color: #37383d !important; /*  Highlighted column */
   color: #e8eaed !important;
   font-weight: bold;
 }
 
-/* ✅ Table Rows */
+/*  Table Rows */
 .stats-table td {
   padding: 10px;
   text-align: center;
-  border-bottom: 1px solid #3c4043; /* ✅ Subtle row separation */
+  border-bottom: 1px solid #3c4043; /*  Subtle row separation */
   font-size: 14px;
   word-wrap: break-word;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  background-color: #202124; /* ✅ Unified Background */
+  background-color: #202124; /*  Unified Background */
 }
 
-/* ✅ Team Name Highlight */
+/*  Team Name Highlight */
 .team-cell {
-  color: #8ab4f8; /* ✅ Blue accent for team names */
+  color: #8ab4f8; /*  Blue accent for team names */
   font-weight: bold;
   text-transform: uppercase;
   font-size: 14px;
 }
 
-/* ✅ Hover Effect for Rows */
+/*  Hover Effect for Rows */
 .stats-table tbody tr:hover {
-  background-color: #3c4043; /* ✅ Slightly lighter hover effect */
+  background-color: #3c4043; /*  Slightly lighter hover effect */
 }
 
-/* ✅ Show More Button */
+/*  Show More Button */
 .show-more-container {
-  background-color: #202124; /* ✅ Unified Background */
+  background-color: #202124; /*  Unified Background */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -129,7 +136,7 @@
   text-decoration: underline;
 }
 
-/* ✅ Player Name Container */
+/*  Player Name Container */
 .player-name-container {
   display: flex;
   align-items: center;
@@ -137,22 +144,22 @@
   white-space: nowrap;
 }
 
-/* ✅ Team Logo */
+/*  Team Logo */
 .stats-team-logo {
   width: 20px;
   height: 20px;
   object-fit: contain;
 }
-/* ✅ Custom Scrollbar */
+/*  Custom Scrollbar */
 .table-container::-webkit-scrollbar {
   height: 12px;
 }
 
 .table-container::-webkit-scrollbar-thumb {
-  background-color: #3c4043; /* ✅ Scrollbar thumb color */
+  background-color: #3c4043; /*  Scrollbar thumb color */
   border-radius: 20px;
 }
 
 .table-container::-webkit-scrollbar-track {
-  background-color: #2d2d2d; /* ✅ Scrollbar track color */
+  background-color: #2d2d2d; /*  Scrollbar track color */
 }

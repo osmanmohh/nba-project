@@ -11,12 +11,16 @@ import {
   faMedal,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const NavBar = () => {
   const [showNav, setShowNav] = useState(false);
+  const location = useLocation();
+  const currentPath = location.pathname;
+
 
   return (
-    <div className="nav-bar">
+    <div className={`nav-bar ${currentPath.slice(1)}`}>
       {/* Navigation */}
       <nav className={showNav ? "mobile-show" : ""}>
         <a href="/" onClick={() => setShowNav(false)}>

@@ -1,183 +1,75 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import Fuse from "fuse.js";
+import { getHeadshot } from "../../public/getHeadshot";
 
-function usePlayerData() {
-  const { query: urlQuery } = useParams();
-  const navigate = useNavigate();
-
-  const lastSearchedPlayer = JSON.parse(
-    localStorage.getItem("lastSearchedPlayer")
-  );
-  const lastSearchedTeam = JSON.parse(localStorage.getItem("lastSearchedTeam"));
-
-  const [query, setQuery] = useState(urlQuery || "");
-  const [selectedPlayer, setSelectedPlayer] = useState(null);
-  const [selectedTeam, setSelectedTeam] = useState(null);
-  const [players, setPlayers] = useState([]);
-  const [teams, setTeams] = useState([]);
-  const [playerSeasons, setPlayerSeasons] = useState([]);
-  const [allData, setAllData] = useState([]);
-  const [teamData, setTeamData] = useState([]);
+const usePlayerData = (selectedSeason, allTeams) => {
+  const [fetchedStats, setFetchedStats] = useState([]);
+  const [fetchedGames, setFetchedGames] = useState([]);
   const [newPlayer, setNewPlayer] = useState(null);
+  const [selectedPlayer, setSelectedPlayer] = useState(null);
+  const [newRoster, setNewRoster] = useState([]);
+  const [playerVersion, setPlayerVersion] = useState(0);
+
+  const refreshPlayerData = (bbref_id) => {
+    setPlayerVersion((v) => v + 1);
+  };
 
   useEffect(() => {
-    let isMounted = true;
+    if (!newPlayer?.bbref_id || allTeams.length === 0) return;
 
-    const loadData = async () => {
+    const fetchAll = async () => {
       try {
-        const playerResponse = await fetch("/all_players.json");
-        const playerData = await playerResponse.json();
+        const [statsRes, gamesRes] = await Promise.all([
+          fetch(`/api/player/${newPlayer.bbref_id}/stats`),
+          fetch(`/api/player/${newPlayer.bbref_id}/games`),
+        ]);
 
-        if (!isMounted || !playerData || playerData.length === 0) return;
+        const stats = await statsRes.json();
+        let games = await gamesRes.json();
+        games = games.sort((a, b) => new Date(b.Date) - new Date(a.Date));
 
-        setAllData(playerData);
+        setFetchedStats(stats);
+        setFetchedGames(games);
 
-        const latestPlayers = Object.values(
-          playerData.reduce((acc, player) => {
-            if (!acc[player.Name] || player.Year > acc[player.Name].Year) {
-              acc[player.Name] = player;
-            }
-            return acc;
-          }, {})
+        const year = games[0]?.Year;
+        const latestAbbr = games[0]?.Team?.toLowerCase();
+
+        const match = allTeams.find(
+          (t) => t?.Tm?.toLowerCase() === latestAbbr && t?.Year === year && t?.StatType === "totals"
         );
 
-        setPlayers(latestPlayers);
-
-        const teamResponse = await fetch("/teams.json");
-        const teamData = await teamResponse.json();
-
-        if (!isMounted || !teamData || teamData.length === 0) return;
-        setTeams(teamData);
-        setTeamData(teamData);
-
-        if (urlQuery) {
-          const player = latestPlayers.find(
-            (p) => p.Name.toLowerCase() === urlQuery.toLowerCase()
-          );
-
-          if (player) {
-            setSelectedPlayer(player);
-            setNewPlayer(player);
-            setPlayerSeasons(playerData.filter((p) => p.Name === player.Name));
-            return;
-          }
-
-          const teamSeasons = teamData.filter(
-            (t) => t.Team.toLowerCase() === urlQuery.toLowerCase()
-          );
-
-          if (teamSeasons.length > 0) {
-            const latestTeam =
-              teamSeasons.find((t) => t.Year === 2024) || teamSeasons[0];
-            setSelectedTeam(latestTeam);
-          }
-        } else {
-          if (lastSearchedPlayer) {
-            setEntityFromQuery(
-              lastSearchedPlayer.name,
-              latestPlayers,
-              playerData
-            );
-          } else if (lastSearchedTeam) {
-            setEntityFromQuery(
-              lastSearchedTeam.name,
-              latestPlayers,
-              playerData
-            );
-          }
+        if (latestAbbr && newPlayer.teamAbbr !== latestAbbr) {
+          setNewPlayer((prev) => ({
+            ...prev,
+            teamAbbr: latestAbbr,
+            team: match?.Team || "Unknown Team",
+            logo: `https://a.espncdn.com/i/teamlogos/nba/500/${latestAbbr}.png`,
+          }));
         }
-      } catch (error) {
-        console.error("Error loading data:", error);
+
+        const headshot = await getHeadshot(newPlayer.name);
+        if (headshot) setNewPlayer((prev) => ({ ...prev, headshot }));
+
+        const rosterRes = await fetch(`/api/team/${latestAbbr}/roster?year=${year}`);
+        const rosterData = await rosterRes.json();
+        setNewRoster(rosterData);
+      } catch (err) {
+        console.error("❌ Error loading player data:", err);
       }
     };
 
-    loadData();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [urlQuery]);
-
-  const setEntityFromQuery = (searchTerm, latestPlayers, fullData) => {
-    const player = latestPlayers.find(
-      (p) =>
-        p.Name.toLowerCase() === searchTerm.toLowerCase() ||
-        p.Player_ID === searchTerm
-    );
-
-    if (player) {
-      if (selectedPlayer?.Name !== player.Name) {
-        setSelectedPlayer(player);
-        setSelectedTeam(null);
-        setNewPlayer(player);
-        setPlayerSeasons(fullData.filter((p) => p.Name === player.Name));
-      }
-      return;
-    }
-
-    const teamSeasons = teamData.filter(
-      (t) => t.Team.toLowerCase() === searchTerm.toLowerCase()
-    );
-
-    if (teamSeasons.length > 0) {
-      const latestTeam =
-        teamSeasons.find((t) => t.Year === 2024) || teamSeasons[0];
-      setSelectedTeam(latestTeam);
-      setSelectedPlayer(null);
-    }
-  };
-
-  const playerFuse = new Fuse(players, {
-    keys: ["Name"],
-    threshold: 0.3,
-  });
-
-  const teamFuse = new Fuse(teams, {
-    keys: ["Team"],
-    threshold: 0.3,
-  });
-
-  const handleSearch = () => {
-    if (!query.trim()) return;
-
-    const playerResults = playerFuse.search(query);
-    if (playerResults.length > 0) {
-      const player = playerResults[0].item;
-      setSelectedPlayer(player);
-      setSelectedTeam(null);
-      setNewPlayer(player);
-      setPlayerSeasons(allData.filter((p) => p.Name === player.Name));
-      navigate(`/search/${encodeURIComponent(player.Name)}`);
-
-      
-      return;
-    }
-
-    const teamResults = teamFuse.search(query);
-    if (teamResults.length > 0) {
-      const team = teamResults[0].item;
-      setSelectedTeam(team);
-      setSelectedPlayer(null);
-      navigate(`/search/${encodeURIComponent(team.Team)}`);
-
-      
-    }
-  };
+    fetchAll();
+  }, [newPlayer?.bbref_id, allTeams, playerVersion, selectedSeason]);
 
   return {
-    query,
-    setQuery,
-    selectedPlayer,
-    selectedTeam,
-    players,
-    teams,
-    playerSeasons,
-    handleSearch,
     newPlayer,
-    setSelectedPlayer, // ✅ Add this!
-
+    setNewPlayer,
+    selectedPlayer,
+    setSelectedPlayer,
+    fetchedStats,
+    fetchedGames,
+    newRoster,
+    refreshPlayerData,
   };
-}
+};
 
 export default usePlayerData;

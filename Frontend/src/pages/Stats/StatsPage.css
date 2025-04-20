@@ -1,4 +1,3 @@
-
 .stats-page-wrapper {
   margin-left: 72px;
   height: 100vh; /* Take full viewport height */
@@ -6,85 +5,117 @@
   overflow-y: auto; /* Enables scrolling */
   overflow-x: hidden; /* Prevents horizontal scrolling */
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   flex-direction: column;
+  padding-bottom: 40px;
+
 }
-.stats-page-main{
+.stats-page-main {
   margin-top: 40px;
-  margin-left: 10px;
-  height: 100%;
-  width: 98%;
+  width: 90%;
+  padding: 20px;
+  max-width: 1100px;
+  border-radius: 10px;
+
   background-color: #202124;
+
   position: relative;
 }
-.page-title{
-  font-family:Arial, Helvetica, sans-serif;
+.stats-table-container {
+
+
+  margin-bottom: 40px;
+
+}
+.page-title {
+  font-family: Arial, Helvetica, sans-serif;
   margin-top: 20px;
   margin-left: 10px;
   color: white;
 }
-.stats-type-dropdown{
-
-position: absolute;
-right: 1%;
-top: 3%;
-
+.stats-type-dropdown {
+  position: absolute;
+  right: 25px;
+  top: 50px;
 }
-.dropdowns-container{
+.dropdowns-container {
   margin-left: 5px;
   display: flex;
   gap: 10px;
 }
-.league-leaders-wrapper{
+.league-leaders-wrapper {
   margin-top: 20px;
- 
 }
-.league-leaders{
+.league-leaders {
   margin-top: 20px;
   display: flex;
   flex-direction: column;
+  gap: 10px;
 }
-.league-row{  
+.league-row {
   display: flex;
   flex-direction: row;
   gap: 10px;
 }
-@media (max-width: 768px) {
+@media (max-width: 1150px) {
   .stats-page-wrapper {
     margin-left: 0px;
-    height: 100dvh; /* Take full viewport height */
     width: 100dvw;
-    border: 1px solid red;
+  }
+}
+@media (max-width: 768px) {
+  .stats-page-wrapper {
+    height: 100dvh; /* Take full viewport height */
+
     align-items: center;
   }
-  .stats-page-main{
-    margin-top: 0px;
 
-    margin-left: 0px;
-    width: 96%;
+  .league-leaders {
+    gap: 10px;
   }
-  .page-title{
-    font-size: 20px;
-    padding-bottom: 10px;
+  .league-row {
+    flex-direction: column;
   }
-  .stats-type-dropdown{
+}
+@media (max-width: 00px) {
+  .stats-type-dropdown {
     position: relative;
-  
+    right: 0;
+    top: 0;
   }
-  .stats-type-dropdown .dropdown-container{
+  .stats-type-dropdown .dropdown-container {
     width: 100%;
+    height: 30px;
   }
-  
-  .dropdowns-container{
+
+  .dropdowns-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
   }
-  .league-leaders{
-    gap: 10px;
-  }
-  .league-row{  
-    flex-direction: column;
-  }
+}
+@media (max-width: 565px) {
   
+  .stats-type-dropdown {
+    position: relative;
+    right: 0;
+    top: 0;
+  }
+  .stats-type-dropdown .dropdown-container {
+    width: 100%;
+    height: 30px;
+
+  }
+
+  .dropdowns-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    max-width: 360px;
+  }
+}
+@media (max-width: 420px) {
+  .page-title{
+    font-size: 1.6rem;
+  }
 }

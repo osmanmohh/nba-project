@@ -5,50 +5,45 @@ export function useTeams(conference) {
   const [predictedRanks, setPredictedRanks] = useState({});
 
   useEffect(() => {
-
     Promise.all([
-      fetch("/teams.json")
+      // Fetch actual current team standings from team_season_stats
+      fetch("/api/team")
         .then((res) => res.json())
         .then((data) => {
-
-          // Separate teams by conference
+          // Filter to current season, correct conference, and per_game stats only
           let filteredTeams = data
-            .filter(team => team.Year === 2023 && team.Conf.toUpperCase() === conference.toUpperCase());
+            .filter(team => team.Year === 2025 && team.Conf.toUpperCase() === conference.toUpperCase() && team.StatType === "per_game");
 
-          // Sort teams by Wins first, then W/L% as a tiebreaker
+          // Sort teams by current wins and win percentage
           filteredTeams.sort((a, b) => b.W - a.W || b["W/L%"] - a["W/L%"]);
 
-          // Only keep the top 15 teams in the conference
+          // Take top 15 teams in the conference
           filteredTeams = filteredTeams.slice(0, 15);
 
-          // Assign proper rank (1-15)
+          // Assign current rank (1–15)
           let parsedTeams = filteredTeams.map((team, index) => ({
             ...team,
-            rank: index + 1, // Ensure ranks are 1-15
+            rank: index + 1,
           }));
 
           return parsedTeams;
         }),
 
-      fetch("/predicted_seeds_2025.json")
+      // Fetch predicted standings (W/L and Rk) from projected_team_stats
+      fetch("/api/team/projected")
         .then((res) => res.json())
         .then((data) => {
-
-          // Ensure predicted ranks are assigned using lowercase tm (from predicted_seeds_2025.json)
           const predictedData = data.reduce((acc, row) => {
-            acc[row.tm.toLowerCase()] = row.rank; // Store using lowercase team abbreviation
+            acc[row.tm.toLowerCase()] = row.rk; // use `rk` not `rank`
             return acc;
           }, {});
-
           return predictedData;
         }),
     ])
       .then(([parsedTeams, predictedData]) => {
-        // Assign predicted ranks, ensuring the abbreviation keys match
         const updatedTeams = parsedTeams.map((team) => ({
           ...team,
-          predictedRank: predictedData[team.Tm.toLowerCase()] || team.rank, // Match lowercase keys
-          
+          predictedRank: predictedData[team.Tm.toLowerCase()] || team.rank,
         }));
 
         setTeams(updatedTeams);

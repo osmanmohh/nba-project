@@ -1,7 +1,7 @@
 import "./PlayoffCard.css";
 import { teamColors } from "../../public/teamColors";
 import { useState } from "react";
-
+import { getLogo } from "../../public/getLogo";
 function PlayoffCard({
   team1Abbr,
   team1Name,
@@ -39,9 +39,9 @@ function PlayoffCard({
             className="team-container"
             style={abbr !== winner ? { color: "#A1A2A3" } : {}}
           >
-            <img src={`logos/${abbr}.png`} className="team-logo" />
+            <img src={getLogo(abbr)} className="team-logo" />
             <div className="rank">{rank}</div>
-            {name.split(" ").pop()}
+            {abbr === "MIN" ? "Wolves" : name.split(" ").pop()}
             <div className="team-score">
               {abbr === team1Abbr ? finalTeam1Points : finalTeam2Points}
             </div>

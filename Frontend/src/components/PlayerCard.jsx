@@ -2,17 +2,29 @@ import "./PlayerCard.css";
 import { teamColors } from "../../public/teamColors";
 import players from "/players_2024"; // ✅ Corrected import path
 import { useNavigate } from "react-router-dom"; // ✅ Import navigation hook
+import { getLogo } from "../../public/getLogo";
+import { useHeadshot } from "../hooks/useHeadshot";
+import { useState, useEffect } from "react";
 
-function PlayerCard({ playerId, rank }) {
+function PlayerCard({ playerId, rank}) {
   const navigate = useNavigate(); // ✅ Initialize navigation
+  const [player, setPlayer] = useState(null);
+
+  useEffect(() => {
+    fetch(`/api/player/${playerId}/stats`)
+      .then(response => response.json())
+      .then(data => setPlayer(data.find(p => p.Stat_Type === "Per Game" && p.Year === 2025)))
+      .catch(error => console.error('Error fetching player data:', error));
+  }, [playerId]);
 
   // Convert playerId to integer for comparison
-  const numericPlayerId = parseInt(playerId, 10);
 
   // Find the player in the dataset
-  const player = players.find(
-    (p) => Math.round(p.Player_ID) === numericPlayerId
-  );
+ 
+  
+  const name = player?.Name;
+  const headshot = useHeadshot(name); // Always called, even if name is undefined
+ 
 
   // Handle case where player is not found
   if (!player) {
@@ -24,30 +36,25 @@ function PlayerCard({ playerId, rank }) {
   const firstName = nameParts[0]?.toUpperCase() || "";
   const lastName = nameParts[1]?.toUpperCase() || "";
 
-  // Get team colors
-  const teamColor = teamColors[player.Tm] || {
-    primary: "#808080",
-    secondary: "#606060",
-  };
+  
+
 
   // ✅ Function to navigate to the player search page
   const handleClick = () => {
-    window.open(`/search/${encodeURIComponent(player.Name)}`);
+    navigate(`/search/${encodeURIComponent(player.Name)}`);
   };
 
   return (
-    <div className="player-card-container" onClick={handleClick} style={{
-      "--team-color": teamColor.primary, // Pass team color as a CSS variable
-    }}>
+    <div className="player-card-container" onClick={handleClick}>
       <div
         className="player-rank"
-        style={{ backgroundColor: teamColor.secondary }}
+
       >
         {rank}
       </div>
       <div
         className="player-card-info"
-        style={{ backgroundColor: teamColor.primary }}
+
       >
         <div className="player-name">
           <div className="first-name">{firstName}</div>
@@ -55,20 +62,20 @@ function PlayerCard({ playerId, rank }) {
         </div>
         <div className="img-container">
           <img
-            src={`logos/${player.Tm.toLowerCase()}.png`}
+            src={getLogo(player.Tm)}
             className="player-team-logo"
             alt={`${player.Tm} logo`}
           />
           <img
             className="player-image"
-            src={`headshots/${numericPlayerId}.png`}
+            src={headshot}
             alt={player.Name}
           />
         </div>
       </div>
       <div
         className="award-stats"
-        style={{ backgroundColor: teamColor.primary }}
+
       >
         <div className="award-stat-item">
           <div className="award-stat-label">PPG</div>

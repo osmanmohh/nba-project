@@ -1,13 +1,14 @@
-.overview-tab{
+.overview-tab {
   height: 100%;
   width: 100%;
   flex-direction: column;
-position: relative;
+  position: relative;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+  min-height: 1000px;
 }
-.ctn{
+.ctn {
   display: flex;
 
   justify-content: space-between;
@@ -16,43 +17,40 @@ position: relative;
   height: 100%;
 }
 
-.roster{
-height: 60vh;
-width: 100%;
-border-radius: 20px;
-display: grid;
-grid-template-columns: repeat(5, 1fr);
-gap: 20px;
-
+.roster {
+  height: 60vh;
+  width: 100%;
+  border-radius: 20px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
 }
-.roster-card{
-  background-color:#190E50 ;
+.roster-card {
+  background-color: #190e50;
 
   position: relative;
   display: flex;
-  
+
   justify-content: center;
   align-items: center;
   border-radius: 20px;
   overflow: hidden;
 }
-.roster-card img{
+.roster-card img {
   height: 100%;
   position: absolute;
   bottom: 0;
 }
-@media (max-width: 1150px) {
-  .overview-tab{
+@media (max-width: 800px) {
+  .overview-tab {
     flex-direction: column;
-    width: 100dvw;
+    width: 100%;
     align-items: center;
-
   }
-  .ctn{
+  .ctn {
     flex-direction: column;
     width: 100%;
     justify-content: center;
     align-items: center;
   }
-  
 }

@@ -64,4 +64,4 @@ for team_name, team_abbr in nba_teams.items():
     except Exception as e:
         print(f"Error saving logo for {team_name}: {e}")
 
-print("✅ All NBA team logos downloaded!")
+print(" All NBA team logos downloaded!")

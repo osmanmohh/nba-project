@@ -1,6 +1,4 @@
-// OverviewTab.jsx
 import { useState, useEffect } from "react";
-import players from "/all_players.json";
 import teams from "/teams.json";
 import "./OverviewTab.css";
 import PlayerStatistics from "./PlayerStatistics";
@@ -11,6 +9,7 @@ import { teamColors } from "../../../public/teamColors";
 import { getHeadshot } from "../../../public/getHeadshot";
 
 export default function OverviewTab({
+  isActive,
   player,
   team,
   newPlayer,
@@ -20,59 +19,39 @@ export default function OverviewTab({
   allTeams,
   newRoster,
   teamStats,
+  selectedSeason,
+  setSelectedSeason,
+  selectedType, // ✅ NEW PROP
+  stats,
+  bio,
+  isReady,
 }) {
-  const [selectedSeason, setSelectedSeason] = useState("2024");
-  const [roster, setRoster] = useState([]);
-  const [headshots, setHeadshots] = useState({});
+  if (!isActive || !isReady) return null;
 
-  const seasons =
-    team && team.length > 0
-      ? [
-          ...new Set(
-            players.filter((p) => p.Tm === team[0]?.Tm).map((p) => p.Year)
-          ),
-        ]
+  let seasons = [];
+
+  if (team) {
+    seasons = teamStats.length
+      ? [...new Set(teamStats.map((p) => p.Year))]
           .sort((a, b) => b - a)
           .map((year) => ({
             label: `${year - 1}-${year}`,
             value: year.toString(),
           }))
       : [];
-
-  useEffect(() => {
-    if (team && team.length > 0) {
-      const updatedRoster = players
-        .filter((p) => p.Tm === team[0]?.Tm)
-        .filter((p) => p.Year.toString() === selectedSeason);
-      setRoster(updatedRoster);
-    } else {
-      setRoster([]);
-    }
-  }, [team, selectedSeason]);
-
-  useEffect(() => {
-    const fetchHeadshots = async () => {
-      const map = {};
-      const seenPlayers = new Set();
-      for (const player of newRoster) {
-        if (seenPlayers.has(player.playerID)) continue;
-        seenPlayers.add(player.playerID);
-        const image = await getHeadshot(player.Name);
-        map[player.playerID] = image;
-        console.log("player", player.Name, player.playerID, image);
-      }
-      setHeadshots(map);
-    };
-
-    if (newRoster.length > 0) fetchHeadshots();
-  }, [newRoster]);
+  }
 
   return (
     <div className="ctn">
-      {player ? (
-        <div className="overview-tab">
+      {selectedType === "player" ? (
+        <div className={`overview-tab`}>
           <div className="ctn">
-            <PlayerStatistics player={player} newPlayer={newPlayer} />
+            <PlayerStatistics
+              player={player}
+              newPlayer={newPlayer}
+              stats={stats}
+              bio={bio}
+            />
             <PlayerGamesSection
               player={player}
               newPlayer={newPlayer}
@@ -83,14 +62,9 @@ export default function OverviewTab({
           <h2 className="team-title">
             More {newPlayer.team.split(" ").pop()} Info
           </h2>
-
           <div className="ctn">
             <TeamInfo
-              team={players.filter(
-                (p) => p.Tm === player.Tm && p.Year === selectedSeason
-              )}
               teams={teams}
-              newRoster={newRoster}
               newPlayer={newPlayer}
               year={parseInt(selectedSeason)}
               allTeams={allTeams}
@@ -100,11 +74,12 @@ export default function OverviewTab({
               )}
               games={games}
               teamStats={teamStats}
+              newRoster={newRoster}
             />
           </div>
         </div>
-      ) : team ? (
-        <div className="overview-tab">
+      ) : selectedType === "team" ? (
+        <div className={`overview-tab`}>
           {seasons.length > 0 && (
             <div className="season-dropdown-container">
               <Dropdown
@@ -114,10 +89,8 @@ export default function OverviewTab({
               />
             </div>
           )}
-
           <div className="ctn">
             <TeamInfo
-              newRoster={newRoster}
               team={team}
               teams={teams}
               year={parseInt(selectedSeason)}
@@ -125,57 +98,8 @@ export default function OverviewTab({
               allTeams={allTeams}
               games={games}
               teamStats={teamStats}
+              newRoster={newRoster}
             />
-          </div>
-
-          <h1 className="team-title">Roster</h1>
-
-          <div className="ctn">
-            <div className="roster">
-              {(() => {
-                const seen = new Set();
-                return newRoster
-                  .filter((p) => {
-                    if (!p.playerID || seen.has(p.playerID)) return false;
-                    seen.add(p.playerID);
-                    return true;
-                  })
-                  .map((player) => {
-                    const playerImage =
-                      headshots[player.playerID] || "/headshots/blank.png";
-                    return (
-                      <div
-                        className="roster-card"
-                        key={player.playerID}
-                        style={
-                          player.Tm
-                            ? {
-                                backgroundColor:
-                                  teamColors[player.Tm.toLowerCase()]?.primary,
-                              }
-                            : {}
-                        }
-                      >
-                        <img
-                          src={
-                            playerImage || `/headshots/${player.playerID}.png`
-                          }
-                          alt={player.Name}
-                          onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = "/headshots/blank.png";
-                            console.log(
-                              "Image failed:",
-                              player.playerID,
-                              player.Name
-                            );
-                          }}
-                        />
-                      </div>
-                    );
-                  });
-              })()}
-            </div>
           </div>
         </div>
       ) : (

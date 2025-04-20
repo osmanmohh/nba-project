@@ -5,7 +5,7 @@
   justify-content: center;
   align-items: center;
   width: calc(50% - 7px);
-  height: 35vh;
+  height: 310px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   font-family: "Fira Sans Condensed", sans-serif;
@@ -23,7 +23,7 @@
   margin-bottom: 40px;
 }
 /* 🔹 Player Container */
-.player-container {
+.rankings-container {
   display: flex;
   justify-content: space-evenly;
   align-items: flex-end;
@@ -43,7 +43,7 @@
 }
 
 /* 🔹 team Stats Section */
-.team {
+.team-ctn{
   height: 100%;
   flex: 1;
   display: flex;
@@ -51,6 +51,7 @@
   justify-content: center;
   align-items: center;
   gap: 5px;
+
 }
 
 /* 🔹 Player Name & Stat Labels */
@@ -63,11 +64,16 @@
 
 /* 🔹 team Stat Value */
 .team-value {
-  font-size: 2.3rem;
+  font-size: clamp(1rem, 2.1em, 2.3rem);
+
 }
-@media (max-width: 1150px) {
+@media (max-width: 800px) {
   .teams-card {
     width: 100%;
     margin: 0;
+  }
+  .team-ctn{
+    height: 100%;
+
   }
 }

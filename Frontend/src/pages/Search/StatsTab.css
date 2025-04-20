@@ -1,11 +1,13 @@
 .stats-tab {
+  min-height: 500px;
   width: 100%;
+  transition: opacity 0.3s ease-in-out;
 
   display: flex;
   align-items: center;
   flex-direction: column;
 }
-@media (max-width: 1150px) {
+@media (max-width: 800px) {
   .stats-tab {
     width: 100%;
   }
@@ -86,7 +88,7 @@
 
   font-family: "Fira Sans Condensed", sans-serif;
   width: 100%;
-  height: 30vh;
+  height: 235px;
   background-color: #202125;
   border-radius: 20px;
 }
@@ -115,7 +117,7 @@
   justify-content: center;
 
   width: 100%;
-  height: calc(60vh + 10px);
+  height: 475px;
   background-color: #202125;
   border-radius: 20px;
 }
@@ -177,8 +179,22 @@
   align-items: center;
 }
 
-@media (max-width: 1150px) {
+@media (max-width: 800px) {
   .games-section {
     width: 95%;
   }
+}
+
+.stats-tab .player-bio-section {
+  width: 100%;
+}
+
+.stats-tab .season-dropdown-container {
+  margin-bottom: 1rem;
+}
+
+.stats-tab table {
+  width: 100%;
+  margin-bottom: 1.5rem;
+  transition: opacity 0.2s ease-in-out;
 }

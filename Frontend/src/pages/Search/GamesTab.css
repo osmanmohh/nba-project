@@ -4,7 +4,7 @@
   top: -40px;
   z-index: 100;
 }
-@media (max-width: 1150px) {
+@media (max-width: 800px) {
   .season-dropdown-container {
     position: static;
     margin-top: 15px;
@@ -14,4 +14,19 @@
     align-items: center;
     padding-right: 10px;
   }
+}
+
+.player-bio-section.games {
+  width: 100%;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.player-bio-section.games .season-dropdown-container {
+  margin-bottom: 1rem;
+}
+
+.player-bio-section.games table {
+  width: 100%;
+  margin-bottom: 1.5rem;
+  transition: opacity 0.2s ease-in-out;
 }

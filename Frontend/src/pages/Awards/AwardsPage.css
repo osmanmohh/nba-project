@@ -1,3 +1,6 @@
+:root {
+  --gold: #b99043;
+}
 /* === GLOBAL PAGE LOAD ANIMATIONS === */
 @keyframes fadeInScale {
   0% {
@@ -65,7 +68,8 @@ body {
 
 /* === SECTION ANIMATIONS === */
 .section {
-  width: 80vw;
+  width: 75vw;
+  max-width: 1300px;
   margin-top: 10px;
   padding-bottom: 20px;
 
@@ -74,14 +78,15 @@ body {
   align-items: center;
   flex-direction: column;
   gap: 20px;
-  border: 1px solid #ffa51d;
+  padding-left: 20px;
+  padding-right: 20px;
+
   animation: fadeSlideIn 0.6s ease-in-out;
 }
 
 .section-title {
-  background-color: #ffa51d;
   width: 100%;
-  color: rgb(0, 0, 0);
+  color: var(--gold);
   font-size: 1.3rem;
   font-family: "Fira Sans Condensed", sans-serif;
   font-weight: 500;
@@ -91,7 +96,6 @@ body {
 }
 
 .section-title p {
-  margin-left: 20px;
 }
 
 .awards-title-container {
@@ -104,14 +108,14 @@ body {
   align-items: center;
   justify-content: space-around;
   animation: fadeInScale 0.8s ease-in-out;
+  margin-top: 40px;
 }
 
 .awards-gold-boxed {
-  background-color: #ffa51d;
   padding-left: 1.7rem;
   padding-right: 1.7rem;
   width: fit-content;
-  color: #14181a;
+  color: var(--gold);
   font-size: 1.8rem;
   font-weight: 500;
   animation: fadeSlideIn 0.6s ease-in-out;
@@ -126,32 +130,42 @@ body {
 /* === SCROLL-BASED REVEAL ANIMATION === */
 .row-container {
   display: flex;
-  justify-content: center;
-  gap: 5%;
-  width: 80vw;
-}
+  justify-content: space-between;
 
-/* === RESPONSIVENESS === */
-@media (max-width: 768px) {
-  .awards-page-wrapper {
-    padding-bottom: 100px;
+  width: 100%;
+}
+@media (max-width: 950px) {
+
+  .section-title.ladder {
+    max-width: 768px;
+    margin-bottom: auto;
   }
-  .section {
-    width: 95dvw;
-  }
+
   .row-container {
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    width: 94%;
+    max-width: 768px;
   }
+}
+
+/* === RESPONSIVENESS === */
+@media (max-width: 768px) {
+
+  .section {
+    width: 90dvw;
+  }
+  .section-title {
+    
+  }
+}
+@media (max-width: 525px) {
   .awards-main-title {
-    font-size: 2rem;
-    transform: scaleY(2.2);
-    font-weight: 600;
+font-size: 2rem;
   }
-  .awards-title-container {
-    margin-top: 100px;
-    margin-bottom: 20px;
+}
+@media (max-width: 375px) {
+  .awards-main-title {
+    font-size: 1.5rem;
   }
 }

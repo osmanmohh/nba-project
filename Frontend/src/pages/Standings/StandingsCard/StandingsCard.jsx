@@ -1,5 +1,7 @@
 import "./StandingsCard.css";
+import "../StandingComponent/Standings.css";
 import { teamColors } from "../../../../public/teamColors";
+import { getLogo } from "../../../../public/getLogo";
 
 function StandingsCard({ rank, team, predictedRank, isExpanded, onExpand }) {
   if (!team) return null; // Prevents errors if data is missing
@@ -8,7 +10,7 @@ function StandingsCard({ rank, team, predictedRank, isExpanded, onExpand }) {
   const predictedWinLossPercentage = team["W/L%"] || 0; // Ensure it doesn't break if missing
 
   // Get team colors (default to gray if team is unknown)
-  const teamColor = teamColors[Tm] || { primary: "#808080" };
+  const teamColor = teamColors[Tm.toLowerCase()] || { primary: "#808080" };
 
   // Round predicted win/loss percentage to an integer (e.g., 78% instead of 0.78)
   const roundedWinLossPercentage = Math.round(predictedWinLossPercentage * 100);
@@ -52,7 +54,7 @@ function StandingsCard({ rank, team, predictedRank, isExpanded, onExpand }) {
 
         <div className="logo-container">
           <img
-            src={`logos/${Tm?.toLowerCase() || "default"}.png`}
+            src={getLogo(Tm)}
             className="logo"
             alt={`${Tm || "default"} logo`}
           />

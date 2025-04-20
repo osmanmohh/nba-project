@@ -22,13 +22,17 @@
   /* Apply the container animation */
   animation: fadeInSlide 1s ease-out forwards;
   animation-fill-mode: backwards;
+
+
 }
+
 
 .conference {
   display: flex;
   gap: 10px;
-  height: 70vh;
+
   width: 100%;
+padding-bottom: 20px;
 }
 
 .game-type {
@@ -43,6 +47,10 @@
   align-items: center;
   width: 100%;
 }
+.game-type.toggle {
+
+position: relative;
+}
 
 .team-col {
   display: flex;
@@ -51,14 +59,18 @@
   align-items: center;
   padding: 10px;
   width: 20vw;
+  
 }
 
 .nba-logo {
   height: 50px;
 }
 
-.playoffs {
+.team-col.playoffs {
   border-right: 1px dashed white;
+}
+.playoffs.standings-card-container{
+  border: 1px solid white;
 }
 
 .play-in {
@@ -71,10 +83,7 @@
     width: 95dvw;
     gap: 5px;
   }
-  .team-col {
-    padding: 0;
-    margin: 0;
-  }
+ 
   .nba-logo {
     height: 40px;
     margin-right: 5px;
@@ -82,4 +91,17 @@
   .game-type {
     font-size: clamp(1rem, 3vw, 1.3rem); /* Min 1rem, scales up to 5rem */
   }
+}
+@media (max-width: 700px) {
+  .conference {
+    flex-direction: column;
+
+    align-items: center;
+  }
+  .team-col, .team-col.playoffs {
+    width: 70%;
+    border: none ;
+    
+  }
+ 
 }

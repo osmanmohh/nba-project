@@ -1,46 +1,80 @@
 import "./AllNBACard.css";
-import { teamColors } from "../../public/teamColors";
-import players from "/players_2024"; // ✅ Corrected import path
-import { useNavigate } from "react-router-dom"; // ✅ Import navigation hook
 
-function AllNBACard({ playerId, rank }) {
-  const navigate = useNavigate(); // ✅ Initialize navigation
+import { useNavigate } from "react-router-dom"; //  Import navigation hook
 
-  // Convert playerId to integer for comparison
-  const numericPlayerId = parseInt(playerId, 10);
+import { useHeadshot } from "../hooks/useHeadshot";
+import { useState, useEffect } from "react";
+function AllNBACard({ playerId, rank, tm, selection }) {
+  const navigate = useNavigate();
+  const [player, setPlayer] = useState(null);
 
-  // Find the player in the dataset (handles float Player_ID)
-  const player = players.find(
-    (p) => Math.round(p.Player_ID) === numericPlayerId
-  );
+  // Always call this — even if `player` is null on first render
+  const headshot = useHeadshot(player?.Name || "");
 
-  // Handle case where player is not found
+  useEffect(() => {
+    fetch(`/api/player/${playerId}/stats`)
+      .then((response) => response.json())
+      .then((data) =>
+        setPlayer(
+          data.find((p) => p.Stat_Type === "Per Game" && p.Year === 2025)
+        )
+      )
+      .catch((error) => console.error("Error fetching player data:", error));
+  }, [playerId]);
+
   if (!player) {
     return <div className="player-card-container">Player not found</div>;
   }
 
-  // ✅ Function to navigate to the player search page
-  const handleClick = () => {
-    window.open(`/search/${encodeURIComponent(player.Name)}`);
+  const teamMap = {
+    ATL: "Atlanta Hawks",
+    BKN: "Brooklyn Nets",
+    BOS: "Boston Celtics",
+    CHA: "Charlotte Hornets",
+    CHI: "Chicago Bulls",
+    CLE: "Cleveland Cavaliers",
+    DAL: "Dallas Mavericks",
+    DEN: "Denver Nuggets",
+    DET: "Detroit Pistons",
+    GSW: "Golden State Warriors",
+    HOU: "Houston Rockets",
+    IND: "Indiana Pacers",
+    LAC: "Los Angeles Clippers",
+    LAL: "Los Angeles Lakers",
+    MEM: "Memphis Grizzlies",
+    MIA: "Miami Heat",
+    MIL: "Milwaukee Bucks",
+    MIN: "Minnesota Timberwolves",
+    NOP: "New Orleans Pelicans",
+    NYK: "New York Knicks",
+    OKC: "Oklahoma City Thunder",
+    ORL: "Orlando Magic",
+    PHI: "Philadelphia 76ers",
+    PHX: "Phoenix Suns",
+    POR: "Portland Trail Blazers",
+    SAC: "Sacramento Kings",
+    SAS: "San Antonio Spurs",
+    TOR: "Toronto Raptors",
+    UTA: "Utah Jazz",
+    WAS: "Washington Wizards",
   };
 
+  // Render when ready
   return (
-    <div className="all-nba-player-container" onClick={handleClick}>
+    <div
+      className="all-nba-player-container"
+      onClick={() => window.open(`/search/${encodeURIComponent(player.Name)}`)}
+    >
       <div className="photo-container">
-        <img
-          className="all-nba-image"
-          src={`headshots/${numericPlayerId}.png`}
-          alt={player.Name}
-        />
+        <img className="all-nba-image" src={headshot} alt={player.Name} />
       </div>
-
       <div className="all-nba-info">
         <div className="name-team">
           <div className="name">{player.Name}</div>
           <div className="team">
-            {player.Pos} • {player.Team}
+            {player.Pos} • {teamMap[tm].split(" ").pop()}
           </div>
-          <div className="team short">{player.Team.split(" ").pop()}</div>
+          <div className="team short">{teamMap[tm].split(" ").pop()}</div>
         </div>
         <div className="all-nba-stats">
           <div className="all-nba-stat-item">

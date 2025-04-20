@@ -12,9 +12,11 @@ app.use(express.json());
 // Load route files
 const teamRoutes = require("./routes/team");
 const playerRoutes = require("./routes/player");
+const searchRoutes = require("./routes/search"); // ✅ ADD THIS
 
 app.use("/api/team", teamRoutes);
 app.use("/api/player", playerRoutes);
+app.use("/api/search", searchRoutes); // ✅ ADD THIS
 
 // Test DB connection
 app.get("/api/test-db", async (req, res) => {

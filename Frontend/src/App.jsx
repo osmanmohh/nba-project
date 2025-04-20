@@ -22,15 +22,14 @@ function MainApp() {
       <NavBar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/search" element={<Search />} />
-        <Route path="/search/:query" element={<Search />} /> {/* ✅ Added route */}
+        <Route path="/search/:query?" element={<Search />} />
+
+        {/*  Added route */}
         <Route path="/standings" element={<StandingsPage />} />
         <Route path="/playoffs" element={<Playoffs />} />
         <Route path="/awards" element={<AwardsPage />} />
         <Route path="/awards" element={<AwardsPage />} />
         <Route path="/stats" element={<StatsPage />} />
-
-
       </Routes>
     </>
   );

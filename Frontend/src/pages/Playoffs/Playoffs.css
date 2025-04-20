@@ -95,11 +95,14 @@
     -webkit-font-smoothing: antialiased;
   }
 }
+.playoff-container {
+  height: 100dvh;
+  width: 100dvw;
+  
+  scroll-behavior: smooth;
 
-/* === BASE STYLING === */
-.playoff-page {
-  height: 100vh;
-  width: 100vw;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -107,16 +110,28 @@
   align-items: center;
   opacity: 0;
   animation: fadeInScale 1s ease-in-out forwards;
-  overflow: hidden;
-  will-change: transform, opacity;
+}
+
+  
+
+/* === BASE STYLING === */
+.playoff-page {
+  position: relative;
+max-width: 1700px;
+  height: 100dvh;
+  width: 100dvw;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* === PLAYOFF LOGO ANIMATION === */
 .playoff-logo {
   position: absolute;
-  width: 30vw;
+  width: 432px;
   top: 5%;
-  right: calc(50% - 18vw);
+  right: calc(50% - 216px - 40px);
   animation: bounceLogo 1s ease-in-out forwards 1s;
   -webkit-font-smoothing: antialiased;
   backface-visibility: hidden;
@@ -135,58 +150,42 @@
 }
 
 .east-title {
-  right: 2%;
+  right: 15px;
   animation: slideInRight 1s ease-in-out forwards 1s;
   -webkit-font-smoothing: antialiased;
   backface-visibility: hidden;
 }
 
 .west-title {
-  left: 6%;
+  left: 90px;
   animation: slideInLeft 1s ease-in-out forwards 1s;
   -webkit-font-smoothing: antialiased;
   backface-visibility: hidden;
 }
-@media (max-width: 768px) {
-  html, body {
-    width: 100%;
-    overflow-x: auto; /* Allows free horizontal scrolling */
-    overflow-y: auto;
-    touch-action: pan-x pan-y; /* Enables smooth touch scrolling */
-    scroll-behavior: smooth !important; /* Enables smooth transitions */
-    -webkit-overflow-scrolling: touch !important; /* Improves touch-based scrolling */
-}
-.playoff-container {
-    width: 100vw;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch !important; /* Enables iOS-style smooth inertia scrolling */
-    scroll-behavior: smooth !important; /* Ensures smooth horizontal panning */
-    touch-action: pan-x !important; /* Prevents zooming interference */
 
-}
+@media (max-width: 1150px) {
+  
   .playoff-page {
-    width: 1280px;
-    min-width: 1280px;
-    height: 100vh;
-    overflow-x: auto !important;
-    overflow-y: auto !important;
-    white-space: nowrap;
-  padding-left: 200px;
-  touch-action: pan-x !important; /* Forces horizontal scrolling */
-  -webkit-overflow-scrolling: touch !important; /* Enables momentum scrolling */
-}
-.playoff-logo{
-  width: 300px;
-  top: 60px;
 
-  left: calc(47.5%);
+    height: auto;
+    width: 100%;
+    overflow-x: scroll;
+display: block;
+ 
+  }
+  .east-title{
+    left: 25px;
+    top: 690px;
+  }
+  .west-title{
+    left: 25px;
+    top: 160px;
+
+  }
+  .playoff-logo{
+
+
+    left: 350px;
+  }
 }
-.east-title{
-  right: -130px;
-}
-.west-title{
-  left: 75px;
-}
-}
+

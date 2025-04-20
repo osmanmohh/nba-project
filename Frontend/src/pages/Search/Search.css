@@ -1,8 +1,8 @@
-/* ✅ Ensure `search-page` handles scrolling */
+/*  Ensure `search-page` handles scrolling */
 .search-page {
   height: 100dvh; /* Full viewport height */
   width: 100dvw;
-  overflow-y: auto; /* ✅ Enables scrolling */
+  overflow-y: auto; /*  Enables scrolling */
   overflow-x: hidden;
   display: flex;
   justify-content: center;
@@ -11,19 +11,57 @@
 }
 .search-page {
   opacity: 1;
-  transition: opacity .3s ease-in-out; /* Slower fade-in for the whole page */
+  transition: opacity 0.3s ease-in-out; /* Slower fade-in for the whole page */
 }
 
 .search-page.fade {
   opacity: 0;
 }
 
-/* ✅ `search-wrapper` stays within `search-page`, no extra scrollbars */
+/* Initial fade styles */
+.search-page.initial-fade {
+  opacity: 0;
+}
+
+.search-wrapper.hide-content {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.search-wrapper.show-content {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 0.8s ease-in-out,
+    transform 0.6s ease-out;
+}
+
+.loading-spinner-container {
+  height: 100dvh;
+  width: 100dvw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background-color: #121212;
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.loading-spinner-container.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/*  `search-wrapper` stays within `search-page`, no extra scrollbars */
 .search-wrapper {
   min-height: 100dvh; /* Allows content to expand */
-  margin-left: 70px;
-  width: 70dvw;
-  overflow: visible; /* ✅ No internal scrolling */
+  width: 90%;
+  max-width: 900px;
+  overflow: visible; /*  No internal scrolling */
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -38,8 +76,9 @@
 
 .search-wrapper > *:not(.search-bar-container) {
   opacity: 1;
-  transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.4s ease-in-out;
 }
+
 .loading-spinner {
   font-size: 1.5rem;
   padding: 2rem;
@@ -59,6 +98,9 @@
   width: 100%;
   border-radius: 20px;
   position: relative;
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
 }
 
 .search-results-container > * {
@@ -66,15 +108,42 @@
   transition: opacity 0.3s ease;
 }
 
+.search-wrapper.hide-content .search-results-container {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.search-wrapper.show-content .search-results-container {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.1s;
+}
+
 .search-results-container.fade > * {
   opacity: 0;
 }
+
+/* Staggered animations for sections */
+.search-wrapper.hide-content .player-bio-section-container {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.search-wrapper.show-content .player-bio-section-container {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 0.8s ease-in-out,
+    transform 0.7s ease-out;
+  transition-delay: 0.2s;
+}
+
 .btn-container-wrapper {
-  position: absolute;
-  left: 35%;
+  left: 0%;
   bottom: 0%;
   width: 175px;
-  height: 20%;
+  height: 40px;
+  min-height: 40px;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -91,10 +160,6 @@
   align-items: center;
   z-index: 100;
   cursor: pointer;
-}
-
-.btn-container:hover button {
-  background-color: #ffffff !important;
 }
 
 .btn-wrapper {
@@ -130,17 +195,6 @@
   border-bottom-left-radius: 0px;
 }
 
-.player-profile {
-  position: relative;
-  height: 30vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  overflow: hidden;
-  z-index: 1;
-}
-
 .search-bar-container {
   margin-top: 20px;
   display: flex;
@@ -148,7 +202,21 @@
   width: 100%;
   height: 100px;
   border-radius: 1.5rem;
-  z-index: 3;
+  z-index: 1000;
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+
+.search-wrapper.hide-content .search-bar-container {
+  opacity: 0;
+  transform: translateY(15px);
+}
+
+.search-wrapper.show-content .search-bar-container {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0s;
 }
 
 .search-input {
@@ -173,22 +241,74 @@
   font-size: 14px;
   pointer-events: none;
 }
+.player-profile {
+  position: relative;
+  height: 270px;
+  display: flex;
 
-.player-headshot {
+  align-items: center;
+  color: white;
+  overflow: hidden;
+  z-index: 1;
+}
+.profile-headshot-container {
+  display: flex;
+  justify-content: left;
+  align-items: flex-end;
+  position: relative;
+  /* border: 1px solid red; */
+  height: 100%;
+  width: 280px;
+  min-width: 250px;
+  margin-left: 50px;
+}
+.profile-headshot.team {
+  width: 80%;
+  transform: translatey(-10%);
+}
+.profile-info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+  flex: 1;
+}
+
+.profile-headshot {
   z-index: 2;
+  width: 100%;
+}
+
+.player-info {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+
+  width: 500px;
+  height: 100%;
+
+  z-index: 2;
+}
+.team-logo-large-container {
+  width: 100%;
+  overflow: hidden;
+  height: 100%;
   position: absolute;
-  bottom: 0;
-  left: 7%;
-  height: 80%;
 }
 
 .team-logo-large {
-  z-index: -1;
   position: absolute;
-  top: -65%;
-  left: 4%;
-  height: 225%;
+  top: -100px;
+  left: 0px;
+
+  z-index: -1;
+
   opacity: 10%;
+}
+.team-logo-large.tm {
+  left: 200px;
 }
 
 .team-logo-small {
@@ -198,22 +318,26 @@
   height: 35%;
 }
 
-.player-info {
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  left: 35%;
-  z-index: 2;
-}
-
 .team-position {
   font-family: "Fira Sans Condensed", sans-serif;
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 2vw, 1.4rem);
+  font-weight: 300;
 }
 
 .profile-name {
-  font-size: 3rem;
+  font-size: clamp(1.2rem, 4vw, 3rem);
   font-family: "Fira Sans Condensed", sans-serif;
+
+  width: 95%;
+}
+
+/* New container for the player bio section */
+.player-bio-section-container {
+  width: 100%;
+  position: relative;
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
 }
 
 .player-bio-section {
@@ -226,6 +350,9 @@
   min-width: 100%;
   opacity: 1;
   transition: opacity 0.3s ease;
+}
+.player-bio-section.games {
+  min-height: 500px;
 }
 
 .player-bio-section.fade {
@@ -241,22 +368,18 @@
 .player-bio-section.tab-transition > * {
   opacity: 0;
 }
-@media (max-width: 1150px) {
+@media (max-width: 800px) {
   .search-page {
     height: 100dvh; /* Full viewport height */
     width: 100dvw;
   }
   .search-wrapper {
     margin-left: 0px;
-    width: 100dvw;
+    /* width: 80%; */
     height: 100dvh;
   }
   .search-results-container {
     width: 95%;
-  }
-  .player-profile {
-    border-radius: 20px;
-    margin: 0;
   }
 
   .search-input {
@@ -264,38 +387,46 @@
     margin: 0;
   }
 
-  .player-headshot {
-    left: -8%;
-    height: 67%;
+  .player-bio-section {
+    margin: 0;
+    width: 97%;
   }
 
+  .leaders-card {
+    width: 100%;
+    margin: 0;
+  }
+}
+@media (max-width: 650px) {
+  .profile-headshot-container {
+    margin-left: 20px;
+  }
+}
+
+@media (max-width: 550px) {
+  .search-wrapper {
+    width: 100%;
+  }
+
+  .search-results-container {
+    position: relative;
+  }
+  .player-profile {
+    /* overflow: visible; */
+  }
+  .profile-headshot-container {
+    min-width: clamp(200px, 50vw, 250px);
+    /* border: 1px solid red; */
+    margin-left: -20px;
+
+    margin-right: 10px;
+  }
   .team-logo-small {
-    position: absolute;
     left: 5%;
     top: 5%;
     height: 25%;
   }
   .player-info {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-
-    left: 52%;
-    width: 45%;
-  }
-
-  .team-position {
-    font-size: 0.8rem;
-  }
-
-  .profile-name {
-    font-size: 1.6rem;
-  }
-  .btn-container-wrapper {
-    left: 52%;
-  }
-  .player-bio-section {
-    margin: 0;
-    width: 97%;
+    margin-left: -10px;
   }
 }
