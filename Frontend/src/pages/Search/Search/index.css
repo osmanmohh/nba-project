@@ -1,0 +1,440 @@
+/*  Ensure `search-page` handles scrolling */
+.search-page {
+  height: 100dvh; /* Full viewport height */
+  width: 100dvw;
+  overflow-y: auto; /*  Enables scrolling */
+  overflow-x: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.search-page {
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out; /* Slower fade-in for the whole page */
+}
+
+.search-page.fade {
+  opacity: 0;
+}
+
+/* Initial fade styles */
+.search-page.initial-fade {
+  opacity: 0;
+}
+
+.search-wrapper.hide-content {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.search-wrapper.show-content {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 0.8s ease-in-out,
+    transform 0.6s ease-out;
+}
+
+.loading-spinner-container {
+  height: 100dvh;
+  width: 100dvw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background-color: #121212;
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.loading-spinner-container.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/*  `search-wrapper` stays within `search-page`, no extra scrollbars */
+.search-wrapper {
+  min-height: 100dvh; /* Allows content to expand */
+  width: 90%;
+  max-width: 900px;
+  overflow: visible; /*  No internal scrolling */
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.search-wrapper.fade {
+  opacity: 0;
+}
+
+.search-wrapper > *:not(.search-bar-container) {
+  opacity: 1;
+  transition: opacity 0.4s ease-in-out;
+}
+
+.loading-spinner {
+  font-size: 1.5rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+.search-wrapper.fade > *:not(.search-bar-container) {
+  opacity: 0;
+}
+
+.search-results-container {
+  top: 0px;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+  width: 100%;
+  border-radius: 20px;
+  position: relative;
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+
+.search-results-container > * {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.search-wrapper.hide-content .search-results-container {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.search-wrapper.show-content .search-results-container {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.1s;
+}
+
+.search-results-container.fade {
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out; /* Match the tab transition timing */
+}
+
+/* Staggered animations for sections */
+.search-wrapper.hide-content .player-bio-section-container {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.search-wrapper.show-content .player-bio-section-container {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 0.8s ease-in-out,
+    transform 0.7s ease-out;
+  transition-delay: 0.2s;
+}
+
+.btn-container-wrapper {
+  left: 0%;
+  bottom: 0%;
+  width: 175px;
+  height: 40px;
+  min-height: 40px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  font-family: "Fira Sans Condensed", sans-serif;
+}
+
+.btn-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  cursor: pointer;
+}
+
+.btn-wrapper {
+  width: 100%;
+  text-align: center;
+  height: 10px;
+}
+
+.btn-text {
+  font-size: 1rem;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  text-align: center;
+  justify-content: end;
+  height: 100%;
+  margin-bottom: 10px;
+}
+
+.btn-container button {
+  border: none;
+  color: none;
+  padding: 10px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 5px;
+  z-index: 100;
+  position: relative;
+  border-radius: 10px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+.search-bar-container {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100px;
+  border-radius: 1.5rem;
+  z-index: 1000;
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+
+.search-wrapper.hide-content .search-bar-container {
+  opacity: 0;
+  transform: translateY(15px);
+}
+
+.search-wrapper.show-content .search-bar-container {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0s;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  border-radius: 1.5rem;
+  padding: 0.5rem 1rem 0.5rem 2rem;
+  color: #ffffff;
+  width: 100%;
+  height: 40px;
+  background-color: #202124;
+}
+
+.search-input::placeholder {
+  color: #9ba3af;
+  opacity: 20%;
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  font-size: 14px;
+  pointer-events: none;
+}
+.player-profile {
+  position: relative;
+  height: 270px;
+  display: flex;
+  align-items: center;
+  color: white;
+  overflow: hidden;
+  z-index: 1;
+  opacity: 1;
+  transition: opacity 0.2s ease-in-out; /* Match the tab transition timing */
+}
+
+/* Make profile fade with tab transitions */
+.player-bio-section.tab-transition + .player-profile {
+  opacity: 0;
+}
+
+.profile-headshot-container {
+  display: flex;
+  justify-content: left;
+  align-items: flex-end;
+  position: relative;
+  /* border: 1px solid red; */
+  height: 100%;
+  width: 280px;
+  min-width: 250px;
+  margin-left: 50px;
+}
+.profile-headshot.team {
+  width: 80%;
+  transform: translatey(-10%);
+}
+.profile-info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+  flex: 1;
+}
+
+.profile-headshot {
+  z-index: 2;
+  width: 100%;
+}
+
+.player-info {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+
+  width: 500px;
+  height: 100%;
+
+  z-index: 2;
+}
+.team-logo-large-container {
+  width: 100%;
+  overflow: hidden;
+  height: 100%;
+  position: absolute;
+}
+
+.team-logo-large {
+  position: absolute;
+  top: -100px;
+  left: 0px;
+
+  z-index: -1;
+
+  opacity: 10%;
+}
+.team-logo-large.tm {
+  left: 200px;
+}
+
+.team-logo-small {
+  position: absolute;
+  left: 5%;
+  top: 10%;
+  height: 35%;
+}
+
+.team-position {
+  font-family: "Fira Sans Condensed", sans-serif;
+  font-size: clamp(1rem, 2vw, 1.4rem);
+  font-weight: 300;
+}
+
+.profile-name {
+  font-size: clamp(1.2rem, 4vw, 3rem);
+  font-family: "Fira Sans Condensed", sans-serif;
+
+  width: 95%;
+}
+
+/* New container for the player bio section */
+.player-bio-section-container {
+  width: 100%;
+  position: relative;
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+}
+
+.player-bio-section {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  min-width: 100%;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+.player-bio-section.games {
+  min-height: 500px;
+}
+
+.player-bio-section.fade {
+  opacity: 0;
+}
+
+/* Add tab transitions */
+.player-bio-section > * {
+  opacity: 1;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.player-bio-section.tab-transition > * {
+  opacity: 0;
+}
+@media (max-width: 800px) {
+  .search-page {
+    height: 100dvh; /* Full viewport height */
+    width: 100dvw;
+  }
+  .search-wrapper {
+    margin-left: 0px;
+    /* width: 80%; */
+    height: 100dvh;
+  }
+  .search-results-container {
+    width: 95%;
+  }
+
+  .search-input {
+    border-radius: 0;
+    margin: 0;
+  }
+
+  .player-bio-section {
+    margin: 0;
+    width: 97%;
+  }
+
+  .leaders-card {
+    width: 100%;
+    margin: 0;
+  }
+}
+@media (max-width: 650px) {
+  .profile-headshot-container {
+    margin-left: 20px;
+  }
+}
+
+@media (max-width: 550px) {
+  .search-wrapper {
+    width: 100%;
+  }
+
+  .search-results-container {
+    position: relative;
+  }
+  .player-profile {
+    /* overflow: visible; */
+  }
+  .profile-headshot-container {
+    min-width: clamp(200px, 50vw, 250px);
+    /* border: 1px solid red; */
+    margin-left: -20px;
+
+    margin-right: 10px;
+  }
+  .team-logo-small {
+    left: 5%;
+    top: 5%;
+    height: 25%;
+  }
+  .player-info {
+    margin-left: -10px;
+  }
+}

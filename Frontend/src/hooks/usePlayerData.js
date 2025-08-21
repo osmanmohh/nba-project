@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getHeadshot } from "../../public/getHeadshot";
+import { getHeadshot } from "../utils/getHeadshot";
 
 const usePlayerData = (selectedSeason, allTeams) => {
   const [fetchedStats, setFetchedStats] = useState([]);
@@ -34,7 +34,10 @@ const usePlayerData = (selectedSeason, allTeams) => {
         const latestAbbr = games[0]?.Team?.toLowerCase();
 
         const match = allTeams.find(
-          (t) => t?.Tm?.toLowerCase() === latestAbbr && t?.Year === year && t?.StatType === "totals"
+          (t) =>
+            t?.Tm?.toLowerCase() === latestAbbr &&
+            t?.Year === year &&
+            t?.StatType === "totals"
         );
 
         if (latestAbbr && newPlayer.teamAbbr !== latestAbbr) {
@@ -49,9 +52,12 @@ const usePlayerData = (selectedSeason, allTeams) => {
         const headshot = await getHeadshot(newPlayer.name);
         if (headshot) setNewPlayer((prev) => ({ ...prev, headshot }));
 
-        const rosterRes = await fetch(`/api/team/${latestAbbr}/roster?year=${year}`);
+        const rosterRes = await fetch(
+          `/api/team/${latestAbbr}/roster?year=${year}`
+        );
         const rosterData = await rosterRes.json();
         setNewRoster(rosterData);
+
       } catch (err) {
         console.error("❌ Error loading player data:", err);
       }

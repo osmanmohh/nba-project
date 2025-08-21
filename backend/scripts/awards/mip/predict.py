@@ -1,10 +1,15 @@
 import pandas as pd
 import numpy as np
 import requests
+import os
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
 from sklearn.preprocessing import StandardScaler
+
+# Environment variables for API URLs
+API_BASE_URL = os.getenv('API_BASE_URL', 'http://localhost:5173')
+BACKEND_URL = os.getenv('BACKEND_URL', 'http://localhost:5001')
 
 # ------------------------------------------------------------------
 # 1) LOAD MIP HISTORY & PLAYER STATS
@@ -16,7 +21,7 @@ print("📅 Loading historical player stats...")
 all_stats = []
 for year in range(2001, 2025):
     res = requests.get(
-        "http://localhost:5173/api/player/stats/all", 
+        f"{API_BASE_URL}/api/player/stats/all", 
         params={"year": year,"stat_type":"Per Game"}
     )
     if res.status_code == 200:
@@ -31,7 +36,7 @@ print("🏀 Fetching team stats...")
 team_stats = []
 for year in range(2000, 2026):
     for team in df["Tm"].unique():
-        res = requests.get(f"http://localhost:5173/api/team/{team}", params={"year": year})
+        res = requests.get(f"{API_BASE_URL}/api/team/{team}", params={"year": year})
         if res.status_code == 200:
             team_data = res.json()
             if isinstance(team_data, list):
@@ -110,7 +115,7 @@ print(classification_report(y_test, model.predict(X_test_scaled)))
 # ------------------------------------------------------------------
 print("\n🔮 Fetching 2025 stats from API...")
 res_2025 = requests.get(
-    "http://localhost:5173/api/player/stats/all",
+    f"{API_BASE_URL}/api/player/stats/all",
     params={"year":2025,"stat_type":"Per Game"}
 )
 df_2025 = pd.DataFrame(res_2025.json())

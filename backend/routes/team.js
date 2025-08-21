@@ -211,38 +211,35 @@ router.get("/:team/roster", async (req, res) => {
   const { year } = req.query;
 
   if (!year || isNaN(parseInt(year))) {
-    return res
-      .status(400)
-      .json({ message: "Year is required and must be a number" });
+    return res.status(400).json({ message: "Year is required and must be a number" });
   }
 
   try {
     const result = await pool.query(
       `
-      SELECT cs.*
-      FROM combined_stats cs
-      JOIN (
-        SELECT DISTINCT ON ("BBRef ID")
-          "BBRef ID", "Team" AS last_team
-        FROM player_game_logs
-        WHERE "Year" = $1
-        ORDER BY "BBRef ID", "Date" DESC
-      ) last_games
-        ON cs."playerID" = last_games."BBRef ID"
-      WHERE cs."Year" = $1
-        AND cs."Season_Type" = 'Regular'
-        AND cs."Stat_Type" = 'Per Game'
-        AND last_games.last_team = $2
-        AND cs."Tm" = $2
-      ORDER BY cs."PTS" DESC
+SELECT cs.*
+FROM combined_stats cs
+JOIN (
+  SELECT DISTINCT ON ("BBRef ID")
+    "BBRef ID", "Team" AS last_team
+  FROM player_game_logs
+  WHERE "Year" = $1
+  ORDER BY "BBRef ID", "Date" DESC
+) last_games
+  ON cs."playerID" = last_games."BBRef ID"
+WHERE cs."Year" = $1
+  AND cs."Season_Type" = 'Regular'
+  AND cs."Stat_Type" = 'Per Game'
+  AND cs."Tm" = last_games.last_team
+  AND cs."Tm" = $2
+ORDER BY cs."PTS" DESC;
+
       `,
       [parseInt(year), team.toUpperCase()]
     );
 
     if (result.rows.length === 0) {
-      return res
-        .status(404)
-        .json({ message: "No roster found for that team and year" });
+      return res.status(404).json({ message: "No roster found for that team and year" });
     }
 
     res.json(result.rows);
@@ -251,3 +248,4 @@ router.get("/:team/roster", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+

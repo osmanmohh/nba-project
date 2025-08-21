@@ -1,8 +1,14 @@
 import requests
 import pandas as pd
-BASE_URL = "http://localhost:5173/api/player"
-BASE_PLAYER_URL = "http://localhost:5001/api/player"
-BASE_TEAM_URL = "http://localhost:5001/api/team"
+import os
+
+# Environment variables for API URLs
+API_BASE_URL = os.getenv('API_BASE_URL', 'http://localhost:5173')
+BACKEND_URL = os.getenv('BACKEND_URL', 'http://localhost:5001')
+
+BASE_URL = f"{API_BASE_URL}/api/player"
+BASE_PLAYER_URL = f"{BACKEND_URL}/api/player"
+BASE_TEAM_URL = f"{BACKEND_URL}/api/team"
 team_games_played_cache = {}
 
 def fetch_stats_by_year(year):

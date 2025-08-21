@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getHeadshot } from "../../public/getHeadshot";
+import { getHeadshot } from "../utils/getHeadshot";
 
 const useSearchLogic = () => {
   const { query: urlQuery } = useParams();
@@ -67,14 +67,28 @@ const useSearchLogic = () => {
       searchQuery = decodeURIComponent(urlQuery);
     } else {
       try {
-        const stored = localStorage.getItem("lastSearchedPlayer");
-        const parsed = stored ? JSON.parse(stored) : null;
-        const isValid =
-          parsed &&
-          typeof parsed.name === "string" &&
-          typeof parsed.bbref_id === "string";
+        // Try to load from the new unified lastSearchedItem first
+        const storedItem = localStorage.getItem("lastSearchedItem");
+        const parsedItem = storedItem ? JSON.parse(storedItem) : null;
+        const isValidItem =
+          parsedItem &&
+          typeof parsedItem.name === "string" &&
+          typeof parsedItem.type === "string";
 
-        searchQuery = isValid ? parsed.name : DEFAULT_PLAYER.name;
+        if (isValidItem) {
+          // Use the name as search query regardless of type
+          searchQuery = parsedItem.name;
+        } else {
+          // Fall back to the old lastSearchedPlayer if new format not found
+          const stored = localStorage.getItem("lastSearchedPlayer");
+          const parsed = stored ? JSON.parse(stored) : null;
+          const isValid =
+            parsed &&
+            typeof parsed.name === "string" &&
+            typeof parsed.bbref_id === "string";
+
+          searchQuery = isValid ? parsed.name : DEFAULT_PLAYER.name;
+        }
       } catch (err) {
         console.warn("⚠️ Invalid localStorage — falling back to Curry.");
         searchQuery = DEFAULT_PLAYER.name;
@@ -119,7 +133,7 @@ const useSearchLogic = () => {
         setContentReady(true);
         setIsLoadingNewContent(false);
         setIsFading(false);
-      }, 300);
+      }, 500);
     }
   }, [
     newPlayer,
@@ -163,7 +177,7 @@ const useSearchLogic = () => {
           fetch(`/api/player/${newPlayer.bbref_id}/games`),
           fetch(`/api/player/${newPlayer.bbref_id}`),
         ]);
-        console.log("statsRes");
+
         const stats = await statsRes.json();
         let games = await gamesRes.json();
         games = games.sort((a, b) => new Date(b.Date) - new Date(a.Date));
@@ -220,10 +234,6 @@ const useSearchLogic = () => {
     );
 
     if (team) {
-      setMatchedTeam(team);
-      setSelectedPlayer(null);
-      setSelectedType("team"); // ✅ team selected
-
       try {
         const [gamesRes, statsRes, rosterRes] = await Promise.all([
           fetch(`/api/team/${team.Tm}/games`),
@@ -240,8 +250,23 @@ const useSearchLogic = () => {
         setTeamGames(games);
         setTeamStats(stats);
         setNewRoster(rosterData);
+
+        setMatchedTeam(team);
+        setSelectedPlayer(null);
+        setSelectedType("team");
+
+        // Store team search in localStorage
+        const teamData = {
+          name: team.Team || team.Tm,
+          abbreviation: team.Tm,
+          type: "team",
+        };
+        localStorage.setItem("lastSearchedItem", JSON.stringify(teamData));
       } catch (err) {
         console.error("❌ Failed to fetch team schedule or roster:", err);
+        setContentReady(true);
+        setIsLoadingNewContent(false);
+        setIsFading(false);
       }
 
       return;
@@ -278,6 +303,17 @@ const useSearchLogic = () => {
         setNewPlayer(formattedPlayer);
 
         if (playerData?.bbref_id && playerData?.name) {
+          // Update to store player with type
+          const playerSearchData = {
+            ...formattedPlayer,
+            type: "player",
+          };
+          localStorage.setItem(
+            "lastSearchedItem",
+            JSON.stringify(playerSearchData)
+          );
+
+          // Keep the old key for backward compatibility
           localStorage.setItem(
             "lastSearchedPlayer",
             JSON.stringify(formattedPlayer)

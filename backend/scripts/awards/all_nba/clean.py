@@ -102,6 +102,10 @@ import os
 import pandas as pd
 import requests
 
+# Environment variables for API URLs
+API_BASE_URL = os.getenv('API_BASE_URL', 'http://localhost:5173')
+BACKEND_URL = os.getenv('BACKEND_URL', 'http://localhost:5001')
+
 # === STEP 1: Load All-NBA Selection Data ===
 all_nba_df = pd.read_csv("backend/data/all_nba_votes_combined.csv")  # Your cleaned All-NBA file
 all_nba_df["Name"] = all_nba_df["Name"].str.strip()
@@ -113,7 +117,7 @@ all_stats = []
 print("📥 Pulling player stats from API...")
 
 for year in range(2001, 2025):
-    res = requests.get("http://localhost:5173/api/player/stats/all", params={"year": year, "stat_type": "Per Game"})
+    res = requests.get(f"{API_BASE_URL}/api/player/stats/all", params={"year": year, "stat_type": "Per Game"})
     if res.status_code == 200:
         for player in res.json():
             player["Year"] = year
@@ -143,7 +147,7 @@ team_stats = []
 for year in range(2001, 2025):
     teams = merged_df[merged_df["Year"] == year]["Tm"].dropna().unique()
     for team in teams:
-        res = requests.get(f"http://localhost:5173/api/team/{team}", params={"year": year})
+        res = requests.get(f"{API_BASE_URL}/api/team/{team}", params={"year": year})
         if res.status_code == 200:
             team_data = res.json()
             if isinstance(team_data, list):

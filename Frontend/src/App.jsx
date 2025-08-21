@@ -1,12 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import NavBar from "./components/NavBar";
-import Home from "./pages/Home/Home";
-import Search from "./pages/Search/Search";
-import StandingsPage from "./pages/Standings/StandingsPage";
-import Playoffs from "./pages/Playoffs/Playoffs";
-import AwardsPage from "./pages/Awards/AwardsPage";
+import NavBar from "./components/NavBar/index";
+import Home from "./pages/Home/Home/index";
+import Search from "./pages/Search/Search/index";
+import StandingsPage from "./pages/Standings/StandingsPage/index";
+import Playoffs from "./pages/Playoffs/Playoffs/index";
+import AwardsPage from "./pages/Awards/AwardsPage/index";
 import "./App.css";
-import StatsPage from "./pages/Stats/StatsPage";
+import StatsPage from "./pages/Stats/StatsPage/index";
 
 function App() {
   return (

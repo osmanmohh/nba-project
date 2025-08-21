@@ -7,7 +7,7 @@ export default defineConfig({
     host: true,
     allowedHosts: [".ngrok-free.app"], // allow all ngrok subdomains
     proxy: {
-      "/api": "http://localhost:5001",
+      "/api": process.env.VITE_API_URL || "http://localhost:5001",
     },
   },
 });

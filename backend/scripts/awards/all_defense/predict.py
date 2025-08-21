@@ -1,12 +1,17 @@
 import pandas as pd
 import numpy as np
 import requests
+import os
 
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.pipeline import Pipeline
 from tabulate import tabulate
+
+# Environment variables for API URLs
+API_BASE_URL = os.getenv('API_BASE_URL', 'http://localhost:5173')
+BACKEND_URL = os.getenv('BACKEND_URL', 'http://localhost:5001')
 
 def main():
     # === 1. Load training data (totals-based) ===
@@ -17,7 +22,7 @@ def main():
 
     # === 2. Fetch 2025 player totals ===
     print("\U0001F4E1 Pulling 2025 player totals from API...")
-    res = requests.get("http://localhost:5173/api/player/stats/all", params={"year": 2025, "stat_type": "Totals"})
+    res = requests.get(f"{API_BASE_URL}/api/player/stats/all", params={"year": 2025, "stat_type": "Totals"})
     if res.status_code != 200:
         raise Exception("❌ Failed to fetch 2025 stats.")
     test_df = pd.DataFrame(res.json())
@@ -29,7 +34,7 @@ def main():
     print("\U0001F4E1 Pulling 2025 team stats...")
     team_stats = []
     for team in test_df["Tm"].dropna().unique():
-        res = requests.get(f"http://localhost:5173/api/team/{team}", params={"year": 2025})
+        res = requests.get(f"{API_BASE_URL}/api/team/{team}", params={"year": 2025})
         if res.status_code == 200:
             team_data = res.json()[0] if isinstance(res.json(), list) else res.json()
             team_stats.append({

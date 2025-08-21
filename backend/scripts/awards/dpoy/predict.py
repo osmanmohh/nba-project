@@ -1,7 +1,12 @@
 import pandas as pd
 import requests
+import os
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import MinMaxScaler
+
+# Environment variables for API URLs
+API_BASE_URL = os.getenv('API_BASE_URL', 'http://localhost:5173')
+BACKEND_URL = os.getenv('BACKEND_URL', 'http://localhost:5001')
 
 # === 1. Load historical DPOY voting data ===
 df = pd.read_csv("backend/data/dpoy_training_data.csv")
@@ -24,7 +29,7 @@ model.fit(X_scaled, y)
 
 # === 2. Fetch 2025 player stats ===
 print("\U0001F4E1 Fetching 2025 player stats...")
-res = requests.get("http://localhost:5173/api/player/stats/all", params={"year": 2025, "stat_type": "Totals"})
+res = requests.get(f"{API_BASE_URL}/api/player/stats/all", params={"year": 2025, "stat_type": "Totals"})
 df_2025 = pd.DataFrame(res.json())
 df_2025 = df_2025[[
     "Name", "playerID", "Tm", "Age", "G", "MP", "STL", "BLK", "REB",
@@ -37,7 +42,7 @@ team_stats = []
 teams = df_2025["Tm"].unique()
 
 for team in teams:
-    res = requests.get(f"http://localhost:5173/api/team/{team}", params={"year": 2025})
+    res = requests.get(f"{API_BASE_URL}/api/team/{team}", params={"year": 2025})
     if res.status_code == 200:
         team_data = res.json()
         if isinstance(team_data, list):

@@ -13,7 +13,9 @@ const useTeamData = (selectedSeason) => {
       const [gamesRes, statsRes, rosterRes] = await Promise.all([
         fetch(`/api/team/${teamAbbr}/games?year=${selectedSeason}`),
         fetch(`/api/team/${teamAbbr}`),
-        fetch(`/api/team/${teamAbbr.toLowerCase()}/roster?year=${selectedSeason}`),
+        fetch(
+          `/api/team/${teamAbbr.toLowerCase()}/roster?year=${selectedSeason}`
+        ),
       ]);
 
       const games = await gamesRes.json();
@@ -23,6 +25,7 @@ const useTeamData = (selectedSeason) => {
       setTeamGames(games);
       setTeamStats(stats);
       setNewRoster(rosterData);
+
       setIsRosterReady(true); // ✅ done loading
     } catch (err) {
       console.error("❌ Team data fetch error:", err);
@@ -37,7 +40,6 @@ const useTeamData = (selectedSeason) => {
     teamStats,
     newRoster,
     fetchTeamData,
-
   };
 };
 
