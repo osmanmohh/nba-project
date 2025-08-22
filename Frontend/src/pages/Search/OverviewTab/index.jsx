@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import teams from "/teams.json";
 import "./index.css";
 import PlayerStatistics from "../PlayerStatistics";
 import PlayerGamesSection from "../PlayerGamesSection";

@@ -1,6 +1,5 @@
 import "./index.css";
 import { teamColors } from "../../constants/teamColors";
-import players from "/players_2024"; // ✅ Corrected import path
 import { useNavigate } from "react-router-dom"; // ✅ Import navigation hook
 import { getLogo } from "../../utils/getLogo";
 import { useHeadshot } from "../../hooks/useHeadshot";
