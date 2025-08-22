@@ -1,4 +1,4 @@
-import PlayoffBracket from "/Users/osmanmohamed/nba-project/src/components/PlayoffBracket.jsx";
+import PlayoffBracket from "../../components/PlayoffBracket";
 import "./Playoffs.css";
 
 export default function Playoffs() {
