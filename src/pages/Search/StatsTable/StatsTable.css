@@ -1,0 +1,156 @@
+/* ✅ Table Container */
+.table-container {
+  font-family: "Fira Sans Condensed", sans-serif;
+  border-radius: 0 0 6px 6px;
+  width: 100%;
+  overflow-x: auto; /* Enables horizontal scrolling */
+  max-width: 100%;
+  position: relative;
+  background-color: #202124; /* ✅ Unified Background */
+  color: #909396; /* ✅ Text color */
+  margin-top: 20px;
+}
+
+/* ✅ Full-Width Fixed Table Title */
+.table-title {
+  background-color: #202124; /* ✅ Unified Background */
+  color: #ffffff;
+  padding-left: 10px;
+  font-weight: bold;
+  text-align: left;
+  width: 100%;
+  margin-bottom: 0;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  white-space: nowrap;
+}
+
+/* ✅ Scrollable Table Wrapper */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto; /* Enables horizontal scrolling */
+  position: relative;
+}
+
+/* ✅ Table Styling */
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #202124; /* ✅ Unified Background */
+  color: #909396; /* ✅ Text color */
+  min-width: 800px;
+}
+
+/* ✅ Column Headers */
+.column-headers th {
+  background-color: #202124; /* ✅ Unified Background */
+  padding: 12px;
+  text-align: center;
+  font-weight: bold;
+  color: #909396; /* ✅ Unified Text */
+  text-transform: uppercase;
+  font-size: 14px;
+  white-space: nowrap;
+  top: 40px;
+  z-index: 5;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+/* ✅ Hover Effect for Headers */
+.column-headers th:hover {
+  background-color: #3c4043; /* ✅ Slightly lighter for hover effect */
+}
+
+/* ✅ Ensure Click Works for Sorting */
+.column-headers th:active {
+  background-color: #505357;
+}
+
+/* ✅ Sorted Column Highlight */
+.sorted-column {
+  background-color: #37383d !important; /* ✅ Highlighted column */
+  color: #e8eaed !important;
+  font-weight: bold;
+}
+
+/* ✅ Table Rows */
+.stats-table td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #3c4043; /* ✅ Subtle row separation */
+  font-size: 14px;
+  word-wrap: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background-color: #202124; /* ✅ Unified Background */
+}
+
+/* ✅ Team Name Highlight */
+.team-cell {
+  color: #8ab4f8; /* ✅ Blue accent for team names */
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+/* ✅ Hover Effect for Rows */
+.stats-table tbody tr:hover {
+  background-color: #3c4043; /* ✅ Slightly lighter hover effect */
+}
+
+/* ✅ Show More Button */
+.show-more-container {
+  background-color: #202124; /* ✅ Unified Background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.show-more-btn {
+  margin: 10px auto;
+  display: block;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #8ab4f8;
+  border: none;
+  border-radius: 5px;
+  background-color: transparent;
+}
+
+.show-more-btn:hover {
+  text-decoration: underline;
+}
+
+/* ✅ Player Name Container */
+.player-name-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+/* ✅ Team Logo */
+.stats-team-logo {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+/* ✅ Custom Scrollbar */
+.table-container::-webkit-scrollbar {
+  height: 12px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background-color: #3c4043; /* ✅ Scrollbar thumb color */
+  border-radius:20px;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background-color: #2D2D2D; /* ✅ Scrollbar track color */
+}
