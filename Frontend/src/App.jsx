@@ -23,11 +23,8 @@ function MainApp() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/search/:query?" element={<Search />} />
-
-        {/*  Added route */}
         <Route path="/standings" element={<StandingsPage />} />
         <Route path="/playoffs" element={<Playoffs />} />
-        <Route path="/awards" element={<AwardsPage />} />
         <Route path="/awards" element={<AwardsPage />} />
         <Route path="/stats" element={<StatsPage />} />
       </Routes>

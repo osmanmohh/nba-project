@@ -11,7 +11,7 @@ import {
   faMedal,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 
 const NavBar = () => {
   const [showNav, setShowNav] = useState(false);
@@ -22,44 +22,44 @@ const NavBar = () => {
     <div className={`nav-bar ${currentPath.slice(1)}`}>
       {/* Navigation */}
       <nav className={showNav ? "mobile-show" : ""}>
-        <a href="/" onClick={() => setShowNav(false)}>
+        <Link to="/" onClick={() => setShowNav(false)}>
           <FontAwesomeIcon className="link-icon" icon={faHome} />
-        </a>
-        <a
-          href="/search"
+        </Link>
+        <Link
+          to="/search"
           className="search-link"
           onClick={() => setShowNav(false)}
         >
           <FontAwesomeIcon className="link-icon" icon={faSearch} />
-        </a>
-        <a
-          href="/standings"
+        </Link>
+        <Link
+          to="/standings"
           className="standings-link"
           onClick={() => setShowNav(false)}
         >
           <FontAwesomeIcon className="link-icon" icon={faList} />
-        </a>
-        <a
-          href="/playoffs"
+        </Link>
+        <Link
+          to="/playoffs"
           className="playoffs-link"
           onClick={() => setShowNav(false)}
         >
           <FontAwesomeIcon className="link-icon" icon={faTrophy} />
-        </a>
-        <a
-          href="/awards"
+        </Link>
+        <Link
+          to="/awards"
           className="awards-link"
           onClick={() => setShowNav(false)}
         >
           <FontAwesomeIcon className="link-icon" icon={faMedal} />
-        </a>
-        <a
-          href="/stats"
+        </Link>
+        <Link
+          to="/stats"
           className="stats-link"
           onClick={() => setShowNav(false)}
         >
           <FontAwesomeIcon className="link-icon" icon={faChartLine} />
-        </a>
+        </Link>
 
         {/* Close icon inside the nav */}
         {showNav && (
