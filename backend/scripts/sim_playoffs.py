@@ -23,12 +23,12 @@ query = """
 predicted_seeds = pd.read_sql(query, conn)
 
 # === Load historical playoff data from CSV ===
-playoff_history_file = "playoff_series_stats_with_conf.csv"
+playoff_history_file = "../../playoff_series_stats_with_conf.csv"
 playoff_history = pd.read_csv(playoff_history_file)
 
 # === Output files ===
-bracket_output_file = "Frontend/public/nba_playoff_results2.csv"
-odds_output_file = "Frontend/public/title_odds.csv"
+bracket_output_file = "../../frontend/public/nba_playoff_results2.csv"
+odds_output_file = "../../frontend/public/title_odds.csv"
 
 # === Historical adjustment based on net rating in past playoffs ===
 def compute_historical_adjustments(playoff_history):
