@@ -14,8 +14,8 @@ API_BASE_URL = os.getenv('API_BASE_URL', 'http://localhost:5173')
 BACKEND_URL = os.getenv('BACKEND_URL', 'http://localhost:5001')
 
 def main():
-    df = pd.read_csv("backend/data/all_nba_training_data.csv")
-    train_df = df[(df["Year"] >= 2000) & (df["Year"] <= 2024)].dropna(subset=["Selection"])
+    df = pd.read_csv("../../../../all_nba_updated.csv")
+    train_df = df[(df["Year"] >= 2000) & (df["Year"] <= 2024)]
 
     print("📡 Pulling 2025 player stats from API...")
     res = requests.get(f"{API_BASE_URL}/api/player/stats/all", params={"year": 2025, "stat_type": "Per Game"})
@@ -64,7 +64,7 @@ def main():
     ]
     feature_cols = [col for col in feature_cols if col in train_df.columns and col in test_df.columns]
     X_train = train_df[feature_cols].fillna(0)
-    y_train = train_df["Selection"].astype(int)
+    y_train = (train_df["Selection"].isin(["1st", "2nd", "3rd"])).astype(int)
     X_test = test_df[feature_cols].fillna(0)
 
     numeric_cols = X_train.select_dtypes(include=[np.number]).columns
@@ -133,12 +133,12 @@ def main():
     print(tabulate(top_15[display_cols], headers="keys", tablefmt="fancy_grid", showindex=False))
 
     top_15["Selection"] = top_15["AllNBA_Team"].map({
-        "First Team": 1,
-        "Second Team": 2,
-        "Third Team": 3
+        "First Team": "1T",
+        "Second Team": "2T",
+        "Third Team": "3T"
     })
 
-    top_15[["playerID", "Tm", "Selection"]].to_csv("Frontend/public/all_nba_predictions.csv", index=False)
+    top_15[["playerID", "Tm", "Selection"]].to_csv("../../../../frontend/public/all_nba_predictions.csv", index=False)
     print("\\n💾 Saved top 15 All-NBA predictions with selections to Frontend/public/all_nba_predictions.csv")
 
 if __name__ == "__main__":

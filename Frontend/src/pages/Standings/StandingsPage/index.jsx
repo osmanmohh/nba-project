@@ -19,11 +19,11 @@ export default function StandingsPage() {
   };
 
   useEffect(() => {
-    fetch("/teams.json") // Fetch teams.json
+    fetch("/api/team")
       .then((res) => res.json())
       .then((data) => {
         const filteredTeams = data.filter(
-          (team) => team.Conf === currentConference && team.Year === 2023
+          (team) => team.Conf === currentConference && team.Year === 2024 && team.StatType === "per_game"
         );
         setTeamData(filteredTeams);
       })

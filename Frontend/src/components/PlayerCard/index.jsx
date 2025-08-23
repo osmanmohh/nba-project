@@ -1,5 +1,6 @@
 import "./index.css";
 import { teamColors } from "../../constants/teamColors";
+import players from "/players_2024"; // ✅ Corrected import path
 import { useNavigate } from "react-router-dom"; // ✅ Import navigation hook
 import { getLogo } from "../../utils/getLogo";
 import { useHeadshot } from "../../hooks/useHeadshot";
@@ -10,14 +11,35 @@ function PlayerCard({ playerId, rank }) {
   const [player, setPlayer] = useState(null);
 
   useEffect(() => {
+    console.log(`🔍 PlayerCard: Fetching stats for playerId: ${playerId}`);
     fetch(`/api/player/${playerId}/stats`)
-      .then((response) => response.json())
-      .then((data) =>
-        setPlayer(
-          data.find((p) => p.Stat_Type === "Per Game" && p.Year === 2025)
-        )
-      )
-      .catch((error) => console.error("Error fetching player data:", error));
+      .then((response) => {
+        console.log(
+          `📊 PlayerCard API Response status for ${playerId}:`,
+          response.status
+        );
+        if (!response.ok) {
+          throw new Error(`API Error: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(`📋 PlayerCard: Received data for ${playerId}:`, data);
+        const foundPlayer = data.find(
+          (p) => p.Stat_Type === "Per Game" && p.Year === 2025
+        );
+        console.log(
+          `✅ PlayerCard: Found player for ${playerId}:`,
+          foundPlayer
+        );
+        setPlayer(foundPlayer);
+      })
+      .catch((error) => {
+        console.error(
+          `❌ PlayerCard: Error fetching player data for ${playerId}:`,
+          error
+        );
+      });
   }, [playerId]);
 
   // Convert playerId to integer for comparison

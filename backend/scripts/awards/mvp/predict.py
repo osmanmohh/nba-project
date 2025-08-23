@@ -9,7 +9,7 @@ API_BASE_URL = os.getenv('API_BASE_URL', 'http://localhost:5173')
 BACKEND_URL = os.getenv('BACKEND_URL', 'http://localhost:5001')
 
 # === 1. Load training data and retrain model ===
-df = pd.read_csv("backend/data/mvp_training_data.csv")
+df = pd.read_csv("../../../data/mvp_training_data.csv")
 
 features = [
     "Age", "G", "MP", "PTS", "AST", "REB", 
@@ -24,7 +24,7 @@ y = df[target]
 scaler = MinMaxScaler()
 X_scaled = scaler.fit_transform(X)
 
-model = RandomForestRegressor(n_estimators=100, random_state=42)
+model = RandomForestRegressor(n_estimators=100, random_state=None)
 model.fit(X_scaled, y)
 
 # === 2. Fetch 2025 player stats from API ===
@@ -83,16 +83,16 @@ df_2025["mvp_bonus"] = df_2025["Name"].map(historical_shares).fillna(0) / max_sh
 
 
 df_2025["stat_bonus"] = (
-    df_2025["AST"] * 0.02 +
+    df_2025["AST"] * 0.025 +     # increased from 0.02
     df_2025["REB"] * 0.01 +
-    df_2025["PTS"] * 0.001 +
+    df_2025["PTS"] * 0.004 +     # increased from 0.003 (boost scoring)
 
     df_2025["eFG%"] * 0.225 +
     df_2025["FT%"] * 0.085 +
     df_2025["MP"] * 0.005 +
     df_2025["TOV"] * -0.0018 +
-    df_2025["W/L%"] * 0.04 +     # team success boost
-    df_2025["NRtg"] * 0.01      # team performance boost
+    df_2025["W/L%"] * 0.035 +    # increased from 0.025 (boost wins more than scoring)
+    df_2025["NRtg"] * 0.01       # increased from 0.007
 )
 
 
@@ -108,17 +108,18 @@ df_2025["adjusted_share"] = (
     + df_2025["stat_bonus"]
 )
 
-# === 7. Show top 10 ===
+# === 7. Show top 5 ===
 df_2025 = df_2025.sort_values("adjusted_share", ascending=False)
+top_5 = df_2025.head(5).copy()
 top_3 = df_2025.head(3).copy()
 
-print("\n🔥 Top 3 MVP Predictions for 2025:")
-for i, row in enumerate(top_3.itertuples(), start=1):
+print("\n🔥 Top 5 MVP Predictions for 2025:")
+for i, row in enumerate(top_5.itertuples(), start=1):
     print(f"{i}. {row.Name} | {row.Tm} | Adjusted Share: {round(row.adjusted_share, 3)} | Predicted Share: {round(row.predicted_share, 3)}")
 
 # === 8. Save for frontend
 top_3_out = top_3[["playerID", "Tm"]]
-top_3_out.to_csv("Frontend/public/top_3_mvp.csv", index=False)
+top_3_out.to_csv("../../../../frontend/public/top_3_mvp.csv", index=False)
 print("\n✅ Saved top 3 MVPs to 'Frontend/public/top_3_mvp.csv'")
 
 

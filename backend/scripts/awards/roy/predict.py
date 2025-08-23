@@ -145,5 +145,5 @@ if __name__ == "__main__":
         
     scored_rookies_csv = pd.DataFrame(scored_rookies[:3])
     scored_rookies_csv = scored_rookies_csv[["playerID","Tm"]]
-    scored_rookies_csv.to_csv("Frontend/public/top_3_roy.csv", index=False)
+    scored_rookies_csv.to_csv("../../../../frontend/public/top_3_roy.csv", index=False)
 

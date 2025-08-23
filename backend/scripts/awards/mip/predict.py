@@ -238,5 +238,5 @@ for i, row in enumerate(final_eligible.head(10).itertuples(), start=1):
 # ------------------------------------------------------------------
 top_3 = final_eligible.head(3).copy()
 top_3_csv = top_3[["playerID","Tm"]]  # only these two columns
-top_3_csv.to_csv("Frontend/public/top_3_mip.csv", index=False)
+top_3_csv.to_csv("../../../../frontend/public/top_3_mip.csv", index=False)
 print("\n✅ Saved top 3 players to 'public/top_3_mip.csv' (playerID, Tm).")

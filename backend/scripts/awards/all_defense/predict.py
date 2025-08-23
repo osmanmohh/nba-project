@@ -15,7 +15,7 @@ BACKEND_URL = os.getenv('BACKEND_URL', 'http://localhost:5001')
 
 def main():
     # === 1. Load training data (totals-based) ===
-    df = pd.read_csv("backend/data/all_defense_training_data.csv")
+    df = pd.read_csv("../../../../all_defense_cleaned.csv")
     train_df = df[(df["Year"] >= 2000) & (df["Year"] <= 2024)].dropna(subset=["Selection"])
     train_df = train_df[train_df["G"] >= 30]
     train_df["Pos"] = train_df["Pos"].str.split("-").str[0]
@@ -52,7 +52,7 @@ def main():
     ]
     feature_cols = [col for col in feature_cols if col in train_df.columns and col in test_df.columns]
     X_train = train_df[feature_cols].fillna(0)
-    y_train = (train_df["Selection"] > 0).astype(int)
+    y_train = (train_df["Selection"].isin(["1st", "2nd"])).astype(int)
     X_test = test_df[feature_cols].fillna(0)
 
     # === 5. Preprocessing pipeline ===
@@ -92,7 +92,7 @@ def main():
     )
 
     # === All-Defense Alumni Boost ===
-    past_defenders = df[df["Selection"] > 0]["Name"].value_counts()
+    past_defenders = df[df["Selection"].isin(["1st", "2nd"])]["Player"].value_counts()
     test_df["AlumniBoost"] = test_df["Name"].map(past_defenders).fillna(0)
     test_df["AlumniBoost"] = (test_df["AlumniBoost"] > 0).astype(int) * 0.2
 
@@ -104,15 +104,48 @@ def main():
     top_50 = eligible_df.head(50)
 
     # === 9. Assign All-Defense Teams (2 guards, 3 forwards) ===
+    # Load DPOY candidates to prioritize them
+    dpoy_candidates = pd.read_csv("../../../../frontend/public/top_3_dpoy.csv")
+    dpoy_ids = dpoy_candidates["playerID"].tolist()
+    
+    # Filter players by position
     guards = top_50[top_50["Pos"].isin(["PG", "SG"])]
     forwards = top_50[top_50["Pos"].isin(["SF", "PF", "C"])]
-    first_team = pd.concat([guards.head(2), forwards.head(3)])
-    second_team = pd.concat([guards.iloc[2:4], forwards.iloc[3:6]])
+    
+    # Prioritize DPOY candidates for First Team
+    dpoy_guards = guards[guards["playerID"].isin(dpoy_ids)]
+    dpoy_forwards = forwards[forwards["playerID"].isin(dpoy_ids)]
+    
+    # Build First Team: DPOY candidates first, then best remaining players
+    first_team_guards = []
+    first_team_forwards = []
+    
+    # Add DPOY candidates to First Team
+    for _, player in dpoy_guards.head(2).iterrows():
+        first_team_guards.append(player)
+    
+    for _, player in dpoy_forwards.head(3).iterrows():
+        first_team_forwards.append(player)
+    
+    # Fill remaining spots with best non-DPOY players
+    remaining_guards = guards[~guards["playerID"].isin(dpoy_ids)]
+    remaining_forwards = forwards[~forwards["playerID"].isin(dpoy_ids)]
+    
+    while len(first_team_guards) < 2 and len(remaining_guards) > 0:
+        first_team_guards.append(remaining_guards.iloc[0])
+        remaining_guards = remaining_guards.iloc[1:]
+    
+    while len(first_team_forwards) < 3 and len(remaining_forwards) > 0:
+        first_team_forwards.append(remaining_forwards.iloc[0])
+        remaining_forwards = remaining_forwards.iloc[1:]
+    
+    first_team = pd.concat([pd.DataFrame(first_team_guards), pd.DataFrame(first_team_forwards)])
+    second_team = pd.concat([remaining_guards.head(2), remaining_forwards.head(3)])
 
     # === 10. Save final All-Defense team output ===
     final_output = pd.concat([first_team, second_team])
-    final_output["Selection"] = [1] * 5 + [2] * 5
-    final_output[["playerID", "Tm", "Selection"]].to_csv("Frontend/public/all_defense_predictions.csv", index=False)
+    final_output["Selection"] = ["1st"] * 5 + ["2nd"] * 5
+    final_output[["playerID", "Tm", "Selection"]].to_csv("../../../../frontend/public/all_defense_predictions.csv", index=False)
     print("\n✅ Saved All-Defense First and Second Teams to 'Frontend/public/all_defense_predictions.csv'")
 
 if __name__ == "__main__":

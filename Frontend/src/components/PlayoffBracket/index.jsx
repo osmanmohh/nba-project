@@ -10,19 +10,47 @@ function PlayoffBracket() {
   const [playoffData, setPlayoffData] = useState([]);
 
   useEffect(() => {
+    console.log("🏀 PlayoffBracket: Starting to fetch CSV from:", csvFilePath);
+
     fetch(csvFilePath)
-      .then((response) => response.text())
+      .then((response) => {
+        console.log("🏀 PlayoffBracket: Response status:", response.status);
+        console.log("🏀 PlayoffBracket: Response ok:", response.ok);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.text();
+      })
       .then((csvText) => {
+        console.log("🏀 PlayoffBracket: CSV text length:", csvText.length);
+        console.log(
+          "🏀 PlayoffBracket: CSV preview:",
+          csvText.substring(0, 200) + "..."
+        );
+
         Papa.parse(csvText, {
           header: true,
           skipEmptyLines: true,
           dynamicTyping: true,
           complete: (result) => {
+            console.log("🏀 PlayoffBracket: Parsed data:", result.data);
+            console.log(
+              "🏀 PlayoffBracket: Number of rows:",
+              result.data.length
+            );
+            console.log("🏀 PlayoffBracket: First row:", result.data[0]);
             setPlayoffData(result.data);
+          },
+          error: (error) => {
+            console.error("🏀 PlayoffBracket: Papa parse error:", error);
           },
         });
       })
-      .catch((error) => console.error("Error loading CSV:", error));
+      .catch((error) => {
+        console.error("🏀 PlayoffBracket: Fetch error:", error);
+        console.error("🏀 PlayoffBracket: Error details:", error.message);
+      });
   }, []);
 
   return (

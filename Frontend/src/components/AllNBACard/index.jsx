@@ -8,23 +8,66 @@ function AllNBACard({ playerId, rank, tm, selection }) {
   const navigate = useNavigate();
   const [player, setPlayer] = useState(null);
 
+  console.log(
+    `🎮 [AllNBACard] Rendering card for playerId: ${playerId}, tm: ${tm}, selection: ${selection}`
+  );
+
   // Always call this — even if `player` is null on first render
   const headshot = useHeadshot(player?.Name || "");
 
   useEffect(() => {
+    console.log(`🔍 [AllNBACard] Fetching stats for playerId: ${playerId}`);
+
     fetch(`/api/player/${playerId}/stats`)
-      .then((response) => response.json())
-      .then((data) =>
-        setPlayer(
-          data.find((p) => p.Stat_Type === "Per Game" && p.Year === 2025)
-        )
-      )
-      .catch((error) => console.error("Error fetching player data:", error));
+      .then((response) => {
+        console.log(
+          `📊 [AllNBACard] API response status for ${playerId}:`,
+          response.status
+        );
+        if (!response.ok) {
+          throw new Error(`API Error: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log(`📄 [AllNBACard] Raw API data for ${playerId}:`, data);
+
+        const perGamePlayer = data.find(
+          (p) => p.Stat_Type === "Per Game" && p.Year === 2025
+        );
+        console.log(
+          `✅ [AllNBACard] Found per-game player data for ${playerId}:`,
+          perGamePlayer
+        );
+
+        if (!perGamePlayer) {
+          console.warn(
+            `⚠️ [AllNBACard] No per-game data found for playerId: ${playerId}`
+          );
+          console.log(`🔍 [AllNBACard] Available data types:`, [
+            ...new Set(data.map((p) => p.Stat_Type)),
+          ]);
+          console.log(`🔍 [AllNBACard] Available years:`, [
+            ...new Set(data.map((p) => p.Year)),
+          ]);
+        }
+
+        setPlayer(perGamePlayer);
+      })
+      .catch((error) => {
+        console.error(
+          `❌ [AllNBACard] Error fetching player data for ${playerId}:`,
+          error
+        );
+      });
   }, [playerId]);
 
   if (!player) {
-    return <div className="player-card-container">Player not found</div>;
+    console.log(`⏳ [AllNBACard] Player data not yet loaded for ${playerId}`);
+    return <div className="player-card-container">Loading player data...</div>;
   }
+
+  console.log(`✅ [AllNBACard] Successfully loaded player:`, player);
 
   const teamMap = {
     ATL: "Atlanta Hawks",
@@ -59,6 +102,11 @@ function AllNBACard({ playerId, rank, tm, selection }) {
     WAS: "Washington Wizards",
   };
 
+  const teamName = teamMap[tm];
+  if (!teamName) {
+    console.warn(`⚠️ [AllNBACard] Unknown team abbreviation: ${tm}`);
+  }
+
   // Render when ready
   return (
     <div
@@ -72,9 +120,11 @@ function AllNBACard({ playerId, rank, tm, selection }) {
         <div className="name-team">
           <div className="name">{player.Name}</div>
           <div className="team">
-            {player.Pos} • {teamMap[tm].split(" ").pop()}
+            {player.Pos} • {teamName ? teamName.split(" ").pop() : tm}
           </div>
-          <div className="team short">{teamMap[tm].split(" ").pop()}</div>
+          <div className="team short">
+            {teamName ? teamName.split(" ").pop() : tm}
+          </div>
         </div>
         <div className="all-nba-stats">
           <div className="all-nba-stat-item">
