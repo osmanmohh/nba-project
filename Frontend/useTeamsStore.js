@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { buildApiUrl } from "./src/utils/api.js";
 
 export function useTeams(conference) {
   const [teams, setTeams] = useState([]);
@@ -7,12 +8,16 @@ export function useTeams(conference) {
   useEffect(() => {
     Promise.all([
       // Fetch actual current team standings from team_season_stats
-      fetch("/api/team")
+      fetch(buildApiUrl("/api/team"))
         .then((res) => res.json())
         .then((data) => {
           // Filter to current season, correct conference, and per_game stats only
-          let filteredTeams = data
-            .filter(team => team.Year === 2025 && team.Conf.toUpperCase() === conference.toUpperCase() && team.StatType === "per_game");
+          let filteredTeams = data.filter(
+            (team) =>
+              team.Year === 2025 &&
+              team.Conf.toUpperCase() === conference.toUpperCase() &&
+              team.StatType === "per_game"
+          );
 
           // Sort teams by current wins and win percentage
           filteredTeams.sort((a, b) => b.W - a.W || b["W/L%"] - a["W/L%"]);
@@ -30,7 +35,7 @@ export function useTeams(conference) {
         }),
 
       // Fetch predicted standings (W/L and Rk) from projected_team_stats
-      fetch("/api/team/projected")
+      fetch(buildApiUrl("/api/team/projected"))
         .then((res) => res.json())
         .then((data) => {
           const predictedData = data.reduce((acc, row) => {
