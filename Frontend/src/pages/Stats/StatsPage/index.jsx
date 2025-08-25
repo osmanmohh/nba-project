@@ -5,6 +5,8 @@ import "./index.css";
 import LeadersCard from "../../Search/LeadersCard";
 import { useEffect } from "react";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
 export default function StatsPage() {
   //  State for stats type (Players or Teams)
   const [statsType, setStatsType] = useState("Players");
@@ -18,7 +20,9 @@ export default function StatsPage() {
   const [selectedDivision, setSelectedDivision] = useState("All Divisions");
 
   useEffect(() => {
-    fetch(`/api/player/stats/all?year=${selectedSeason}&stat_type=Per%20Game`)
+    fetch(
+      `${API_BASE_URL}/api/player/stats/all?year=${selectedSeason}&stat_type=Per%20Game`
+    )
       .then((response) => response.json())
       .then((data) => {
         setPlayerStats(data);
@@ -29,7 +33,7 @@ export default function StatsPage() {
   }, [selectedSeason]);
 
   useEffect(() => {
-    fetch(`/api/team/year/${selectedSeason}`)
+    fetch(`${API_BASE_URL}/api/team/year/${selectedSeason}`)
       .then((response) => response.json())
       .then((data) => {
         setTeamStats(data.filter((team) => team.StatType === "per_game"));

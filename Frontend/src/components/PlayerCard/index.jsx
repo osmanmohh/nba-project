@@ -6,13 +6,15 @@ import { getLogo } from "../../utils/getLogo";
 import { useHeadshot } from "../../hooks/useHeadshot";
 import { useState, useEffect } from "react";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
 function PlayerCard({ playerId, rank }) {
   const navigate = useNavigate(); // ✅ Initialize navigation
   const [player, setPlayer] = useState(null);
 
   useEffect(() => {
     console.log(`🔍 PlayerCard: Fetching stats for playerId: ${playerId}`);
-    fetch(`/api/player/${playerId}/stats`)
+    fetch(`${API_BASE_URL}/api/player/${playerId}/stats`)
       .then((response) => {
         console.log(
           `📊 PlayerCard API Response status for ${playerId}:`,

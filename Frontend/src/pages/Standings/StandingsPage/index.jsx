@@ -4,6 +4,8 @@ import Standings from "../StandingComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightLeft } from "@fortawesome/free-solid-svg-icons";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
 export default function StandingsPage() {
   const [currentConference, setCurrentConference] = useState("W"); // Default to West
   const [teamData, setTeamData] = useState([]); // Store filtered teams
@@ -19,7 +21,7 @@ export default function StandingsPage() {
   };
 
   useEffect(() => {
-    fetch("/api/team")
+    fetch(`${API_BASE_URL}/api/team`)
       .then((res) => res.json())
       .then((data) => {
         const filteredTeams = data.filter(

@@ -2,12 +2,14 @@ import "./index.css";
 import { teamColors } from "../../../constants/teamColors";
 import { useEffect, useState } from "react";
 
+const API_BASE_URL = import.meta.env.VITE_API_URL;
+
 export default function TeamRankingsCard({ tm, year }) {
   const [teamStats, setTeamStats] = useState(null);
   const [teamRanks, setTeamRanks] = useState(null);
 
   useEffect(() => {
-    fetch("/api/team")
+    fetch(`${API_BASE_URL}/api/team`)
       .then((response) => response.json())
       .then((data) => {
         const allTeamsForYear = data.filter((team) => team.Year === year); //  Use dynamic year

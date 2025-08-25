@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { getHeadshot } from "../utils/getHeadshot";
 
-const API_BASE_URL =
-  import.meta.env.VITE_API_URL || "https://nba-project-backend.onrender.com";
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 const usePlayerData = (selectedSeason, allTeams) => {
   const [fetchedStats, setFetchedStats] = useState([]);

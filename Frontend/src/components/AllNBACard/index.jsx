@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom"; //  Import navigation hook
 
 import { useHeadshot } from "../../hooks/useHeadshot";
 import { useState, useEffect } from "react";
+
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 function AllNBACard({ playerId, rank, tm, selection }) {
   const navigate = useNavigate();
   const [player, setPlayer] = useState(null);

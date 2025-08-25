@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 
-const API_BASE_URL =
-  import.meta.env.VITE_API_URL || "https://nba-project-backend.onrender.com";
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 export function useTeams(conference) {
   const [teams, setTeams] = useState([]);
