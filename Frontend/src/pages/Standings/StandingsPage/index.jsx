@@ -23,7 +23,10 @@ export default function StandingsPage() {
       .then((res) => res.json())
       .then((data) => {
         const filteredTeams = data.filter(
-          (team) => team.Conf === currentConference && team.Year === 2024 && team.StatType === "per_game"
+          (team) =>
+            team.Conf === currentConference &&
+            team.Year === 2024 &&
+            team.StatType === "per_game"
         );
         setTeamData(filteredTeams);
       })

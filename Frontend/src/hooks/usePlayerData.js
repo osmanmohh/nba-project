@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { getHeadshot } from "../utils/getHeadshot";
 
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL || "https://nba-project-backend.onrender.com";
+
 const usePlayerData = (selectedSeason, allTeams) => {
   const [fetchedStats, setFetchedStats] = useState([]);
   const [fetchedGames, setFetchedGames] = useState([]);
@@ -19,8 +22,8 @@ const usePlayerData = (selectedSeason, allTeams) => {
     const fetchAll = async () => {
       try {
         const [statsRes, gamesRes] = await Promise.all([
-          fetch(`/api/player/${newPlayer.bbref_id}/stats`),
-          fetch(`/api/player/${newPlayer.bbref_id}/games`),
+          fetch(`${API_BASE_URL}/api/player/${newPlayer.bbref_id}/stats`),
+          fetch(`${API_BASE_URL}/api/player/${newPlayer.bbref_id}/games`),
         ]);
 
         const stats = await statsRes.json();
@@ -53,11 +56,10 @@ const usePlayerData = (selectedSeason, allTeams) => {
         if (headshot) setNewPlayer((prev) => ({ ...prev, headshot }));
 
         const rosterRes = await fetch(
-          `/api/team/${latestAbbr}/roster?year=${year}`
+          `${API_BASE_URL}/api/team/${latestAbbr}/roster?year=${year}`
         );
         const rosterData = await rosterRes.json();
         setNewRoster(rosterData);
-
       } catch (err) {
         console.error("❌ Error loading player data:", err);
       }

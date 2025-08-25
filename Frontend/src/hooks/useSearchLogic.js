@@ -1,4 +1,7 @@
 import { useState, useEffect } from "react";
+
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL || "https://nba-project-backend.onrender.com";
 import { useParams } from "react-router-dom";
 import { getHeadshot } from "../utils/getHeadshot";
 
@@ -52,7 +55,7 @@ const useSearchLogic = () => {
   };
 
   useEffect(() => {
-    fetch("/api/team")
+    fetch(`${API_BASE_URL}/api/team`)
       .then((res) => res.json())
       .then((data) => setAllTeams(data))
       .catch((err) => console.error("Failed to fetch teams:", err));
@@ -173,9 +176,9 @@ const useSearchLogic = () => {
     const fetchAll = async () => {
       try {
         const [statsRes, gamesRes, bioRes] = await Promise.all([
-          fetch(`/api/player/${newPlayer.bbref_id}/stats`),
-          fetch(`/api/player/${newPlayer.bbref_id}/games`),
-          fetch(`/api/player/${newPlayer.bbref_id}`),
+          fetch(`${API_BASE_URL}/api/player/${newPlayer.bbref_id}/stats`),
+          fetch(`${API_BASE_URL}/api/player/${newPlayer.bbref_id}/games`),
+          fetch(`${API_BASE_URL}/api/player/${newPlayer.bbref_id}`),
         ]);
 
         const stats = await statsRes.json();
@@ -236,10 +239,10 @@ const useSearchLogic = () => {
     if (team) {
       try {
         const [gamesRes, statsRes, rosterRes] = await Promise.all([
-          fetch(`/api/team/${team.Tm}/games`),
-          fetch(`/api/team/${team.Tm.toUpperCase()}`),
+          fetch(`${API_BASE_URL}/api/team/${team.Tm}/games`),
+          fetch(`${API_BASE_URL}/api/team/${team.Tm.toUpperCase()}`),
           fetch(
-            `/api/team/${team.Tm.toLowerCase()}/roster?year=${selectedSeason}`
+            `${API_BASE_URL}/api/team/${team.Tm.toLowerCase()}/roster?year=${selectedSeason}`
           ),
         ]);
 
@@ -347,7 +350,7 @@ const useSearchLogic = () => {
     if (!query || query.length < 2) return;
 
     const timeout = setTimeout(() => {
-      fetch(`/api/search?query=${encodeURIComponent(query)}`)
+      fetch(`${API_BASE_URL}/api/search?query=${encodeURIComponent(query)}`)
         .then((res) => res.json())
         .then((data) => {
           setSearchResults(data);
@@ -368,10 +371,12 @@ const useSearchLogic = () => {
 
       try {
         const [gamesRes, statsRes, rosterRes] = await Promise.all([
-          fetch(`/api/team/${matchedTeam.Tm}/games?year=${selectedSeason}`),
-          fetch(`/api/team/${matchedTeam.Tm}`),
           fetch(
-            `/api/team/${matchedTeam.Tm.toLowerCase()}/roster?year=${selectedSeason}`
+            `${API_BASE_URL}/api/team/${matchedTeam.Tm}/games?year=${selectedSeason}`
+          ),
+          fetch(`${API_BASE_URL}/api/team/${matchedTeam.Tm}`),
+          fetch(
+            `${API_BASE_URL}/api/team/${matchedTeam.Tm.toLowerCase()}/roster?year=${selectedSeason}`
           ),
         ]);
 

@@ -8,25 +8,7 @@ export default function AwardsPage() {
   const [dpoyPlayers, setDpoyPlayers] = useState([]);
   const [royPlayers, setRoyPlayers] = useState([]);
   const [mipPlayers, setMipPlayers] = useState([]);
-  const [players, setPlayers] = useState([]);
-  useEffect(() => {
-    console.log("🔍 Fetching player stats from API...");
-    fetch("/api/player/stats/all?year=2025&stat_type=Per%20Game")
-      .then((res) => {
-        console.log("📊 API Response status:", res.status);
-        if (!res.ok) {
-          throw new Error(`API Error: ${res.status}`);
-        }
-        return res.json();
-      })
-      .then((data) => {
-        console.log("✅ Player stats loaded:", data.length, "players");
-        setPlayers(data);
-      })
-      .catch((error) => {
-        console.error("❌ Error fetching player stats:", error);
-      });
-  }, []);
+  const [players, setPlayers] = useState([{ id: "dummy" }]); // Dummy data to avoid API dependency
   // Function to fetch and parse CSV data
   const fetchPlayers = (filePath, setPlayers) => {
     console.log(`🔍 Fetching CSV: ${filePath}`);
@@ -39,10 +21,13 @@ export default function AwardsPage() {
         return response.text();
       })
       .then((csvText) => {
-        console.log(`📄 ${filePath} CSV content:`, csvText.substring(0, 200) + "...");
+        console.log(
+          `📄 ${filePath} CSV content:`,
+          csvText.substring(0, 200) + "..."
+        );
         const rows = csvText.split("\n").slice(1); // Skip header row
         console.log(`📋 ${filePath} Rows found:`, rows.length);
-        
+
         const parsedPlayers = rows
           .map((row) => {
             const columns = row.split(",");
@@ -74,7 +59,7 @@ export default function AwardsPage() {
     mvpPlayers: mvpPlayers.length,
     dpoyPlayers: dpoyPlayers.length,
     royPlayers: royPlayers.length,
-    mipPlayers: mipPlayers.length
+    mipPlayers: mipPlayers.length,
   });
 
   if (

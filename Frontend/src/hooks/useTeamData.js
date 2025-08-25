@@ -1,5 +1,8 @@
 import { useState } from "react";
 
+const API_BASE_URL =
+  import.meta.env.VITE_API_URL || "https://nba-project-backend.onrender.com";
+
 const useTeamData = (selectedSeason) => {
   const [matchedTeam, setMatchedTeam] = useState(null);
   const [teamGames, setTeamGames] = useState([]);
@@ -11,10 +14,12 @@ const useTeamData = (selectedSeason) => {
     setIsRosterReady(false); // reset
     try {
       const [gamesRes, statsRes, rosterRes] = await Promise.all([
-        fetch(`/api/team/${teamAbbr}/games?year=${selectedSeason}`),
-        fetch(`/api/team/${teamAbbr}`),
         fetch(
-          `/api/team/${teamAbbr.toLowerCase()}/roster?year=${selectedSeason}`
+          `${API_BASE_URL}/api/team/${teamAbbr}/games?year=${selectedSeason}`
+        ),
+        fetch(`${API_BASE_URL}/api/team/${teamAbbr}`),
+        fetch(
+          `${API_BASE_URL}/api/team/${teamAbbr.toLowerCase()}/roster?year=${selectedSeason}`
         ),
       ]);
 
