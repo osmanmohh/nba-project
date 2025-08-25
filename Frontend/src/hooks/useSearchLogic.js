@@ -157,7 +157,7 @@ const useSearchLogic = () => {
       try {
         const teamAbbr = newPlayer.teamAbbr.toLowerCase();
         const rosterRes = await fetch(
-          `/api/team/${teamAbbr}/roster?year=${selectedSeason}`
+          `${API_BASE_URL}/api/team/${teamAbbr}/roster?year=${selectedSeason}`
         );
         const rosterData = await rosterRes.json();
         setNewRoster(rosterData);
