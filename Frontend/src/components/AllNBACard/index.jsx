@@ -20,7 +20,7 @@ function AllNBACard({ playerId, rank, tm, selection }) {
   useEffect(() => {
     console.log(`🔍 [AllNBACard] Fetching stats for playerId: ${playerId}`);
 
-    fetch(`/api/player/${playerId}/stats`)
+    fetch(`${API_BASE_URL}/api/player/${playerId}/stats`)
       .then((response) => {
         console.log(
           `📊 [AllNBACard] API response status for ${playerId}:`,

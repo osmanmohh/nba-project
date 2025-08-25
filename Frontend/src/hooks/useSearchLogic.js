@@ -278,7 +278,7 @@ const useSearchLogic = () => {
 
     try {
       const playerRes = await fetch(
-        `/api/player/lookup/${encodeURIComponent(searchQuery)}`
+        `${API_BASE_URL}/api/player/lookup/${encodeURIComponent(searchQuery)}`
       );
 
       if (playerRes.ok) {
