@@ -5,43 +5,19 @@ import { useNavigate } from "react-router-dom"; // ✅ Import navigation hook
 import { getLogo } from "../../utils/getLogo";
 import { useHeadshot } from "../../hooks/useHeadshot";
 import { useState, useEffect } from "react";
-
-const API_BASE_URL = import.meta.env.VITE_API_URL;
+import { getPlayerById, getLoadingState } from "../../utils/globalData";
 
 function PlayerCard({ playerId, rank }) {
   const navigate = useNavigate(); // ✅ Initialize navigation
   const [player, setPlayer] = useState(null);
 
   useEffect(() => {
-    console.log(`🔍 PlayerCard: Fetching stats for playerId: ${playerId}`);
-    fetch(`${API_BASE_URL}/api/player/${playerId}/stats`)
-      .then((response) => {
-        console.log(
-          `📊 PlayerCard API Response status for ${playerId}:`,
-          response.status
-        );
-        if (!response.ok) {
-          throw new Error(`API Error: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log(`📋 PlayerCard: Received data for ${playerId}:`, data);
-        const foundPlayer = data.find(
-          (p) => p.Stat_Type === "Per Game" && p.Year === 2025
-        );
-        console.log(
-          `✅ PlayerCard: Found player for ${playerId}:`,
-          foundPlayer
-        );
-        setPlayer(foundPlayer);
-      })
-      .catch((error) => {
-        console.error(
-          `❌ PlayerCard: Error fetching player data for ${playerId}:`,
-          error
-        );
-      });
+    if (!getLoadingState()) {
+      console.log(`🔍 PlayerCard: Looking up playerId: ${playerId}`);
+      const foundPlayer = getPlayerById(playerId);
+      console.log(`✅ PlayerCard: Found player for ${playerId}:`, foundPlayer);
+      setPlayer(foundPlayer);
+    }
   }, [playerId]);
 
   // Convert playerId to integer for comparison

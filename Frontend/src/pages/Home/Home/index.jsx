@@ -2,9 +2,16 @@ import { Link, useNavigate } from "react-router-dom";
 import "./index.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBasketball } from "@fortawesome/free-solid-svg-icons";
+import { useEffect } from "react";
+import { preloadData } from "../../../utils/globalData";
 
 function Home() {
   const navigate = useNavigate();
+
+  // Preload all data when home page loads
+  useEffect(() => {
+    preloadData();
+  }, []);
 
   return (
     <div className="home-page-container">

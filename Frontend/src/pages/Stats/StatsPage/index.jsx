@@ -4,8 +4,11 @@ import Dropdown from "../../../components/Dropdown";
 import "./index.css";
 import LeadersCard from "../../Search/LeadersCard";
 import { useEffect } from "react";
-
-const API_BASE_URL = import.meta.env.VITE_API_URL;
+import {
+  getPlayerStats,
+  getTeamsByYear,
+  getLoadingState,
+} from "../../../utils/globalData";
 
 export default function StatsPage() {
   //  State for stats type (Players or Teams)
@@ -20,27 +23,17 @@ export default function StatsPage() {
   const [selectedDivision, setSelectedDivision] = useState("All Divisions");
 
   useEffect(() => {
-    fetch(
-      `${API_BASE_URL}/api/player/stats/all?year=${selectedSeason}&stat_type=Per%20Game`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        setPlayerStats(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching player stats:", error);
-      });
-  }, [selectedSeason]);
-
-  useEffect(() => {
-    fetch(`${API_BASE_URL}/api/team/year/${selectedSeason}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setTeamStats(data.filter((team) => team.StatType === "per_game"));
-      })
-      .catch((error) => {
-        console.error("Error fetching team stats:", error);
-      });
+    if (!getLoadingState()) {
+      if (selectedSeason === "2025") {
+        setPlayerStats(getPlayerStats());
+        setTeamStats(getTeamsByYear(2025));
+      } else {
+        // For 2024, we'll need to fetch it since we only preloaded 2025
+        // This is a simple fallback
+        setPlayerStats([]);
+        setTeamStats(getTeamsByYear(2024));
+      }
+    }
   }, [selectedSeason]);
   //  Season Options (All seasons from 2000 - 2024)
   const seasonOptions = Array.from(

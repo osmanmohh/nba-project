@@ -3,8 +3,10 @@ import "./index.css";
 import Standings from "../StandingComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightLeft } from "@fortawesome/free-solid-svg-icons";
-
-const API_BASE_URL = import.meta.env.VITE_API_URL;
+import {
+  getTeamsByConference,
+  getLoadingState,
+} from "../../../utils/globalData";
 
 export default function StandingsPage() {
   const [currentConference, setCurrentConference] = useState("W"); // Default to West
@@ -21,18 +23,10 @@ export default function StandingsPage() {
   };
 
   useEffect(() => {
-    fetch(`${API_BASE_URL}/api/team`)
-      .then((res) => res.json())
-      .then((data) => {
-        const filteredTeams = data.filter(
-          (team) =>
-            team.Conf === currentConference &&
-            team.Year === 2024 &&
-            team.StatType === "per_game"
-        );
-        setTeamData(filteredTeams);
-      })
-      .catch((err) => console.error("Error loading teams:", err));
+    if (!getLoadingState()) {
+      const filteredTeams = getTeamsByConference(currentConference, 2024);
+      setTeamData(filteredTeams);
+    }
   }, [currentConference]); // Re-run when conference changes
 
   return (

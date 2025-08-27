@@ -1,4 +1,5 @@
 import "./index.css";
+import { getLoadingState } from "../../../utils/globalData";
 import { teamColors } from "../../../constants/teamColors";
 import SearchBar from "../SearchBar";
 import ProfileCard from "../ProfileCard";
@@ -81,7 +82,7 @@ function Search() {
   };
 
   // Show loader if content is not ready or is loading or fading
-  if ((!contentReady || isLoadingNewContent || isFading) && spinnerVisible) {
+  if ((!contentReady || isLoadingNewContent || isFading || getLoadingState()) && spinnerVisible) {
     return (
       <div
         className={`loading-spinner-container ${!spinnerVisible ? "fade-out" : ""}`}

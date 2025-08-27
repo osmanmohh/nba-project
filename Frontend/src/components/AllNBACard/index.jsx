@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom"; //  Import navigation hook
 
 import { useHeadshot } from "../../hooks/useHeadshot";
 import { useState, useEffect } from "react";
+import { getPlayerById, getLoadingState } from "../../utils/globalData";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL;
 function AllNBACard({ playerId, rank, tm, selection }) {
   const navigate = useNavigate();
   const [player, setPlayer] = useState(null);
@@ -18,50 +18,23 @@ function AllNBACard({ playerId, rank, tm, selection }) {
   const headshot = useHeadshot(player?.Name || "");
 
   useEffect(() => {
-    console.log(`🔍 [AllNBACard] Fetching stats for playerId: ${playerId}`);
+    if (!getLoadingState()) {
+      console.log(`🔍 [AllNBACard] Looking up playerId: ${playerId}`);
 
-    fetch(`${API_BASE_URL}/api/player/${playerId}/stats`)
-      .then((response) => {
-        console.log(
-          `📊 [AllNBACard] API response status for ${playerId}:`,
-          response.status
-        );
-        if (!response.ok) {
-          throw new Error(`API Error: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log(`📄 [AllNBACard] Raw API data for ${playerId}:`, data);
+      const perGamePlayer = getPlayerById(playerId);
+      console.log(
+        `✅ [AllNBACard] Found per-game player data for ${playerId}:`,
+        perGamePlayer
+      );
 
-        const perGamePlayer = data.find(
-          (p) => p.Stat_Type === "Per Game" && p.Year === 2025
+      if (!perGamePlayer) {
+        console.warn(
+          `⚠️ [AllNBACard] No per-game data found for playerId: ${playerId}`
         );
-        console.log(
-          `✅ [AllNBACard] Found per-game player data for ${playerId}:`,
-          perGamePlayer
-        );
+      }
 
-        if (!perGamePlayer) {
-          console.warn(
-            `⚠️ [AllNBACard] No per-game data found for playerId: ${playerId}`
-          );
-          console.log(`🔍 [AllNBACard] Available data types:`, [
-            ...new Set(data.map((p) => p.Stat_Type)),
-          ]);
-          console.log(`🔍 [AllNBACard] Available years:`, [
-            ...new Set(data.map((p) => p.Year)),
-          ]);
-        }
-
-        setPlayer(perGamePlayer);
-      })
-      .catch((error) => {
-        console.error(
-          `❌ [AllNBACard] Error fetching player data for ${playerId}:`,
-          error
-        );
-      });
+      setPlayer(perGamePlayer);
+    }
   }, [playerId]);
 
   if (!player) {
