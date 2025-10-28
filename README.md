@@ -4,7 +4,7 @@ A full-stack web application that provides comprehensive NBA analytics, playoff 
 
 ## Live Demo
 
-[Add your deployed link here]
+[https://nba-project-five.vercel.app/]
 
 ## Features
 
