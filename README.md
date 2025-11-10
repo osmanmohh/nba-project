@@ -121,7 +121,7 @@ nba-project/
 
 ```bash
 # Clone repository
-git clone <repository-url>
+git clone https://github.com/osmanmohh/nba-project.git
 cd nba-project
 
 # Install dependencies
